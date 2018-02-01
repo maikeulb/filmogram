@@ -5,6 +5,7 @@ from time import time
 from flask import current_app
 from flask_login import UserMixin
 from app.extensions import bcrypt, login
+from app.models.post import Post
 import jwt
 
 
@@ -15,8 +16,11 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(64), index=True, unique=True, nullable=False)
     email = db.Column(db.String(120), index=True, unique=True, nullable=False)
     password = db.Column(db.Binary(128), nullable=True)
-    first_name = db.Column(db.String(30), nullable=True)
-    last_name = db.Column(db.String(30), nullable=True)
+
+    posts = db.relationship(
+        'Post', 
+        backref='author', 
+        lazy='dynamic')
 
     def __init__(self, username, email, password=None, **kwargs):
         db.Model.__init__(self, username=username, email=email, **kwargs)

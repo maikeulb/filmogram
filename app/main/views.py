@@ -6,26 +6,12 @@ from flask import (
     request,
     current_app)
 from flask_login import current_user, login_required
+from flask_uploads import UploadSet, configure_uploads, IMAGES, patch_request_class
 from app.extensions import login, db
 from app.main import main
+from app.main.forms import UploadForm, photos
 from werkzeug import secure_filename
-from flask import url_for, redirect, render_template
-from flask_wtf import Form
-from flask_wtf.file import FileField
-from werkzeug import secure_filename
-from flask_uploads import UploadSet, configure_uploads, IMAGES, patch_request_class
-from flask_wtf import FlaskForm 
-from flask_wtf.file import FileField, FileRequired, FileAllowed
-from wtforms import SubmitField
-import os
-import time
-import hashlib
 
-
-photos = UploadSet('photos', IMAGES)
-class UploadForm(FlaskForm):
-    photo = FileField(validators=[FileAllowed(photos, u'Image Only!'), FileRequired(u'Choose a file!')])
-    submit = SubmitField(u'Upload')
 
 @main.route('/', methods=['GET', 'POST'])
 @main.route('/index', methods=['GET', 'POST'])
@@ -38,4 +24,6 @@ def upload_file():
         success = True
     else:
         success = False
-    return render_template('main/index.html', form=form, success=success)
+    return render_template('main/index.html', 
+                           form=form, 
+                           success=success)
