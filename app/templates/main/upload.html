@@ -11,10 +11,12 @@
           {{ form.photo_description.label }}
           {{ form.photo_description }}
         </div>
+
         <div class="field">
           {{ form.photo.label }}
           {{ form.photo }}
         </div>
+
       {{ form.submit }}
       {% for error in form.photo_description.errors %}
         <li>{{ error }}</li>

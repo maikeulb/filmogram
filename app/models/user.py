@@ -21,6 +21,7 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(64), index=True, unique=True, nullable=False)
     email = db.Column(db.String(120), index=True, unique=True, nullable=False)
     bio = db.Column(db.String(140))
+    profile_img_url = db.Column(db.String)
     password = db.Column(db.Binary(128), nullable=True)
 
     posts = db.relationship(

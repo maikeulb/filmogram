@@ -31,12 +31,12 @@ def upload():
     form = UploadForm()
     if form.validate_on_submit():
         file = request.files['photo']
-        filename = secure_filename(file.filename)
         filename = images.save(file)
         url = images.url(filename)
         post = Post(caption=form.photo_description.data,
                     photo_filename=filename,
                     photo_url=url)
+
         db.session.add(post)
         db.session.commit()
         flash('Your post is now live!')
@@ -62,6 +62,10 @@ def user(username):
 def edit_profile():
     form = EditProfileForm(current_user.username)
     if form.validate_on_submit():
+        file = request.files['profile_img']
+        filename = images.save(file)
+        url = images.url(filename)
+        current_user.profile_img_url = url
         current_user.username = form.username.data
         current_user.bio = form.bio.data
         db.session.commit()
