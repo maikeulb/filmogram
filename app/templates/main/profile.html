@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+<main class="ui container">
+
+  <div class="ui items">
+    <div class="item">
+
+      <div class="image">
+        <img src="{{ user.avatar(256) }}">
+      </div>
+
+      <div class="content">
+
+        <a class="header">User: {{ user.username }}</a>
+
+        <div class="description">
+          {% if user.bio %}
+            <p>{{ user.bio }}</p>
+          {% endif %}
+        </div>
+
+        {% if user == current_user %}
+          <p><a href="{{ url_for('main.edit_profile') }}">Edit your profile</a></p>
+        {% endif %}
+
+      </div>
+    </div>
+  </div>
+
+  {% for post in posts %}
+      {% include 'shared/_post.html' %}
+  {% endfor %}
+
+</main>
+{% endblock %}

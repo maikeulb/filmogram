@@ -3,12 +3,14 @@ from wtforms import (
     StringField,
     PasswordField,
     BooleanField,
-    SubmitField)
+    SubmitField
+)
 from wtforms.validators import (
     ValidationError, 
     DataRequired, 
     Email, 
-    EqualTo)
+    EqualTo
+)
 from app.models import User
 
 

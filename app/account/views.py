@@ -3,18 +3,21 @@ from flask import (
     flash, 
     redirect, 
     url_for, 
-    request)
+    request
+)
 from werkzeug.urls import url_parse
 from flask_login import (
     login_user, 
     logout_user,
     current_user,
-    login_required)
+    login_required
+)
 from werkzeug.urls import url_parse
 from app.account import account
 from app.account.forms import ( 
     LoginForm, 
-    RegistrationForm)
+    RegistrationForm
+)
 from app.models import User
 from app.extensions import login, db
 

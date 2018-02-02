@@ -20,8 +20,13 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True, nullable=False)
     email = db.Column(db.String(120), index=True, unique=True, nullable=False)
+    bio = db.Column(db.String(140))
     password = db.Column(db.Binary(128), nullable=True)
 
+    posts = db.relationship(
+        'Post', 
+        backref='author', 
+        lazy='dynamic')
     followed = db.relationship(
         'User', 
         secondary=followers,

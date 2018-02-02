@@ -4,13 +4,26 @@ from flask import (
     redirect,
     url_for,
     request,
-    current_app)
-from app.extensions import db, images
+    current_app
+)
+from flask_login import current_user, login_required
+from app.extensions import login, db, images
 from app.main import main
-from app.main.forms import UploadForm
-from app.models import Post
+from app.main.forms import (
+    UploadForm,
+    EditProfileForm,
+)
+from app.models import Post, User
 from werkzeug.utils import secure_filename
 
+
+@main.route('/', methods=['GET', 'POST'])
+@main.route('/index', methods=['GET', 'POST'])
+def index():
+    posts = Post.query.order_by(Post.timestamp.desc())
+    return render_template('main/index.html',
+                           title='Explore',
+                           posts=posts)
 
 @main.route('/upload', methods=['GET', 'POST'])
 def upload():
@@ -33,10 +46,28 @@ def upload():
                            form=form)
 
 
-@main.route('/', methods=['GET', 'POST'])
-@main.route('/index', methods=['GET', 'POST'])
-def index():
-    posts = Post.query.order_by(Post.timestamp.desc())
-    return render_template('main/index.html',
-                           title='Explore',
+@main.route('/user/<username>')
+def user(username):
+    user = User.query.filter_by(username=username).first_or_404()
+    posts = user.posts.order_by(Post.timestamp.desc())
+    return render_template('main/profile.html',
+                           title='User',
+                           user=user,
                            posts=posts)
+
+
+@main.route('/edit_profile', methods=['GET', 'POST'])
+def edit_profile():
+    form = EditProfileForm(current_user.username)
+    if form.validate_on_submit():
+        current_user.username = form.username.data
+        current_user.bio = form.bio.data
+        db.session.commit()
+        flash('Your changes have been saved.')
+        return redirect(url_for('main.edit_profile'))
+    elif request.method == 'GET':
+        form.username.data = current_user.username
+        form.bio.data = current_user.bio
+    return render_template('main/edit_profile.html',
+                           title='Edit Profile',
+                           form=form)
