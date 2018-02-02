@@ -8,6 +8,7 @@ from app.extensions import bcrypt, login
 from app.models.post import Post
 import jwt
 
+
 followers = db.Table(
     'followers',
     db.Column('follower_id', db.Integer, db.ForeignKey('users.id')),

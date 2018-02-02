@@ -35,8 +35,8 @@ def upload():
         url = images.url(filename)
         post = Post(caption=form.photo_description.data,
                     photo_filename=filename,
-                    photo_url=url)
-
+                    photo_url=url,
+                    author=current_user)
         db.session.add(post)
         db.session.commit()
         flash('Your post is now live!')

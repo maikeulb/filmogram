@@ -1,4 +1,31 @@
-      {% if post.photo_url %}
-        <img src="{{ post.photo_url }}" alt="{{ post.photo_url }}" style="width:600px;height:450px;">
-      {% endif %}
+<table class = "ui celled padded table">
+  <thead>
+    <tr>
+      <th class="single line">
+      <img class="ui avatar image" src="{{ post.author.profile_img_url or
+      post.author.avatar(70) }}"
+      height="70px" />
+      <span>
+          {% set user_link %}
+          <a href="{{ url_for('main.user', username=post.author.username) }}">
+            {{ post.author.username }}
+          </a>
+          {% endset %}
+          {{ user_link }} said {{ moment(post.timestamp).fromNow() }}
+          <br>
+      </span>
+    </th>
+    </tr>
+  </thead>
 
+  <tbody>
+    <tr>
+    <td>
+      <img id="post{{ post.id }}" src={{ post.photo_url }} height="400px">
+       <br><br>
+     </span>
+    </td>
+    </tr>
+  </tbody>
+
+</table>
