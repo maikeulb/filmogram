@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+  <main class="ui text container">
+
+  <div class="upload photo">
+    <h2>Add a Photo</h2> 
+    <form action="{{ url_for('main.upload') }}" method="POST" enctype="multipart/form-data">
+      {{ form.hidden_tag() }}
+        <div class="field">
+          {{ form.photo_description.label }}
+          {{ form.photo_description }}
+        </div>
+        <div class="field">
+          {{ form.photo.label }}
+          {{ form.photo }}
+        </div>
+      {{ form.submit }}
+      {% for error in form.photo_description.errors %}
+        <li>{{ error }}</li>
+      {% endfor %}
+    </form>
+  </div>
+  {% if success %}
+  <br>
+  <p>Upload Success!</p>
+  {% endif %}
+
+  </main>
+{% endblock %}

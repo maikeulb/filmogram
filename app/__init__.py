@@ -14,10 +14,14 @@ from app.extensions import (
     db,
     login, 
     migrate, 
-    moment)
+    moment,
+    images,
+    configure_uploads,
+    patch_request_class
+)
 from app.main import main as main_bp
 from werkzeug.utils import secure_filename
-from flask_uploads import UploadSet, configure_uploads, IMAGES, patch_request_class
+from flask_uploads import UploadSet, configure_uploads, IMAGES
 
 Config = eval(os.environ['FLASK_APP_CONFIG'])
 
@@ -25,7 +29,7 @@ Config = eval(os.environ['FLASK_APP_CONFIG'])
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
-    app.config['UPLOADED_PHOTOS_DEST'] = os.getcwd() + '/static'
+    # app.config['UPLOADED_DEFAULT_DEST'] = os.getcwd() + '/static'
     register_blueprints(app)
     register_extensions(app)
     register_errorhandlers(app)
@@ -39,8 +43,7 @@ def register_extensions(app):
     login.init_app(app)
     migrate.init_app(app, db)
     moment.init_app(app)
-    photos = UploadSet('photos', IMAGES)
-    configure_uploads(app, photos)
+    configure_uploads(app, images)
     patch_request_class(app)
     return None
 

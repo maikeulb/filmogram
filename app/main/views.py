@@ -1,29 +1,41 @@
-from datetime import datetime
 from flask import (
     render_template,
-    flash, redirect,
+    flash,
+    redirect,
     url_for,
     request,
     current_app)
-from flask_login import current_user, login_required
-from flask_uploads import UploadSet, configure_uploads, IMAGES, patch_request_class
-from app.extensions import login, db
+from app.extensions import db, images
 from app.main import main
-from app.main.forms import UploadForm, photos
-from werkzeug import secure_filename
+from app.main.forms import UploadForm
+from app.models import Post
+from werkzeug.utils import secure_filename
+
+
+@main.route('/upload', methods=['GET', 'POST'])
+def upload():
+    form = UploadForm()
+    if form.validate_on_submit():
+        file = request.files['photo']
+        filename = secure_filename(file.filename)
+        filename = images.save(file)
+        url = images.url(filename)
+        post = Post(caption=form.photo_description.data,
+                    photo_filename=filename,
+                    photo_url=url)
+        db.session.add(post)
+        db.session.commit()
+        flash('Your post is now live!')
+        return redirect(url_for('main.index'))
+
+    return render_template('main/upload.html',
+                           title='Upload',
+                           form=form)
 
 
 @main.route('/', methods=['GET', 'POST'])
 @main.route('/index', methods=['GET', 'POST'])
-def upload_file():
-    form = UploadForm()
-    if form.validate_on_submit():
-        for filename in request.files.getlist('photo'):
-            name = secure_filename(filename.filename)
-            photos.save(filename, name=name + '.')
-        success = True
-    else:
-        success = False
-    return render_template('main/index.html', 
-                           form=form, 
-                           success=success)
+def index():
+    posts = Post.query.order_by(Post.timestamp.desc())
+    return render_template('main/index.html',
+                           title='Explore')
