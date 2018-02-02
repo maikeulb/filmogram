@@ -8,17 +8,43 @@
       <title>Welcome to FilmoGram</title>
     {% endif %}
 
+     <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura.css" type="text/css">
+
     {% if config.DEVELOPMENT %}
       <!-- Webpack Dev Mode -->
       <link rel="stylesheet" href="http://localhost:8080/static/css/app.css">
     {% else %}
       <!-- Static Build Mode -->
       <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/app.css') }}">
+
     {% endif %}
 
+  <style>
+.site-title {
+    font-size: 1.75em;
+    margin-bottom: 0px;
+}
+
+.site-title a:hover {
+    text-decoration: none;
+    border: 0px;
+    font-style: italic;
+}
+
+.site-header .meta {
+    margin-top: 0px;
+    }
+  </style>
   </head>
 
-  <body class="mdc-typography">
+  <body>
+    <header class="site-header">
+        <h1 class="site-title"><!--em>func</em--> <a href="/" class="no-border
+            fancy-font">filmogram<span class="meta"></span></a> </h1>
+        <p class="meta fancy-font"> <a href="/about/">about</a> | <a href="/blog/">archive</a> 
+        </p>
+    </header>
+
     {% block content %}
       <div class="container">
         {% block app_content %}{% endblock %}
@@ -37,7 +63,10 @@
 
     {% block scripts %}
       {{ moment.include_moment() }}
+  	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     {% endblock %}
 
+    {% block js %}
+    {% endblock %}
   </body>
 </html>

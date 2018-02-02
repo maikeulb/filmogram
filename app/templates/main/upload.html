@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block app_content %}
+
   <main class="ui text container">
 
   <div class="upload photo">
@@ -11,12 +12,11 @@
           {{ form.photo_description.label }}
           {{ form.photo_description }}
         </div>
-
+        <img id="target" src="http://placehold.it/180" alt="your image" />
         <div class="field">
           {{ form.photo.label }}
-          {{ form.photo }}
+          {{ form.photo(class_="imgInp") }}
         </div>
-
       {{ form.submit }}
       {% for error in form.photo_description.errors %}
         <li>{{ error }}</li>
@@ -27,6 +27,26 @@
   <br>
   <p>Upload Success!</p>
   {% endif %}
-
   </main>
+ 
+  {% block js %}
+  <script>
+   function readURL(input) {
+     if (input.files && input.files[0]) {
+       var reader = new FileReader();
+       reader.onload = function (e) {
+         $('#target')
+           .attr('src', e.target.result);
+       };
+       reader.readAsDataURL(input.files[0]);
+     }
+   }
+
+  $(".imgInp").change(function(){
+    readURL(this);
+  })
+  ;
+  </script>
+  {% endblock %}
+
 {% endblock %}

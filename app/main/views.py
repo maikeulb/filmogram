@@ -19,11 +19,21 @@ from werkzeug.utils import secure_filename
 
 @main.route('/', methods=['GET', 'POST'])
 @main.route('/index', methods=['GET', 'POST'])
+@login_required
 def index():
+    posts = current_user.followed_posts()
+    return render_template('main/index.html',
+                           title='Followed Posts',
+                           posts=posts)
+
+
+@main.route('/explore', methods=['GET', 'POST'])
+def explore():
     posts = Post.query.order_by(Post.timestamp.desc())
     return render_template('main/index.html',
                            title='Explore',
                            posts=posts)
+
 
 @main.route('/upload', methods=['GET', 'POST'])
 @login_required
@@ -47,7 +57,7 @@ def upload():
                            form=form)
 
 
-@main.route('/<username>')
+@main.route('/user/<username>')
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()
     posts = user.posts.order_by(Post.timestamp.desc())
@@ -77,3 +87,33 @@ def edit_profile():
     return render_template('main/edit_profile.html',
                            title='Edit Profile',
                            form=form)
+
+@main.route('/follow/<username>')
+@login_required
+def follow(username):
+    user = User.query.filter_by(username=username).first()
+    if user is None:
+        # flash('User %(username)s not found.', username=username)
+        return redirect(url_for('main.index'))
+    if user == current_user:
+        # flash('You cannot follow yourself!')
+        return redirect(url_for('main.user', username=username))
+    current_user.follow(user)
+    db.session.commit()
+    # flash('You are following %(username)s!', username=username)
+    return redirect(url_for('main.user', username=username))
+
+@main.route('/unfollow/<username>') #api
+@login_required
+def unfollow(username):
+    user = User.query.filter_by(username=username).first()
+    if user is None:
+        # flash('User %(username)s not found.', username=username)
+        return redirect(url_for('main.index'))
+    if user == current_user:
+        flash('You cannot unfollow yourself!')
+        # return redirect(url_for('main.user', username=username))
+    current_user.unfollow(user)
+    db.session.commit()
+    # flash('You are not following %(username)s.', username=username)
+    return redirect(url_for('main.user', username=username))

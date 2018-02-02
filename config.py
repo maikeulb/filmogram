@@ -10,7 +10,7 @@ class Config(object):
 
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'S3cr3t'
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URI') or \
-      'postgresql://postgres:P@ssw0rd!@172.17.0.2/filmogram'
+      'postgresql://postgres:P@ssw0rd!@172.17.0.3/filmogram'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     UPLOADS_DEFAULT_DEST = basedir + '/app/static/uploads/'
