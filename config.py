@@ -13,8 +13,8 @@ class Config(object):
       'postgresql://postgres:P@ssw0rd!@172.17.0.2/filmogram'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-    UPLOADS_DEFAULT_DEST = basedir + '/uploads/img/'
-    UPLOADS_DEFAULT_URL = 'http://localhost:5000/uploads/img/'
+    UPLOADS_DEFAULT_DEST = basedir + '/app/static/uploads/'
+    UPLOADS_DEFAULT_URL = 'http://localhost:5000/static/uploads/'
  
     DEVELOPMENT = False
     TESTING = False

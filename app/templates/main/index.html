@@ -8,11 +8,10 @@
     
     {% for post in posts %}
       {% if post.photo_url %}
-        <img src="{{ post.photo_url }}" alt="{{ post.photo_filename }}" style="width:600px;height:450px;">
+        <img src="{{ post.photo_url }}" alt="{{ post.photo_url }}" style="width:600px;height:450px;">
       {% endif %}
     {% endfor %}
 
   </div>
-
   </main>
 {% endblock %}

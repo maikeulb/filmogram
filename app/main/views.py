@@ -38,4 +38,5 @@ def upload():
 def index():
     posts = Post.query.order_by(Post.timestamp.desc())
     return render_template('main/index.html',
-                           title='Explore')
+                           title='Explore',
+                           posts=posts)

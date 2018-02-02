@@ -29,7 +29,6 @@ Config = eval(os.environ['FLASK_APP_CONFIG'])
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
-    # app.config['UPLOADED_DEFAULT_DEST'] = os.getcwd() + '/static'
     register_blueprints(app)
     register_extensions(app)
     register_errorhandlers(app)
