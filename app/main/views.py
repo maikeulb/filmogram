@@ -26,6 +26,7 @@ def index():
                            posts=posts)
 
 @main.route('/upload', methods=['GET', 'POST'])
+@login_required
 def upload():
     form = UploadForm()
     if form.validate_on_submit():
@@ -46,7 +47,7 @@ def upload():
                            form=form)
 
 
-@main.route('/user/<username>')
+@main.route('/<username>')
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()
     posts = user.posts.order_by(Post.timestamp.desc())
@@ -57,6 +58,7 @@ def user(username):
 
 
 @main.route('/edit_profile', methods=['GET', 'POST'])
+@login_required
 def edit_profile():
     form = EditProfileForm(current_user.username)
     if form.validate_on_submit():
