@@ -28,14 +28,17 @@ class User(UserMixin, db.Model):
     posts = db.relationship(
         'Post', 
         backref='author', 
-        lazy='dynamic')
+        lazy='dynamic'
+    )
+
     followed = db.relationship(
         'User', 
         secondary=followers,
         primaryjoin=(followers.c.follower_id == id),
         secondaryjoin=(followers.c.followed_id == id),
         backref=db.backref('followers', lazy='dynamic'), 
-        lazy='dynamic')
+        lazy='dynamic'
+    )
 
     def __init__(self, username, email, password=None, **kwargs):
         db.Model.__init__(self, username=username, email=email, **kwargs)
