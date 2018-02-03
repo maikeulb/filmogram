@@ -7,6 +7,7 @@ from flask_login import UserMixin
 from app.extensions import bcrypt, login
 from app.models.post import Post
 import jwt
+import sys
 
 
 likes = db.Table(
@@ -84,7 +85,7 @@ class User(UserMixin, db.Model):
 
     def followed_posts(self):
         followed = Post.query.join(
-            followers, 
+            followers,
             (followers.c.followed_id == Post.user_id)).filter(
                 followers.c.follower_id == self.id)
         own = Post.query.filter_by(user_id=self.id)
@@ -104,10 +105,13 @@ class User(UserMixin, db.Model):
 
     def liked_posts(self):
         liked = Post.query.join(
-            likes, 
-            (likes.c.user_id == Post.user_id)).filter(
-                likes.c.post_id == self.id)
+            likes,
+            (likes.c.post_id == Post.id)) \
+                .filter(
+                likes.c.user_id == self.id)
+        print(liked, file=sys.stdout)
         return liked.order_by(Post.timestamp.desc())
+
 
 @login.user_loader
 def load_user(id):

@@ -5,13 +5,26 @@
 
   <div class="upload photo">
     <h2>Photos</h2> 
-    
-  {% for post in posts %}
-      {% include 'main/_post.html' %}
-  {% endfor %}
 
-  {% include '/shared/_pagination.html' %}
+   <div class="container">
+      {% include 'main/_posts.html' %}
+      <a class="npage" href="{{ next_url or "#" }}">下一页</a><
+   </div>
 
   </div>
   </main>
+
+  {% block js %}
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/infinite-scroll@3/dist/infinite-scroll.pkgd.js"></script>
+
+  <script>
+    $('.container').infiniteScroll({
+      path: '.npage',
+      append: '.js-infinite-item'
+    });
+  </script>
+
+  {% endblock %}
+
 {% endblock %}
