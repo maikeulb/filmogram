@@ -5,6 +5,7 @@ from flask import (
     redirect,
     url_for,
     request,
+    jsonify,
     current_app
 )
 from flask_login import current_user, login_required
@@ -148,7 +149,8 @@ def follow(username):
     # flash('You are following %(username)s!', username=username)
     return redirect(url_for('main.user', username=username))
 
-@main.route('/unfollow/<username>') #api
+
+@main.route('/unfollow/<username>')
 @login_required
 def unfollow(username):
     user = User.query.filter_by(username=username).first()
@@ -164,9 +166,11 @@ def unfollow(username):
     return redirect(url_for('main.user', username=username))
 
 
-@main.route('/like/<id>')
+# https://stackoverflow.com/questions/46333738/change-like-status-with-jquery-on-a-flask-app
+@main.route('/like/<id>', methods=['GET', 'POST'])
 @login_required
 def like(id):
+    print("hi", sys.stdout)
     post = Post.query.filter_by(id=id).first()
     if post is None:
         # flash('User %(username)s not found.', username=username)
@@ -174,7 +178,9 @@ def like(id):
     current_user.like(post)
     db.session.commit()
     # flash('You are following %(username)s!', username=username)
-    return redirect(url_for('main.index'))
+    # return redirect(url_for('main.index'))
+    return jsonify({'result': 'success'})
+
 
 @main.route('/unlike/<id>')
 @login_required

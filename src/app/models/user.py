@@ -109,7 +109,6 @@ class User(UserMixin, db.Model):
             (likes.c.post_id == Post.id)) \
                 .filter(
                 likes.c.user_id == self.id)
-        print(liked, file=sys.stdout)
         return liked.order_by(Post.timestamp.desc())
 
 
