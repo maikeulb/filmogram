@@ -5,6 +5,7 @@
     <tr>
       <th class="single line">
       <img class="ui avatar image" src="{{ post.author.profile_img_url or
+
       post.author.avatar(70) }}"
       height="70px" />
       <span>
@@ -19,34 +20,66 @@
     </th>
     </tr>
   </thead>
-
   <tbody>
     <tr>
     <td>
-      <img id="post{{ post.id }}" src={{ post.photo_url }} height="400px">
-       <br><br>
-        {% if current_user.has_liked(post) %}
-        <p><a class = "unlike_post{{ post.id }}" href="{{ url_for('main.unlike', id=post.id) }}">UnLike</a></p>
-        {% else %}
-        <p><a class = "like_post{{ post.id }}" href="{{ url_for('main.like', id=post.id) }}"> Like</a></p>
-        {% endif %}
-        {% for like in post['likes'] %} {{ like.username }} {% endfor %}
-
-        <form role="form" id="like-post{{ post.id }}">
-            <div class="form-group">
-              <button id="like-send" type="submit" class="btn btn-primary">Like</button>
-            </div>
-          </form>
-
+      <a id="open-modal{{post.id}}" href="" data="{{post.id}}">
+        <img id="post{{ post.id }}" src={{ post.photo_url }} height="400px">
+      </a>
+      <br><br>
+      {% if current_user.has_liked(post) %}
+      <p><a class = "unlike_post{{ post.id }}" href="{{ url_for('main.unlike', id=post.id) }}">UnLike</a></p>
+      {% else %}
+      <p><a class = "like_post{{ post.id }}" href="{{ url_for('main.like', id=post.id) }}"> Like</a></p>
+      {% endif %}
+      {% for like in post['likes'] %} {{ like.username }} {% endfor %}
+      <form role="form" id="like-post{{ post.id }}">
+          <div class="form-group">
+            <button id="like-send" type="submit" class="btn btn-primary">Like</button>
+          </div>
+      </form>
     </td>
     </tr>
   </tbody>
-
 </table>
-</div>
-{% block js %}
 
+  <div class="modal" id="modal_post{{post.id}}" data="{{post.id}}">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+    </div>
+  </div>
+
+</div>
+
+{% block js %}
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+  <script>
+    document.querySelector('#open-modal{{post.id}}').addEventListener('click', function(event) {
+    event.preventDefault();
+    id=$(this).data('id')
+    var modal = document.querySelector('.modal');  // assuming you have only 1
+    var html = document.querySelector('html');
+    modal.classList.add('is-active');
+    html.classList.add('is-clipped');
+    $.ajax({
+      url: "{{ url_for('main.details', id=post.id )}}",
+       type: "GET",
+       success: function (data) {
+         $(".modal-content").html(data);
+       },
+       error: function(xhr, ajaxOptions, thrownError){
+        alert('not_cool')  //what to do in success
+       },
+    });
+
+    modal.querySelector('.modal-background').addEventListener('click', function(e) {
+      e.preventDefault();
+      modal.classList.remove('is-active');
+      html.classList.remove('is-clipped');
+    });
+  });
+  </script>
 
   <script>
   $(document).ready(function () {

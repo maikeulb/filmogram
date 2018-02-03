@@ -8,7 +8,7 @@
       <title>Welcome to FilmoGram</title>
     {% endif %}
 
-     <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura.css" type="text/css">
+     <link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.css" rel="stylesheet">
 
     {% if config.DEVELOPMENT %}
       <!-- Webpack Dev Mode -->
@@ -34,6 +34,38 @@
 .site-header .meta {
     margin-top: 0px;
     }
+
+html {
+  color: #4a4a4a !important!;
+  background-color: #f9f9f9 !important;
+}
+
+table {
+  color: #4a4a4a !important!;
+  background-color: #f9f9f9 !important;
+}
+
+body {
+  width: 38em !important;
+  margin: auto;
+}
+img {
+  max-width: 30em !important;
+}
+textarea, select, input[type] {
+  color: #4a4a4a;
+  padding: 6px 10px;
+  /* The 6px vertically centers text on FF, ignored by Webkit */
+  margin-bottom: 10px;
+  background-color: #f1f1f1;
+  border: 1px solid #f1f1f1;
+  border-radius: 4px;
+  box-shadow: none;
+  box-sizing: border-box; }
+  textarea:focus, select:focus, input[type]:focus {
+    border: 1px solid #2c8898;
+    outline: 0; }
+
   </style>
   </head>
 
@@ -42,21 +74,20 @@
         <h1 class="site-title"><!--em>func</em--> <a href="/" class="no-border
             fancy-font">filmogram<span class="meta"></span></a> </h1>
         <p class="meta fancy-font"> 
-        <a href="{{ url_for('account.login') }}" class="item">Login</a> |
-        <a href="{{ url_for('account.register') }}" class="item">Register</a> |
-        <a href="{{ url_for('main.index') }}" class="item">Index</a> |
-        <a href="{{ url_for('main.upload') }}" class="item">Upload</a> |
-        <a href="{{ url_for('main.likes') }}" class="item">Likes</a> |
         <a href="{{ url_for('main.explore') }}" class="item">Explore</a> |
+        <a href="{{ url_for('main.upload') }}" class="item">Upload</a> |
+        <a href="{{ url_for('main.index') }}" class="item">Index</a> |
+        <a href="{{ url_for('main.likes') }}" class="item">Likes</a> |
         <a href="{{ url_for('main.user', username=current_user.username) }}"
             class="item">Profile</a>
+        <a href="{{ url_for('account.login') }}" class="item">Login</a> |
+        <a href="{{ url_for('account.register') }}" class="item">Register</a> |
+        <a href="{{ url_for('account.logout') }}" class="item">Logout</a> |
         </p>
     </header>
 
     {% block content %}
-      <div class="container">
         {% block app_content %}{% endblock %}
-      </div>
     {% endblock %}
 
     {% include '/shared/_footer.html' %}
@@ -74,8 +105,7 @@
   	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
       <script src="https://unpkg.com/infinite-scroll@3/dist/infinite-scroll.pkgd.js"></script>
     {% endblock %}
+    {% block js %}{% endblock %}
 
-    {% block js %}
-    {% endblock %}
   </body>
 </html>
