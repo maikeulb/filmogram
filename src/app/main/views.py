@@ -193,3 +193,12 @@ def unlike(id):
     db.session.commit()
     # flash('You are following %(username)s!', username=username)
     return redirect(url_for('main.index'))
+
+@main.route('/details/<id>')
+def details(id):
+
+    post = Post.query.filter_by(id=id).first_or_404()
+    print(dir(post), sys.stdout)
+    return render_template('main/details.html', 
+                           title='Details',
+                           post=post) 

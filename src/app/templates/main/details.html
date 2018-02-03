@@ -1,0 +1,43 @@
+<table class = "ui celled padded table">
+  <thead>
+    <tr>
+      <th class="single line">
+      <img class="ui avatar image" src="{{ post.author.profile_img_url or
+      post.author.avatar(70) }}"
+      height="70px" />
+      <span>
+          {% set user_link %}
+          <a href="{{ url_for('main.user', username=post.author.username) }}">
+            {{ post.author.username }}
+          </a>
+          {% endset %}
+          {{ user_link }} said {{ moment(post.timestamp).fromNow() }}
+          <br>
+      </span>
+    </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+    <td>
+      <img id="post{{ post.id }}" src={{ post.photo_url }} height="400px">
+       <br><br>
+        {% if current_user.has_liked(post) %}
+        <p><a class = "unlike_post{{ post.id }}" href="{{ url_for('main.unlike', id=post.id) }}">UnLike</a></p>
+        {% else %}
+        <p><a class = "like_post{{ post.id }}" href="{{ url_for('main.like', id=post.id) }}"> Like</a></p>
+        {% endif %}
+        {% for like in post['likes'] %} {{ like.username }} {% endfor %}
+
+        <form role="form" id="like-post{{ post.id }}">
+            <div class="form-group">
+              <button id="like-send" type="submit" class="btn btn-primary">Like</button>
+            </div>
+          </form>
+
+    </td>
+    </tr>
+  </tbody>
+
+</table>
