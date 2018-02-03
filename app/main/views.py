@@ -35,6 +35,14 @@ def explore():
                            posts=posts)
 
 
+@main.route('/likes', methods=['GET', 'POST'])
+def likes():
+    posts = current_user.liked_posts()
+    return render_template('main/index.html',
+                           title='Liked',
+                           posts=posts)
+
+
 @main.route('/upload', methods=['GET', 'POST'])
 @login_required
 def upload():

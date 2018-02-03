@@ -102,6 +102,13 @@ class User(UserMixin, db.Model):
         return self.likes.filter(
             likes.c.post_id == post.id).count() > 0
 
+    def liked_posts(self):
+        liked = Post.query.join(
+            likes, 
+            (likes.c.user_id == Post.user_id)).filter(
+                likes.c.post_id == self.id)
+        return liked.order_by(Post.timestamp.desc())
+
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
