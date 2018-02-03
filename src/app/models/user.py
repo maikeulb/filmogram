@@ -52,6 +52,11 @@ class User(UserMixin, db.Model):
         backref=db.backref('likes', lazy='joined'),
         lazy='dynamic'
     )
+    comments = db.relationship(
+        'Comment', 
+        backref='author', 
+        lazy='dynamic'
+    )
 
     def __init__(self, username, email, password=None, **kwargs):
         db.Model.__init__(self, username=username, email=email, **kwargs)

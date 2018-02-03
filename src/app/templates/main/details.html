@@ -7,8 +7,8 @@
     <tr>
     <th class="single line">
       <img class="ui avatar image" src="{{ post.author.profile_img_url or
-      post.author.avatar(70) }}"
-      height="70px" />
+        post.author.avatar(70) }}"
+        height="70px" />
       <span>
           {% set user_link %}
           <a href="{{ url_for('main.user', username=post.author.username) }}">
@@ -42,26 +42,22 @@
     </tbody>
   </table>
 
-  <label for="modal_1" class="button">Show modal</label>
-  <div class="modal">
-    <input id="modal_1" type="checkbox" />
-    <label for="modal_1" class="overlay"></label>
-    <article>
-      <header>
-        <h3>Great offer</h3>
-        <label for="modal_1" class="close">&times;</label>
-      </header>
-      <section class="content">
-
-      </section>
-      <footer>
-        <a class="button" href="#">See offer</a>
-        <label for="modal_1" class="button dangerous">
-          Cancel
-        </label>
-      </footer>
-    </article>
+  <div class="comment form">
+    <h2>Leave a Comment</h2> 
+    <form action="{{ url_for('main.details', id=post.id) }}" method="POST">
+      {{ form.hidden_tag() }}
+        <div class="field">
+          {{ form.body.label }}
+          {{ form.body}}
+        </div>
+      {{ form.submit }}
+      {% for error in form.body.errors %}
+        <li>{{ error }}</li>
+      {% endfor %}
+    </form>
   </div>
+
+  {% include 'main/_comments.html' %}
 
   {% block js %}
   {% endblock %}

@@ -12,10 +12,11 @@ from flask_login import current_user, login_required
 from app.extensions import db, images
 from app.main import main
 from app.main.forms import (
-    UploadForm,
+    CommentForm,
     EditProfileForm,
+    UploadForm
 )
-from app.models import Post, User
+from app.models import Post, User, Comment
 
 
 @main.route('/', methods=['GET', 'POST'])
@@ -194,11 +195,21 @@ def unlike(id):
     # flash('You are following %(username)s!', username=username)
     return redirect(url_for('main.index'))
 
-@main.route('/details/<id>')
-def details(id):
 
+@main.route('/details/<id>', methods=['GET', 'POST'])
+@login_required
+def details(id):
     post = Post.query.filter_by(id=id).first_or_404()
-    print(dir(post), sys.stdout)
-    return render_template('main/details.html', 
+    form = CommentForm()
+    if form.validate_on_submit():
+        comment = Comment(body=form.body.data,
+                          post=post,
+                          author=current_user._get_current_object())
+        db.session.add(comment)
+        db.session.commit()
+        flash('Your comment has been published.')
+        return redirect(url_for('main.index'))
+    return render_template('main/details.html',
                            title='Details',
-                           post=post) 
+                           form=form,
+                           post=post)

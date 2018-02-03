@@ -4,11 +4,11 @@
   <thead>
     <tr>
       <th class="single line">
-      <img class="ui avatar image" src="{{ post.author.profile_img_url or
-
-      post.author.avatar(70) }}"
-      height="70px" />
-      <span>
+        <img class="ui avatar image" 
+          src="{{ post.author.profile_img_url or
+          post.author.avatar(70) }}"
+          height="70px" />
+        <span>
           {% set user_link %}
           <a href="{{ url_for('main.user', username=post.author.username) }}">
             {{ post.author.username }}
@@ -16,8 +16,8 @@
           {% endset %}
           {{ user_link }} said {{ moment(post.timestamp).fromNow() }}
           <br>
-      </span>
-    </th>
+        </span>
+      </th>
     </tr>
   </thead>
   <tbody>
@@ -47,6 +47,7 @@
     <div class="modal-background"></div>
     <div class="modal-content">
     </div>
+    <button class="modal-close is-large" aria-label="close"></button>
   </div>
 
 </div>
