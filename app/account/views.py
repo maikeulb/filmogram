@@ -42,6 +42,7 @@ def login():
                            title='Sign In', 
                            form=form)
 
+
 @account.route('/logout')
 def logout():
     logout_user()

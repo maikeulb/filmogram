@@ -9,6 +9,12 @@ from app.models.post import Post
 import jwt
 
 
+likes = db.Table(
+    'likes',
+    db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
+    db.Column('post_id', db.Integer, db.ForeignKey('posts.id'))
+)
+
 followers = db.Table(
     'followers',
     db.Column('follower_id', db.Integer, db.ForeignKey('users.id')),
@@ -32,11 +38,19 @@ class User(UserMixin, db.Model):
     )
 
     followed = db.relationship(
-        'User', 
+        'Post', 
         secondary=followers,
         primaryjoin=(followers.c.follower_id == id),
         secondaryjoin=(followers.c.followed_id == id),
         backref=db.backref('followers', lazy='dynamic'), 
+        lazy='dynamic'
+    )
+
+    likes = db.relationship(
+        'Post',
+        secondary=likes,
+        primaryjoin=(likes.c.user_id == id),
+        backref=db.backref('likes', lazy='joined'),
         lazy='dynamic'
     )
 
@@ -76,6 +90,18 @@ class User(UserMixin, db.Model):
                 followers.c.follower_id == self.id)
         own = Post.query.filter_by(user_id=self.id)
         return followed.union(own).order_by(Post.timestamp.desc())
+
+    def like(self, post):
+        if not self.has_liked(post):
+            self.likes.append(post)
+
+    def unlike(self, post):
+        if self.has_liked(post):
+            self.likes.remove(post)
+
+    def has_liked(self, post):
+        return self.likes.filter(
+            likes.c.post_id == post.id).count() > 0
 
 @login.user_loader
 def load_user(id):

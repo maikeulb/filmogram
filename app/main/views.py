@@ -119,15 +119,28 @@ def unfollow(username):
     return redirect(url_for('main.user', username=username))
 
 
-@main.route('/like/<post>')
+@main.route('/like/<id>')
 @login_required
-def follow(post):
-    post = Post.query.filter_by(post=post).first()
+def like(id):
+    post = Post.query.filter_by(id=id).first()
     if post is None:
         # flash('User %(username)s not found.', username=username)
         return redirect(url_for('main.index'))
     current_user.like(post)
     db.session.commit()
     # flash('You are following %(username)s!', username=username)
-    return redirect(url_for('main.user', username=username))
+    return redirect(url_for('main.index'))
+
+@main.route('/unlike/<id>')
+@login_required
+def unlike(id):
+    post = Post.query.filter_by(id=id).first()
+    if post is None:
+        # flash('User %(username)s not found.', username=username)
+        return redirect(url_for('main.index'))
+    current_user.unlike(post)
+    db.session.commit()
+    # flash('You are following %(username)s!', username=username)
+    return redirect(url_for('main.index'))
+
 
