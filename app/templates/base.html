@@ -41,7 +41,13 @@
     <header class="site-header">
         <h1 class="site-title"><!--em>func</em--> <a href="/" class="no-border
             fancy-font">filmogram<span class="meta"></span></a> </h1>
-        <p class="meta fancy-font"> <a href="/about/">about</a> | <a href="/blog/">archive</a> 
+        <p class="meta fancy-font"> 
+        <a href="{{ url_for('account.login') }}" class="item">Login</a> |
+        <a href="{{ url_for('account.register') }}" class="item">Register</a> |
+        <a href="{{ url_for('main.index') }}" class="item">Index</a> |
+        <a href="{{ url_for('main.explore') }}" class="item">Explore</a> |
+        <a href="{{ url_for('main.user', username=current_user.username) }}"
+            class="item">Profile</a>
         </p>
     </header>
 
