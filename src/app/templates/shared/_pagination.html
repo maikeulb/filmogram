@@ -1,0 +1,14 @@
+<br>
+<div class="ui center aligned container">
+  <div class="ui pagination menu">
+    <a class="item{% if not prev_url %} disabled{% endif %}" href="{{ prev_url or '#' }}">
+        <i class="angle double left icon"></i>
+        Newer posts
+    </a>
+    <a class="item{% if not next_url %} disabled{% endif %}" href="{{ next_url or '#' }}">
+        Older posts
+        <i class="angle double right icon"></i>
+    </a>
+  </div>
+</div>
+<br>

@@ -15,6 +15,7 @@ class Config(object):
 
     UPLOADS_DEFAULT_DEST = basedir + '/app/static/uploads/'
     UPLOADS_DEFAULT_URL = 'http://localhost:5000/static/uploads/'
+    POSTS_PER_PAGE = 4
  
     DEVELOPMENT = False
     TESTING = False

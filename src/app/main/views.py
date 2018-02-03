@@ -21,26 +21,52 @@ from werkzeug.utils import secure_filename
 @main.route('/index', methods=['GET', 'POST'])
 @login_required
 def index():
-    posts = current_user.followed_posts()
+
+    page = request.args.get('page', 1, type=int)
+    posts = current_user.followed_posts().paginate(
+        page, current_app.config['POSTS_PER_PAGE'], False)
+    next_url = url_for('main.explore', page=posts.next_num) \
+        if posts.has_next else None
+    prev_url = url_for('main.explore', page=posts.prev_num) \
+        if posts.has_prev else None
+
     return render_template('main/index.html',
                            title='Followed Posts',
-                           posts=posts)
+                           posts=posts.items, 
+                           next_url=next_url,
+                           prev_url=prev_url)
 
 
 @main.route('/explore', methods=['GET', 'POST'])
 def explore():
-    posts = Post.query.order_by(Post.timestamp.desc())
-    return render_template('main/index.html',
-                           title='Explore',
-                           posts=posts)
+    page = request.args.get('page', 1, type=int)
+    posts = Post.query.order_by(Post.timestamp.desc()).paginate(
+        page, current_app.config['POSTS_PER_PAGE'], False)
+    next_url = url_for('main.explore', page=posts.next_num) \
+        if posts.has_next else None
+    prev_url = url_for('main.explore', page=posts.prev_num) \
+        if posts.has_prev else None
+    return render_template('main/index.html', 
+                           title='Explore', 
+                           posts=posts.items, 
+                           next_url=next_url,
+                           prev_url=prev_url)
 
 
 @main.route('/likes', methods=['GET', 'POST'])
 def likes():
-    posts = current_user.liked_posts()
-    return render_template('main/index.html',
-                           title='Liked',
-                           posts=posts)
+    page = request.args.get('page', 1, type=int)
+    posts = current_user.liked_posts().paginate(
+        page, current_app.config['POSTS_PER_PAGE'], False)
+    next_url = url_for('main.explore', page=posts.next_num) \
+        if posts.has_next else None
+    prev_url = url_for('main.explore', page=posts.prev_num) \
+        if posts.has_prev else None
+    return render_template('main/index.html', 
+                           title='Liked', 
+                           posts=posts.items, 
+                           next_url=next_url,
+                           prev_url=prev_url)
 
 
 @main.route('/upload', methods=['GET', 'POST'])
@@ -67,12 +93,22 @@ def upload():
 
 @main.route('/user/<username>')
 def user(username):
+
     user = User.query.filter_by(username=username).first_or_404()
-    posts = user.posts.order_by(Post.timestamp.desc())
-    return render_template('main/profile.html',
+    page = request.args.get('page', 1, type=int)
+    posts = user.posts.order_by(Post.timestamp.desc()).paginate(
+        page, current_app.config['POSTS_PER_PAGE'], False)
+    next_url = url_for('main.explore', page=posts.next_num) \
+        if posts.has_next else None
+    prev_url = url_for('main.explore', page=posts.prev_num) \
+        if posts.has_prev else None
+
+    return render_template('main/profile.html', 
                            title='User',
-                           user=user,
-                           posts=posts)
+                           user=user, 
+                           posts=posts.items,
+                           next_url=next_url, 
+                           prev_url=prev_url)
 
 
 @main.route('/edit_profile', methods=['GET', 'POST'])
@@ -150,5 +186,3 @@ def unlike(id):
     db.session.commit()
     # flash('You are following %(username)s!', username=username)
     return redirect(url_for('main.index'))
-
-
