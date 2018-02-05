@@ -1,27 +1,29 @@
 import config
 import os
-
 from flask import (
-    Flask, 
-    render_template, 
-    request, 
+    Flask,
+    render_template,
+    request,
     current_app)
 from app import commands, models
 from app.account import account as account_bp
+from app.api import api as api_bp
 from app.extensions import (
-    bcrypt, 
-    csrf_protect, 
+    bcrypt,
+    csrf_protect,
     db,
-    login, 
-    migrate, 
+    login,
+    migrate,
     moment,
     images,
     configure_uploads,
-    patch_request_class
+    patch_request_class,
+    UploadSet,
+    configure_uploads,
+    IMAGES
 )
 from app.main import main as main_bp
 from werkzeug.utils import secure_filename
-from flask_uploads import UploadSet, configure_uploads, IMAGES
 
 Config = eval(os.environ['FLASK_APP_CONFIG'])
 
@@ -50,6 +52,7 @@ def register_extensions(app):
 def register_blueprints(app):
     app.register_blueprint(account_bp, url_prefix='/account')
     app.register_blueprint(main_bp)
+    app.register_blueprint(api_bp)
     return None
 
 def register_errorhandlers(app):

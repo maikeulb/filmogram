@@ -6,7 +6,6 @@ from flask import (
     redirect,
     url_for,
     request,
-    jsonify,
     current_app
 )
 from flask_login import current_user, login_required
@@ -64,26 +63,26 @@ def explore():
                            prev_url=prev_url)
 
 
-@main.route('/likes', methods=['GET', 'POST'])
-def likes():
+@main.route('/favorites', methods=['GET', 'POST'])
+def favorites():
     page = request.args.get('page', 1, type=int)
     posts = current_user.liked_posts().paginate(
         page, current_app.config['POSTS_PER_PAGE'], False)
-    next_url = url_for('main.likes', page=posts.next_num) \
+    next_url = url_for('main.favorites', page=posts.next_num) \
         if posts.has_next else None
-    prev_url = url_for('main.likes', page=posts.prev_num) \
+    prev_url = url_for('main.favorites', page=posts.prev_num) \
         if posts.has_prev else None
     print(posts.items, file=sys.stdout)
     return render_template('main/index.html',
-                           title='Liked',
+                           title='Favorites',
                            posts=posts.items,
                            next_url=next_url,
                            prev_url=prev_url)
 
 
-@main.route('/upload', methods=['GET', 'POST'])
+@main.route('/post', methods=['GET', 'POST'])
 @login_required
-def upload():
+def post():
     form = UploadForm()
     if form.validate_on_submit():
         file = request.files['photo']
@@ -98,8 +97,8 @@ def upload():
         flash('Your post is now live!')
         return redirect(url_for('main.index'))
 
-    return render_template('main/upload.html',
-                           title='Upload',
+    return render_template('main/post.html',
+                           title='Post',
                            form=form)
 
 
@@ -143,66 +142,20 @@ def edit_profile():
                            title='Edit Profile',
                            form=form)
 
-@main.route('/follow/<username>')
-@login_required
-def follow(username):
-    user = User.query.filter_by(username=username).first()
-    if user is None:
-        # flash('User %(username)s not found.', username=username)
-        return redirect(url_for('main.index'))
-    if user == current_user:
-        # flash('You cannot follow yourself!')
-        return redirect(url_for('main.user', username=username))
-    current_user.follow(user)
-    db.session.commit()
-    # flash('You are following %(username)s!', username=username)
-    return redirect(url_for('main.user', username=username))
-
-
-@main.route('/unfollow/<username>')
-@login_required
-def unfollow(username):
-    user = User.query.filter_by(username=username).first()
-    if user is None:
-        # flash('User %(username)s not found.', username=username)
-        return redirect(url_for('main.index'))
-    if user == current_user:
-        flash('You cannot unfollow yourself!')
-        # return redirect(url_for('main.user', username=username))
-    current_user.unfollow(user)
-    db.session.commit()
-    # flash('You are not following %(username)s.', username=username)
-    return redirect(url_for('main.user', username=username))
-
-
-# https://stackoverflow.com/questions/46333738/change-like-status-with-jquery-on-a-flask-app
-@main.route('/like/<id>', methods=['GET', 'POST'])
-@login_required
-def like(id):
-    post = Post.query.filter_by(id=id).first()
-    if post is None:
-        flash('User not found.')
-        return redirect(url_for('main.index'))
-    current_user.like(post)
-    user = User.query.filter_by(id=post.user_id).first_or_404()
-    user.add_notification('unread_message_count', user.new_messages())
-    notification = UserNotification(author=current_user, recipient=user, body=1)
-    db.session.add(notification)
-    db.session.commit()
-    return jsonify({'result': 'success'})
-
-
-@main.route('/unlike/<id>')
-@login_required
-def unlike(id):
-    post = Post.query.filter_by(id=id).first()
-    if post is None:
-        # flash('User %(username)s not found.', username=username)
-        return redirect(url_for('main.index'))
-    current_user.unlike(post)
-    db.session.commit()
-    # flash('You are following %(username)s!', username=username)
-    return redirect(url_for('main.index'))
+# @main.route('/follow/<username>')
+# @login_required
+# def follow(username):
+#     user = User.query.filter_by(username=username).first()
+#     if user is None:
+#         # flash('User %(username)s not found.', username=username)
+#         return redirect(url_for('main.index'))
+#     if user == current_user:
+#         # flash('You cannot follow yourself!')
+#         return redirect(url_for('main.user', username=username))
+#     current_user.follow(user)
+#     db.session.commit()
+#     flash('You are now following %(username)s!', username=username)
+#     return redirect(url_for('main.user', username=username))
 
 
 @main.route('/details/<id>', methods=['GET', 'POST'])
@@ -222,16 +175,3 @@ def details(id):
                            title='Details',
                            form=form,
                            post=post)
-
-
-@main.route('/notifications')
-@login_required
-def notifications():
-    since = request.args.get('since', 0.0, type=float)
-    notifications = current_user.notifications.filter(
-        Notification.timestamp > since).order_by(Notification.timestamp.asc())
-    return jsonify([{
-        'name': n.name,
-        'data': n.get_data(),
-        'timestamp': n.timestamp
-    } for n in notifications])
