@@ -52,7 +52,7 @@ def register_extensions(app):
 def register_blueprints(app):
     app.register_blueprint(account_bp, url_prefix='/account')
     app.register_blueprint(main_bp)
-    app.register_blueprint(api_bp)
+    app.register_blueprint(api_bp, url_prefix='/api')
     return None
 
 def register_errorhandlers(app):

@@ -38,7 +38,8 @@
         {% else %}
           <p><a href="{{ url_for('api.unfollow', username=user.username) }}">Unfollow</a></p>
         {% endif %}
-        <form role="form" id="follow-user{{ user.username }}">
+        <form role="form" id="follow-user" data-username="{{
+          user.username}}">
             <div class="form-group">
               <button id="user-send" type="submit" class="btn
                 btn-primary">Follow</button>
@@ -61,22 +62,23 @@
 
   <script>
   $(document).ready(function () {
-    $("#follow-user{{ user.username }}").submit(handleFormSubmit);
+    $("#follow-user").submit(handleFormSubmit);
 
       function handleFormSubmit(evt) {
+        username = $(this).data('username');
         evt.preventDefault();
-        addMessage();
+        addMessage(username);
       }
 
-      function addMessage() {
+      function addMessage(username) {
         $.ajax({
-           url: "{{ url_for('api.follow', username=user.username) }}",
+           url: "/api/follow/"+username,
            type: "GET",
            success: function (data) {
-            alert('cool')  //what to do in success
+            alert('cool')  
            },
            error: function(xhr, ajaxOptions, thrownError){
-            alert('not_cool')  //what to do in success
+            alert('not_cool') 
            },
         });
       }

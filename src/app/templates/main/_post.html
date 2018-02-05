@@ -30,11 +30,11 @@
         {% if current_user.has_liked(post) %}
         <p><a class = "unlike_post{{ post.id }}" href="{{ url_for('api.unlike', id=post.id) }}">UnLike</a></p>
         {% else %}
-        <p><a class = "like_post{{ post.id }}" href="{{ url_for('api.like', id=post.id) }}"> Like</a></p>
+        <p><a class = "like_post" data-post-id="{{ post.id }}" href="{{ url_for('api.like', id=post.id) }}"> Like</a></p>
         {% endif %}
         {% for like in post['likes'] %} {{ like.username }} {% endfor %}
 
-        <form role="form" id="like-post{{ post.id }}">
+        <form role="form" id="like-post" data-post-id={{ post.id }}>
             <div class="form-group">
               <button id="like-send" type="submit" class="btn btn-primary">Like</button>
             </div>
@@ -83,11 +83,12 @@
 
   <script>
   $(document).ready(function () {
-    $("#like-post{{ post.id }}").submit(handleFormSubmit);
+    $('#like-post[data-post-id="{{ post.id }}"]').submit(handleFormSubmit);
 
       function handleFormSubmit(evt) {
+        postId = $(this).data('post-id');
         evt.preventDefault();
-        addMessage();
+        addMessage(postId);
       }
 
       function addMessage() {
