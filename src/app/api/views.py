@@ -18,7 +18,7 @@ from app.models import (
     Notification,
     UserNotification
 )
-
+import json
 
 @api.route('/follow/<username>')
 @login_required
@@ -63,7 +63,8 @@ def like(id):
     notification = UserNotification(author=current_user, recipient=user, body=1)
     db.session.add(notification)
     db.session.commit()
-    return jsonify({'result': 'success'})
+    return jsonify({
+        'data': user.username})
 
 
 @api.route('/unlike/<id>')

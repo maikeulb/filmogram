@@ -32,7 +32,8 @@
         {% else %}
         <p><a class = "like_post" data-post-id="{{ post.id }}" href="{{ url_for('api.like', id=post.id) }}"> Like</a></p>
         {% endif %}
-        {% for like in post['likes'] %} {{ like.username }} {% endfor %}
+        <div id = "likes" data-post-id={{ post.id }}>
+          {% for like in post['likes'] %} {{ like.username }} {% endfor %}</div>
         <form role="form" id="like-post" data-post-id={{ post.id }}>
             <div class="form-group">
               <button id="like-send" type="submit" class="btn btn-primary">Like</button>
@@ -96,7 +97,7 @@
            url: "{{ url_for('api.like', id=post.id) }}",
            type: "GET",
            success: function (data) {
-            alert('cool')  //what to do in success
+             $('#likes[data-post-id="{{ post.id }}"]').append(" " +data.data)
            },
            error: function(xhr, ajaxOptions, thrownError){
             alert('not_cool')  //what to do in success
