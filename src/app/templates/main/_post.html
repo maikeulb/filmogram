@@ -33,7 +33,6 @@
         <p><a class = "like_post" data-post-id="{{ post.id }}" href="{{ url_for('api.like', id=post.id) }}"> Like</a></p>
         {% endif %}
         {% for like in post['likes'] %} {{ like.username }} {% endfor %}
-
         <form role="form" id="like-post" data-post-id={{ post.id }}>
             <div class="form-group">
               <button id="like-send" type="submit" class="btn btn-primary">Like</button>
@@ -43,6 +42,7 @@
       </tr>
     </tbody>
   </table>
+
   <div class="modal" id="modal_post{{post.id}}" data="{{post.id}}">
     <div class="modal-background"></div>
     <div class="modal-content">

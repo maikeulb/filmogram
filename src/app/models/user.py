@@ -37,16 +37,16 @@ class User(UserMixin, db.Model):
     last_user_notification_read_time = db.Column(db.DateTime)
 
     posts = db.relationship(
-        'Post', 
-        backref='author', 
+        'Post',
+        backref='author',
         lazy='dynamic'
     )
     followed = db.relationship(
-        'User', 
+        'User',
         secondary=followers,
         primaryjoin=(followers.c.follower_id == id),
         secondaryjoin=(followers.c.followed_id == id),
-        backref=db.backref('followers', lazy='dynamic'), 
+        backref=db.backref('followers', lazy='dynamic'),
         lazy='dynamic'
     )
     likes = db.relationship(
@@ -57,8 +57,8 @@ class User(UserMixin, db.Model):
         lazy='dynamic'
     )
     comments = db.relationship(
-        'Comment', 
-        backref='author', 
+        'Comment',
+        backref='author',
         lazy='dynamic'
     )
     notifications = db.relationship(
@@ -148,6 +148,23 @@ class User(UserMixin, db.Model):
         n = Notification(name=name, payload_json=json.dumps(data), user=self)
         db.session.add(n)
         return n
+
+    def get_my_following(self):
+        my_following = self.query.join(
+            followers,
+            (followers.c.followed_id == User.id)) \
+                .filter(followers.c.follower_id == self.id)
+        print(my_following, sys.stdout)
+        return my_following
+
+    def get_my_followers(self):
+        my_followers = self.query.join(
+            followers,
+            (followers.c.follower_id == User.id)) \
+                .filter(followers.c.followed_id == self.id)
+        print(my_followers, sys.stdout)
+        return my_followers
+
 
 
 @login.user_loader

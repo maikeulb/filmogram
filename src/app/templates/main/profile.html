@@ -16,12 +16,15 @@
 
       <div class="content">
 
-        <a class="header">User: {{ user.username }}</a>
+        <div class="header">{{ user.username }}</div>
 
         <div class="meta">
           <p>
-            <span>{{ user.followers.count() }} followers </span> 
-            <span>{{ user.followed.count() }} following </span>
+            <p><span> {{ user.followers.count() }}<a href="{{ url_for('main.followers', username=user.username) }}">
+               Followers</a></p>
+            <p><span> {{ user.followed.count() }}<a href="{{
+                  url_for('main.following', username=user.username) }}">
+               Following</a></p>
           </p>
         </div>
 

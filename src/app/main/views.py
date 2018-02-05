@@ -142,22 +142,6 @@ def edit_profile():
                            title='Edit Profile',
                            form=form)
 
-# @main.route('/follow/<username>')
-# @login_required
-# def follow(username):
-#     user = User.query.filter_by(username=username).first()
-#     if user is None:
-#         # flash('User %(username)s not found.', username=username)
-#         return redirect(url_for('main.index'))
-#     if user == current_user:
-#         # flash('You cannot follow yourself!')
-#         return redirect(url_for('main.user', username=username))
-#     current_user.follow(user)
-#     db.session.commit()
-#     flash('You are now following %(username)s!', username=username)
-#     return redirect(url_for('main.user', username=username))
-
-
 @main.route('/details/<id>', methods=['GET', 'POST'])
 @login_required
 def details(id):
@@ -175,3 +159,40 @@ def details(id):
                            title='Details',
                            form=form,
                            post=post)
+
+@main.route('/followers/<username>', methods=['GET', 'POST'])
+def followers(username):
+    user = User.query.filter_by(username=username).first_or_404()
+    page = request.args.get('page', 1, type=int)
+    followers = user.get_my_followers().paginate(
+        page, current_app.config['POSTS_PER_PAGE'], False)
+    next_url = url_for('main.followers', page=followers.next_num) \
+        if followers.has_next else None
+    prev_url = url_for('main.followers', page=followers.prev_num) \
+        if followers.has_prev else None
+    print(followers.items, file=sys.stdout)
+    return render_template('main/followers.html',
+                           title='Followers',
+                           followers=followers.items,
+                           next_url=next_url,
+                           prev_url=prev_url)
+
+
+@main.route('/following/<username>', methods=['GET', 'POST'])
+def following(username):
+    user = User.query.filter_by(username=username).first_or_404()
+    page = request.args.get('page', 1, type=int)
+    following = user.get_my_following().paginate(
+        page, current_app.config['POSTS_PER_PAGE'], False)
+    next_url = url_for('main.following', page=following.next_num) \
+        if following.has_next else None
+    prev_url = url_for('main.following', page=following.prev_num) \
+        if following.has_prev else None
+    print(following.items, file=sys.stdout)
+    return render_template('main/following.html',
+                           title='Following',
+                           following=following.items,
+                           next_url=next_url,
+                           prev_url=prev_url)
+
+

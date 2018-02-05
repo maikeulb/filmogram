@@ -1,0 +1,28 @@
+  {% for followee in following %}
+  <table class = "ui celled padded table">
+    <thead>
+      <tr>
+        <th class="single line">
+          <img class="ui avatar image" 
+            src="{{ followee.profile_img_url or
+            followee.avatar(70) }}"
+            height="70px" />
+          <span>
+            <a href="{{ url_for('main.user', username=followee.username) }}">
+              {{ followee.username }}
+            </a>
+            <br>
+          </span>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+      <td>
+        <br><br>
+      </td>
+      </tr>
+    </tbody>
+  </table>
+
+    {% endfor %}
