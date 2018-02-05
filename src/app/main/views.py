@@ -47,6 +47,9 @@ def index():
 
 @main.route('/explore', methods=['GET', 'POST'])
 def explore():
+    current_user.last_user_notification_read_time = datetime.utcnow()
+    current_user.add_notification('unread_message_count', 0)
+    db.session.commit()
     page = request.args.get('page', 1, type=int)
     posts = Post.query.order_by(Post.timestamp.desc()).paginate(
         page, current_app.config['POSTS_PER_PAGE'], False)
@@ -63,8 +66,6 @@ def explore():
 
 @main.route('/likes', methods=['GET', 'POST'])
 def likes():
-    current_user.last_user_notification_read_time = datetime.utcnow()
-    current_user.add_notification('unread_message_count', 0)
     page = request.args.get('page', 1, type=int)
     posts = current_user.liked_posts().paginate(
         page, current_app.config['POSTS_PER_PAGE'], False)
@@ -83,7 +84,6 @@ def likes():
 @main.route('/upload', methods=['GET', 'POST'])
 @login_required
 def upload():
-    user = User.query.filter_by(username='miko').first_or_404()
     form = UploadForm()
     if form.validate_on_submit():
         file = request.files['photo']
@@ -94,10 +94,6 @@ def upload():
                     photo_url=url,
                     author=current_user)
         db.session.add(post)
-        notification = UserNotification(author=current_user, recipient=user,
-                      body=1)
-        db.session.add(notification)
-        user.add_notification('unread_message_count', user.new_messages())
         db.session.commit()
         flash('Your post is now live!')
         return redirect(url_for('main.index'))
@@ -109,15 +105,14 @@ def upload():
 
 @main.route('/user/<username>')
 def user(username):
-
     user = User.query.filter_by(username=username).first_or_404()
     page = request.args.get('page', 1, type=int)
     posts = user.posts.order_by(Post.timestamp.desc()).paginate(
         page, current_app.config['POSTS_PER_PAGE'], False)
-    next_url = url_for('main.user', page=posts.next_num) \
-        if posts.has_next else None
-    prev_url = url_for('main.user', page=posts.prev_num) \
-        if posts.has_prev else None
+    next_url = url_for('main.user', username=user.username,
+        page=posts.next_num) if posts.has_next else None
+    prev_url = url_for('main.user', username=user.username,
+        page=posts.prev_num) if posts.has_prev else None
 
     return render_template('main/profile.html', 
                            title='User',
@@ -184,15 +179,16 @@ def unfollow(username):
 @main.route('/like/<id>', methods=['GET', 'POST'])
 @login_required
 def like(id):
-    print("hi", sys.stdout)
     post = Post.query.filter_by(id=id).first()
     if post is None:
-        # flash('User %(username)s not found.', username=username)
+        flash('User not found.')
         return redirect(url_for('main.index'))
     current_user.like(post)
+    user = User.query.filter_by(id=post.user_id).first_or_404()
+    user.add_notification('unread_message_count', user.new_messages())
+    notification = UserNotification(author=current_user, recipient=user, body=1)
+    db.session.add(notification)
     db.session.commit()
-    # flash('You are following %(username)s!', username=username)
-    # return redirect(url_for('main.index'))
     return jsonify({'result': 'success'})
 
 
@@ -227,7 +223,8 @@ def details(id):
                            form=form,
                            post=post)
 
-@main.route('/notifications') 
+
+@main.route('/notifications')
 @login_required
 def notifications():
     since = request.args.get('since', 0.0, type=float)
