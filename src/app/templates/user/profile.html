@@ -20,10 +20,10 @@
 
         <div class="meta">
           <p>
-            <p><span> {{ user.followers.count() }}<a href="{{ url_for('main.followers', username=user.username) }}">
+            <p><span> {{ user.followers.count() }}<a href="{{ url_for('user.followers', username=user.username) }}">
                Followers</a></p>
             <p><span> {{ user.followed.count() }}<a href="{{
-                  url_for('main.following', username=user.username) }}">
+                  url_for('user.following', username=user.username) }}">
                Following</a></p>
           </p>
         </div>
@@ -35,7 +35,7 @@
         </div>
 
         {% if user == current_user %}
-          <p><a href="{{ url_for('main.edit_profile') }}">Edit your profile</a></p>
+          <p><a href="{{ url_for('user.edit_profile') }}">Edit your profile</a></p>
         {% elif not current_user.is_following(user) %}
           <p><a href="{{ url_for('api.follow', username=user.username) }}"> Follow</a></p>
         {% else %}

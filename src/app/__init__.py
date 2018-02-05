@@ -23,6 +23,7 @@ from app.extensions import (
     IMAGES
 )
 from app.main import main as main_bp
+from app.user import user as user_bp
 from werkzeug.utils import secure_filename
 
 Config = eval(os.environ['FLASK_APP_CONFIG'])
@@ -53,6 +54,7 @@ def register_blueprints(app):
     app.register_blueprint(account_bp, url_prefix='/account')
     app.register_blueprint(main_bp)
     app.register_blueprint(api_bp, url_prefix='/api')
+    app.register_blueprint(user_bp, url_prefix='/user')
     return None
 
 def register_errorhandlers(app):

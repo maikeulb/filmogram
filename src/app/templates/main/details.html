@@ -11,7 +11,7 @@
         height="70px" />
       <span>
           {% set user_link %}
-          <a href="{{ url_for('main.user', username=post.author.username) }}">
+          <a href="{{ url_for('user.profile', username=post.author.username) }}">
             {{ post.author.username }}
           </a>
           {% endset %}

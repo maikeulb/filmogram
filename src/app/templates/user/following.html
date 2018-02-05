@@ -1,15 +1,15 @@
-  {% for follower in followers %}
+  {% for followee in following %}
   <table class = "ui celled padded table">
     <thead>
       <tr>
         <th class="single line">
           <img class="ui avatar image" 
-            src="{{ follower.profile_img_url or
-            follower.avatar(70) }}"
+            src="{{ followee.profile_img_url or
+            followee.avatar(70) }}"
             height="70px" />
           <span>
-            <a href="{{ url_for('main.user', username=follower.username) }}">
-              {{ follower.username }}
+            <a href="{{ url_for('user.profile', username=followee.username) }}">
+              {{ followee.username }}
             </a>
             <br>
           </span>

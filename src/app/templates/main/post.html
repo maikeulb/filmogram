@@ -8,15 +8,17 @@
     <h2>Add a Photo</h2> 
     <form action="{{ url_for('main.post') }}" method="POST" enctype="multipart/form-data">
       {{ form.hidden_tag() }}
-        <div class="field">
-          {{ form.photo_description.label }}
-          {{ form.photo_description }}
-        </div>
         <img id="target" src="http://placehold.it/180" alt="your image" />
         <div class="field">
           {{ form.photo.label }}
           {{ form.photo(class_="imgInp") }}
         </div>
+
+        <div class="field">
+          {{ form.photo_description.label }}
+          {{ form.photo_description }}
+        </div>
+
       {{ form.submit }}
       {% for error in form.photo_description.errors %}
         <li>{{ error }}</li>
@@ -29,6 +31,8 @@
   {% endif %}
   </main>
  
+{% endblock %}
+
   {% block js %}
   <script>
    function readURL(input) {
@@ -41,7 +45,6 @@
        reader.readAsDataURL(input.files[0]);
      }
    }
-
   $(".imgInp").change(function(){
     readURL(this);
   })
@@ -49,4 +52,3 @@
   </script>
   {% endblock %}
 
-{% endblock %}
