@@ -6,8 +6,11 @@ from flask import current_app
 from flask_login import UserMixin
 from app.extensions import bcrypt, login
 from app.models.post import Post
+from app.models.notification import Notification
+from app.models.user_notification import UserNotification
 import jwt
 import sys
+import json
 
 
 likes = db.Table(
@@ -31,6 +34,7 @@ class User(UserMixin, db.Model):
     password = db.Column(db.Binary(128), nullable=True)
     bio = db.Column(db.String(140))
     profile_img_url = db.Column(db.String)
+    last_user_notification_read_time = db.Column(db.DateTime)
 
     posts = db.relationship(
         'Post', 
@@ -57,6 +61,24 @@ class User(UserMixin, db.Model):
         backref='author', 
         lazy='dynamic'
     )
+    notifications = db.relationship(
+        'Notification', 
+        backref='user', 
+        lazy='dynamic'
+    )
+    user_notification_sent = db.relationship(
+        'UserNotification', 
+        foreign_keys='UserNotification.sender_id',
+        backref='author', 
+        lazy='dynamic'
+    )
+    user_notification_received = db.relationship(
+        'UserNotification',
+        foreign_keys='UserNotification.recipient_id',
+        backref='recipient', 
+        lazy='dynamic'
+    )
+
 
     def __init__(self, username, email, password=None, **kwargs):
         db.Model.__init__(self, username=username, email=email, **kwargs)
@@ -115,6 +137,17 @@ class User(UserMixin, db.Model):
                 .filter(
                 likes.c.user_id == self.id)
         return liked.order_by(Post.timestamp.desc())
+
+    def new_messages(self):
+        last_read_time = self.last_user_notification_read_time or datetime(1900, 1, 1)
+        return UserNotification.query.filter_by(recipient=self).filter(
+            UserNotification.timestamp > last_read_time).count()
+
+    def add_notification(self, name, data):
+        self.notifications.filter_by(name=name).delete()
+        n = Notification(name=name, payload_json=json.dumps(data), user=self)
+        db.session.add(n)
+        return n
 
 
 @login.user_loader

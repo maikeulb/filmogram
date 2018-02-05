@@ -1,4 +1,5 @@
 import sys
+from datetime import datetime
 from flask import (
     render_template,
     flash,
@@ -16,14 +17,19 @@ from app.main.forms import (
     EditProfileForm,
     UploadForm
 )
-from app.models import Post, User, Comment
+from app.models import (
+    Post,
+    User,
+    Comment,
+    Notification,
+    UserNotification
+)
 
 
 @main.route('/', methods=['GET', 'POST'])
 @main.route('/index', methods=['GET', 'POST'])
 @login_required
 def index():
-
     page = request.args.get('page', 1, type=int)
     posts = current_user.followed_posts().paginate(
         page, current_app.config['POSTS_PER_PAGE'], False)
@@ -57,6 +63,8 @@ def explore():
 
 @main.route('/likes', methods=['GET', 'POST'])
 def likes():
+    current_user.last_user_notification_read_time = datetime.utcnow()
+    current_user.add_notification('unread_message_count', 0)
     page = request.args.get('page', 1, type=int)
     posts = current_user.liked_posts().paginate(
         page, current_app.config['POSTS_PER_PAGE'], False)
@@ -75,6 +83,7 @@ def likes():
 @main.route('/upload', methods=['GET', 'POST'])
 @login_required
 def upload():
+    user = User.query.filter_by(username='miko').first_or_404()
     form = UploadForm()
     if form.validate_on_submit():
         file = request.files['photo']
@@ -85,6 +94,10 @@ def upload():
                     photo_url=url,
                     author=current_user)
         db.session.add(post)
+        notification = UserNotification(author=current_user, recipient=user,
+                      body=1)
+        db.session.add(notification)
+        user.add_notification('unread_message_count', user.new_messages())
         db.session.commit()
         flash('Your post is now live!')
         return redirect(url_for('main.index'))
@@ -213,3 +226,15 @@ def details(id):
                            title='Details',
                            form=form,
                            post=post)
+
+@main.route('/notifications') 
+@login_required
+def notifications():
+    since = request.args.get('since', 0.0, type=float)
+    notifications = current_user.notifications.filter(
+        Notification.timestamp > since).order_by(Notification.timestamp.asc())
+    return jsonify([{
+        'name': n.name,
+        'data': n.get_data(),
+        'timestamp': n.timestamp
+    } for n in notifications])

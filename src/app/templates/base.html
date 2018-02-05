@@ -20,70 +20,80 @@
     {% endif %}
 
   <style>
-.site-title {
-    font-size: 1.75em;
-    margin-bottom: 0px;
-}
 
-.site-title a:hover {
-    text-decoration: none;
-    border: 0px;
-    font-style: italic;
-}
+  .site-title {
+      font-size: 1.75em;
+      margin-bottom: 0px;
+  }
 
-.site-header .meta {
-    margin-top: 0px;
-    }
+  .site-title a:hover {
+      text-decoration: none;
+      border: 0px;
+      font-style: italic;
+  }
 
-html {
-  color: #4a4a4a !important!;
-  background-color: #f9f9f9 !important;
-}
+  .site-header .meta {
+      margin-top: 0px;
+      }
 
-table {
-  color: #4a4a4a !important!;
-  background-color: #f9f9f9 !important;
-}
+  html {
+    color: #4a4a4a !important!;
+    background-color: #f9f9f9 !important;
+  }
 
-body {
-  width: 38em !important;
-  margin: auto;
-}
-img {
-  max-width: 30em !important;
-}
-textarea, select, input[type] {
-  color: #4a4a4a;
-  padding: 6px 10px;
-  /* The 6px vertically centers text on FF, ignored by Webkit */
-  margin-bottom: 10px;
-  background-color: #f1f1f1;
-  border: 1px solid #f1f1f1;
-  border-radius: 4px;
-  box-shadow: none;
-  box-sizing: border-box; }
-  textarea:focus, select:focus, input[type]:focus {
-    border: 1px solid #2c8898;
-    outline: 0; }
+  table {
+    color: #4a4a4a !important!;
+    background-color: #f9f9f9 !important;
+  }
+
+  body {
+    width: 38em !important;
+    margin: auto;
+  }
+  img {
+    max-width: 30em !important;
+  }
+  textarea, select, input[type] {
+    color: #4a4a4a;
+    padding: 6px 10px;
+    /* The 6px vertically centers text on FF, ignored by Webkit */
+    margin-bottom: 10px;
+    background-color: #f1f1f1;
+    border: 1px solid #f1f1f1;
+    border-radius: 4px;
+    box-shadow: none;
+    box-sizing: border-box; }
+    textarea:focus, select:focus, input[type]:focus {
+      border: 1px solid #2c8898;
+      outline: 0; }
 
   </style>
   </head>
 
   <body>
     <header class="site-header">
-        <h1 class="site-title"><!--em>func</em--> <a href="/" class="no-border
-            fancy-font">filmogram<span class="meta"></span></a> </h1>
-        <p class="meta fancy-font"> 
+      <h1 class="site-title"><!--em>func</em--> <a href="/" class="no-border
+          fancy-font">filmogram<span class="meta"></span></a> </h1>
+      <p class="meta fancy-font"> 
         <a href="{{ url_for('main.explore') }}" class="item">Explore</a> |
         <a href="{{ url_for('main.upload') }}" class="item">Upload</a> |
         <a href="{{ url_for('main.index') }}" class="item">Index</a> |
         <a href="{{ url_for('main.likes') }}" class="item">Likes</a> |
-        <a href="{{ url_for('main.user', username=current_user.username) }}"
-            class="item">Profile</a>
+        <a href="{{ url_for('main.user', username=current_user.username) }}" class="item">Profile</a>
         <a href="{{ url_for('account.login') }}" class="item">Login</a> |
         <a href="{{ url_for('account.register') }}" class="item">Register</a> |
         <a href="{{ url_for('account.logout') }}" class="item">Logout</a> |
-        </p>
+
+        {% if current_user.is_authenticated %}
+        {% set new_messages = current_user.new_messages() %}
+        <span id="user_notification_count" class="dynamic_badge" 
+          data-badge="{{ new_messages }}"
+          style="visibility: {% if new_messages %}visible
+                             {% else %}hidden{% endif %};">
+        </span>
+        {% endif %}
+        
+      </p>
     </header>
 
     {% block content %}
@@ -104,6 +114,29 @@ textarea, select, input[type] {
       {{ moment.include_moment() }}
   	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
       <script src="https://unpkg.com/infinite-scroll@3/dist/infinite-scroll.pkgd.js"></script>
+      <script>
+        function set_user_notification_count(n) {
+          $('#user_notification_count').data('badge',n);
+          $('#user_notification_count').css('visibility', n ? 'visible' : 'hidden');
+        }
+        {% if current_user.is_authenticated %}
+        $(function() {
+          var since = 0;
+          setInterval(function() {
+            $.ajax('{{ url_for('main.notifications') }}?since=' + since).done(
+              function(notifications) {
+                for (var i = 0; i < notifications.length; i++) {
+                  if (notifications[i].name == 'unread_user_notification_count')
+                    set_user_notification_count(notifications[i].data);
+                  since = notifications[i].timestamp;
+                }
+              }
+            );
+          }, 10000);
+        });
+        {% endif %}
+      </script>
+
     {% endblock %}
     {% block js %}{% endblock %}
 
