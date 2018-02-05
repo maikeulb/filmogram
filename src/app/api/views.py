@@ -64,7 +64,7 @@ def like(id):
     db.session.add(notification)
     db.session.commit()
     return jsonify({
-        'data': user.username})
+        'data': current_user.username})
 
 
 @api.route('/unlike/<id>')

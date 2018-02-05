@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+  <main class="ui text container">
+    <div class="post photo">
+      <h2>Photos</h2> 
+
+        <div class="grid">
+          {% for post in posts %}
+
+            <div class= "grid-item">
+              <img id="post{{ post.id }}" src="{{ post.photo_url }}"
+              style="height:200px;">
+            </div>
+
+          {% endfor %}
+        </div>
+       <a class="npage" href="{{ next_url or "#" }}">next</a>
+
+    </div>
+  </main>
+{% endblock %}
+
+{% block js %}
+<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.js"></script>
+<script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
+
+<script>
+var $grid = $('.grid').masonry({
+  itemSelector: '.grid-item',
+  columnWidth: 200
+});
+$grid.imagesLoaded().progress( function() {
+  $grid.masonry('layout');
+});
+</script>
+
+{% endblock %}

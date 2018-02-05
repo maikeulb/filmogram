@@ -13,7 +13,7 @@ class Post(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     comments = db.relationship(
-        'Comment', 
-        backref='post', 
+        'Comment',
+        backref='post',
         lazy='dynamic'
     )

@@ -32,7 +32,7 @@ def index():
         if posts.has_next else None
     prev_url = url_for('main.index', page=posts.prev_num) \
         if posts.has_prev else None
-
+    print(next_url, sys.stdout)
     return render_template('main/index.html',
                            title='Followed Posts',
                            posts=posts.items,
@@ -46,13 +46,17 @@ def explore():
     current_user.add_notification('unread_message_count', 0)
     db.session.commit()
     page = request.args.get('page', 1, type=int)
-    posts = Post.query.order_by(Post.timestamp.desc()).paginate(
-        page, current_app.config['POSTS_PER_PAGE'], False)
+    posts = Post.query.join(Post.likes) \
+            .group_by(Post.id) \
+            .order_by(db.func.count(Post.likes).desc()) \
+            .order_by(Post.timestamp.desc()) \
+            .paginate(page, current_app.config['POSTS_PER_PAGE'], False)
+    print(posts, sys.stdout)
     next_url = url_for('main.explore', page=posts.next_num) \
         if posts.has_next else None
     prev_url = url_for('main.explore', page=posts.prev_num) \
         if posts.has_prev else None
-    return render_template('main/index.html',
+    return render_template('main/explore.html',
                            title='Explore',
                            posts=posts.items,
                            next_url=next_url,

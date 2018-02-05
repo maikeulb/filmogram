@@ -2,29 +2,24 @@
 
 {% block app_content %}
   <main class="ui text container">
-
-  <div class="post photo">
-    <h2>Photos</h2> 
-
-   <div class="container">
-      {% include 'main/_posts.html' %}
-      <a class="npage" href="{{ next_url or "#" }}">下一页</a><
-   </div>
-
-  </div>
+    <div class="post photo">
+      <h2>Photos</h2> 
+       <div class="container">
+          {% include 'main/_posts.html' %}
+          {% if next_url %}
+            <a class="npage" href={{ next_url or "#" }}>next_url</a>
+          {% endif %}
+       </div>
+    </div>
   </main>
 
-  {% block js %}
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-  <script src="https://unpkg.com/infinite-scroll@3/dist/infinite-scroll.pkgd.js"></script>
+{% endblock %}
 
-  <script>
-    $('.container').infiniteScroll({
-      path: '.npage',
-      append: '.js-infinite-item'
-    });
-  </script>
-
-  {% endblock %}
-
+{% block js %}
+<script>
+  $('.container').infiniteScroll({
+    path: '.npage',
+    append: '.post-item'
+  });
+</script>
 {% endblock %}

@@ -68,6 +68,9 @@
       outline: 0; }
 
   </style>
+  	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+      <script src="https://unpkg.com/infinite-scroll@3/dist/infinite-scroll.pkgd.js"></script>
+      <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.js"></script>
   </head>
 
   <body>
@@ -77,7 +80,7 @@
       <p class="meta fancy-font"> 
         <a href="{{ url_for('main.explore') }}" class="item">Explore</a> |
         <a href="{{ url_for('main.post') }}" class="item">Post</a> |
-        <a href="{{ url_for('main.index') }}" class="item">Index</a> |
+        <a href="{{ url_for('main.index') }}" class="item">Feed</a> |
         <a href="{{ url_for('main.favorites') }}" class="item">Favorites</a> |
         <a href="{{ url_for('user.profile', username=current_user.username) }}"
           class="item">Profile</a> |
@@ -113,8 +116,6 @@
 
     {% block scripts %}
       {{ moment.include_moment() }}
-  	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-      <script src="https://unpkg.com/infinite-scroll@3/dist/infinite-scroll.pkgd.js"></script>
       <script>
         function set_user_notification_count(n) {
           $('#user_notification_count').data('badge',n);
