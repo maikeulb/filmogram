@@ -6,16 +6,9 @@
       <h2>Photos</h2> 
 
         <div class="grid">
-          {% for post in posts %}
-
-            <div class= "grid-item">
-              <img id="post{{ post.id }}" src="{{ post.photo_url }}"
-              style="height:200px;">
-            </div>
-
-          {% endfor %}
+          {% include 'main/_posts_explore.html' %}
+          <a class="npage" href="{{ next_url or "#" }}">next</a>
         </div>
-       <a class="npage" href="{{ next_url or "#" }}">next</a>
 
     </div>
   </main>

@@ -1,6 +1,49 @@
-<div class="js-infinite-item">
+<div class="grid-item">
 
-</div>
+  <table class = "ui celled padded table">
+    <thead>
+      <tr>
+        <th class="single line">
+          <img class="ui avatar image" 
+            src="{{ post.author.profile_img_url or
+            post.author.avatar(70) }}"
+            style="height:70px;" />
+          <span>
+            {% set user_link %}
+            <a href="{{ url_for('user.profile', username=post.author.username) }}">
+              {{ post.author.username }}
+            </a>
+            {% endset %}
+            {{ user_link }} said {{ moment(post.timestamp).fromNow() }}
+            <br>
+          </span>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+      <td>
+        <a id="open-modal{{post.id}}" href="" data="{{post.id}}">
+          <img id="post{{ post.id }}" src={{ post.photo_url }}
+          style="height:200px;">
+        </a>
+        <br><br>
+        {% if current_user.has_liked(post) %}
+        <p><a class = "unlike_post{{ post.id }}" href="{{ url_for('api.unlike', id=post.id) }}">UnLike</a></p>
+        {% else %}
+        <p><a class = "like_post" data-post-id="{{ post.id }}" href="{{ url_for('api.like', id=post.id) }}"> Like</a></p>
+        {% endif %}
+        <div id = "likes" data-post-id={{ post.id }}>
+          {% for like in post['likes'] %} {{ like.username }} {% endfor %}</div>
+        <form role="form" id="like-post" data-post-id={{ post.id }}>
+            <div class="form-group">
+              <button id="like-send" type="submit" class="btn btn-primary">Like</button>
+            </div>
+        </form>
+      </td>
+      </tr>
+    </tbody>
+  </table>
 
   <div class="modal" id="modal_post{{post.id}}" data="{{post.id}}">
     <div class="modal-background"></div>
@@ -8,6 +51,8 @@
     </div>
     <button class="modal-close is-large" aria-label="close"></button>
   </div>
+
+</div>
 
 {% block js %}
   <script>
@@ -28,7 +73,6 @@
         alert('not_cool')  //what to do in success
        },
     });
-
     modal.querySelector('.modal-background').addEventListener('click', function(e) {
       e.preventDefault();
       modal.classList.remove('is-active');
@@ -36,17 +80,14 @@
     });
   });
   </script>
-
   <script>
   $(document).ready(function () {
     $('#like-post[data-post-id="{{ post.id }}"]').submit(handleFormSubmit);
-
       function handleFormSubmit(evt) {
         postId = $(this).data('post-id');
         evt.preventDefault();
         addMessage(postId);
       }
-
       function addMessage() {
         $.ajax({
            url: "{{ url_for('api.like', id=post.id) }}",
@@ -61,5 +102,4 @@
       }
   });
   </script>
-
 {% endblock %}
