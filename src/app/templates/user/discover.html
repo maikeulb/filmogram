@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+
+
+<div id="users">
+  <input class="search" placeholder="Search" />
+  <ul class="list">
+{% for user in users %}
+    <li>
+      <table class="table">
+        <tr>
+          <td width="64" style="border: 0px;"><img src="{{ user.avatar(64) }}"></td>
+            <td style="border: 0px;">
+              <p class="name">
+                <a href="{{ url_for('user.profile', username=user.username) }}">{{ user.username }}</a>
+              </p>
+              <p class="followers">
+                {{ '%d followers' % user.followers.count() }}, {{ '%d following' % user.followed.count() }}
+              </p>
+              <p class="bio">
+                {% if user.bio %}<p>{{ user.bio }}</p>{% endif %}
+              </p>
+            </td>
+        </tr>
+      </table>
+    <br>
+    </li>
+{% endfor %}
+  </ul>
+  <ul class="pagination"></ul>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+
+<script>
+var options = {
+  valueNames: [ 'name', 'born' ],
+  page: 3,
+  pagination: true
+};
+
+var userList = new List('users', options);
+</script>
+{% endblock %}

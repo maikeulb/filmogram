@@ -93,3 +93,12 @@ def following(username):
                            following=following.items,
                            next_url=next_url,
                            prev_url=prev_url)
+
+@user.route('/discover/')
+def discover():
+    users = User.query.all()
+    return render_template('user/discover.html',
+                           title='Discover',
+                           users=users)
+
+

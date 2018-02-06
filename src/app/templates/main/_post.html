@@ -23,7 +23,7 @@
     <tbody>
       <tr>
       <td>
-        <a id="open-modal{{post.id}}" href="" data="{{post.id}}">
+        <a id="open-modal" href="" data="{{post.id}}">
           <img id="post{{ post.id }}" src={{ post.photo_url }} height="400px">
         </a>
         <br><br>
@@ -55,10 +55,10 @@
 
 {% block js %}
   <script>
-    document.querySelector('#open-modal{{post.id}}').addEventListener('click', function(event) {
+    document.querySelector('#open-modal[data-post-id="{{ post.id }}"]').addEventListener('click', function(event) {
     event.preventDefault();
     id=$(this).data('id')
-    var modal = document.querySelector('.modal');  // assuming you have only 1
+    var modal = document.querySelector('.modal');  
     var html = document.querySelector('html');
     modal.classList.add('is-active');
     html.classList.add('is-clipped');
@@ -69,7 +69,7 @@
          $(".modal-content").html(data);
        },
        error: function(xhr, ajaxOptions, thrownError){
-        alert('not_cool')  //what to do in success
+        alert('not_cool') 
        },
     });
     modal.querySelector('.modal-background').addEventListener('click', function(e) {

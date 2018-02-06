@@ -67,6 +67,11 @@
       border: 1px solid #2c8898;
       outline: 0; }
 
+  .pagination li {
+    display:inline-block;
+    padding:5px;
+  }
+
   </style>
   	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
       <script src="https://unpkg.com/infinite-scroll@3/dist/infinite-scroll.pkgd.js"></script>
@@ -82,6 +87,7 @@
         <a href="{{ url_for('main.post') }}" class="item">Post</a> |
         <a href="{{ url_for('main.index') }}" class="item">Feed</a> |
         <a href="{{ url_for('main.favorites') }}" class="item">Favorites</a> |
+        <a href="{{ url_for('user.discover') }}" class="item">Discover</a> |
         <a href="{{ url_for('user.profile', username=current_user.username) }}"
           class="item">Profile</a> |
         <a href="{{ url_for('account.login') }}" class="item">Login</a> |
