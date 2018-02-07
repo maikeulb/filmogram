@@ -100,7 +100,19 @@ def notifications():
 
 @api.route('/comment/<id>', methods=['post'])
 def comment(id):
+    post = Post.query.filter_by(id=id).first_or_404()
     form = CommentForm()
+    print(form, sys.stdout)
+    print(post, sys.stdout)
     if form.validate_on_submit():
-        return jsonify(data={'message': 'hello {}'.format(form.comment.data)})
+        print('hey', sys.stdout)
+        print('***********', sys.stdout)
+        comment = Comment(body=form.body.data,
+                          post=post,
+                          author=current_user._get_current_object())
+        db.session.add(comment)
+        db.session.commit()
+        print(form.body.data, sys.stdout)
+        return jsonify({
+            'data': form.body.data})
     return jsonify(data=form.errors)

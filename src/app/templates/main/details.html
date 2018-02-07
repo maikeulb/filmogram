@@ -32,11 +32,13 @@
           <p><a class = "like_post{{ post.id }}" href="{{ url_for('api.like', id=post.id) }}"> Like</a></p>
           {% endif %}
           {% for like in post['likes'] %} {{ like.username }} {% endfor %}
+
           <form role="form" id="like-post{{ post.id }}">
             <div class="form-group">
               <button id="like-send" type="submit" class="btn btn-primary">Like</button>
             </div>
           </form>
+
       </td>
       </tr>
     </tbody>
@@ -44,7 +46,7 @@
 
   <div class="comment form">
     <h2>Leave a Comment</h2> 
-    <form action="{{ url_for('main.details', id=post.id) }}" method="POST">
+    <form  data-post-id="{{post.id}}" action="{{ url_for('main.details', id=post.id) }}" method="POST">
       {{ form.hidden_tag() }}
         <div class="field">
           {{ form.body.label }}
@@ -59,7 +61,35 @@
 
   {% include 'main/_comments.html' %}
 
-  {% block js %}
-  {% endblock %}
-
 {% endblock %}
+
+{% block js %}
+  <script>
+      $(document).ready(function() {
+        $('form[data-post-id="{{ post.id }}"]').submit(function (e) {
+          alert(JSON.stringify($('form[data-post-id="{{post.id}}"]').serialize()));
+              $.ajax({
+                  type: "POST",
+                  url: "{{ url_for('api.comment', id=post.id) }}",
+                data: $('form[data-post-id="{{ post.id }}"]').serialize(),
+                  success: function (data) {
+                     alert(JSON.stringify(data));
+                     $('#comments[data-post-id="{{ post.id }}"]').append(" " +data.data)
+                  },
+                  error: function(xhr, ajaxOptions, thrownError){
+                   alert('not_cool') 
+                  },
+              });
+              e.preventDefault(); // block the traditional submission of the form.
+          });
+          $.ajaxSetup({
+              beforeSend: function(xhr, settings) {
+                  if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+                      xhr.setRequestHeader("X-CSRFToken", "{{ form.csrf_token._value() }}")
+                  }
+              }
+          })
+      });
+  </script>
+{% endblock %}
+

@@ -102,7 +102,7 @@ def post():
                            form=form)
 
 
-@main.route('/details/<id>', methods=['GET', 'POST'])
+@main.route('/details/<id>')
 @login_required
 def details(id):
     post = Post.query.filter_by(id=id).first_or_404()
@@ -119,4 +119,3 @@ def details(id):
                            title='Details',
                            form=form,
                            post=post)
-
