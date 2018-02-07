@@ -8,7 +8,11 @@
       <title>Welcome to FilmoGram</title>
     {% endif %}
 
-     <link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.39/css/uikit.min.css" />
+
+<!-- UIkit JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.39/js/uikit.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.39/js/uikit-icons.min.js"></script>
 
     {% if config.DEVELOPMENT %}
       <!-- Webpack Dev Mode -->
@@ -25,13 +29,11 @@
       font-size: 1.75em;
       margin-bottom: 0px;
   }
-
   .site-title a:hover {
       text-decoration: none;
       border: 0px;
       font-style: italic;
   }
-
   .site-header .meta {
       margin-top: 0px;
       }
@@ -40,12 +42,10 @@
     color: #4a4a4a !important!;
     background-color: #f9f9f9 !important;
   }
-
   table {
     color: #4a4a4a !important!;
     background-color: #f9f9f9 !important;
   }
-
   body {
     width: 38em !important;
     margin: auto;

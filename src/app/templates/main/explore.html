@@ -7,11 +7,11 @@
 
         <div class="grid">
           {% include 'main/_posts_explore.html' %}
-          <a class="npage" href="{{ next_url or "#" }}">next</a>
         </div>
 
     </div>
   </main>
+    <a class="npage" href="{{ next_url or "#" }}">next</a>
 {% endblock %}
 
 {% block js %}
@@ -21,7 +21,7 @@
 <script>
 var $grid = $('.grid').masonry({
   itemSelector: '.grid-item',
-  columnWidth: 200
+  columnWidth: 150
 });
 $grid.imagesLoaded().progress( function() {
   $grid.masonry('layout');

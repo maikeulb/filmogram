@@ -1,16 +1,14 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-  <main class="ui text container">
-    <div class="post photo">
+<main class="mui--text-center">
       <h2>Photos</h2> 
-       <div class="container">
+      <div>
           {% include 'main/_posts.html' %}
           {% if next_url %}
             <a class="npage" href={{ next_url or "#" }}>next_url</a>
           {% endif %}
        </div>
-    </div>
   </main>
 
 {% endblock %}

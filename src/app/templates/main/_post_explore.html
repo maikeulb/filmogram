@@ -23,9 +23,10 @@
     <tbody>
       <tr>
       <td>
-        <a id="open-modal{{post.id}}" href="" data="{{post.id}}">
+        <a id="open-modal" href="#modal-center" data-post-id="{{post.id}}"
+          uk-toggle>
           <img id="post{{ post.id }}" src={{ post.photo_url }}
-          style="height:200px;">
+          style="height:150px;">
         </a>
         <br><br>
         {% if current_user.has_liked(post) %}
@@ -47,9 +48,15 @@
 
   <div class="modal" id="modal_post{{post.id}}" data="{{post.id}}">
     <div class="modal-background"></div>
-    <div class="modal-content">
-    </div>
     <button class="modal-close is-large" aria-label="close"></button>
+  </div>
+
+
+  <div id="modal-center" class="uk-flex-top" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+      <div class="modal-content"></div>
+      <button class="uk-modal-close-default" type="button" uk-close></button>
+    </div>
   </div>
 
 </div>
@@ -59,7 +66,7 @@
     document.querySelector('#open-modal[data-post-id="{{ post.id }}"]').addEventListener('click', function(event) {
     event.preventDefault();
     id=$(this).data('id')
-    var modal = document.querySelector('.modal'); 
+    var modal = document.querySelector('.modal');
     var html = document.querySelector('html');
     modal.classList.add('is-active');
     html.classList.add('is-clipped');
