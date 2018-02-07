@@ -6,7 +6,7 @@
       <div>
           {% include 'main/_posts.html' %}
           {% if next_url %}
-            <a class="npage" href={{ next_url or "#" }}>next_url</a>
+            <a class="npage" hidden href={{ next_url or "#" }}>next_url</a>
           {% endif %}
        </div>
   </main>

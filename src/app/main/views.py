@@ -20,11 +20,11 @@ from app.models import (
     Comment,
 )
 
-
-@main.route('/', methods=['GET', 'POST'])
-@main.route('/index', methods=['GET', 'POST'])
+@main.route('/')
+@main.route('/index')
 @login_required
 def index():
+    form = CommentForm()
     page = request.args.get('page', 1, type=int)
     posts = current_user.followed_posts().paginate(
         page, current_app.config['POSTS_PER_PAGE'], False)
@@ -32,10 +32,16 @@ def index():
         if posts.has_next else None
     prev_url = url_for('main.index', page=posts.prev_num) \
         if posts.has_prev else None
-    print(next_url, sys.stdout)
+    if form.validate_on_submit():
+        comment = Comment(body=form.body.data,
+                          post=post,
+                          author=current_user._get_current_object())
+        db.session.add(comment)
+        db.session.commit()
     return render_template('main/index.html',
                            title='Followed Posts',
                            posts=posts.items,
+                           form=form,
                            next_url=next_url,
                            prev_url=prev_url)
 
@@ -63,8 +69,9 @@ def explore():
                            prev_url=prev_url)
 
 
-@main.route('/favorites', methods=['GET', 'POST'])
+@main.route('/favorites')
 def favorites():
+    form = CommentForm()
     page = request.args.get('page', 1, type=int)
     posts = current_user.liked_posts().paginate(
         page, current_app.config['POSTS_PER_PAGE'], False)
@@ -73,9 +80,16 @@ def favorites():
     prev_url = url_for('main.favorites', page=posts.prev_num) \
         if posts.has_prev else None
     print(posts.items, file=sys.stdout)
+    if form.validate_on_submit():
+        comment = Comment(body=form.body.data,
+                          post=post,
+                          author=current_user._get_current_object())
+        db.session.add(comment)
+        db.session.commit()
     return render_template('main/index.html',
                            title='Favorites',
                            posts=posts.items,
+                           form=form,
                            next_url=next_url,
                            prev_url=prev_url)
 
@@ -115,6 +129,7 @@ def details(id):
         db.session.commit()
         flash('Your comment has been published.')
         return redirect(url_for('main.index'))
+
     return render_template('main/details.html',
                            title='Details',
                            form=form,

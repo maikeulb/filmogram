@@ -1,16 +1,7 @@
-<ul id = "comments" data-post-id = "{{post.id}}">
+<div id = "comments" data-post-id = "{{post.id}}">
   {% for comment in post['comments'] %} 
-  <div class ="comment">
-    <div class="comment-thumbnail">
-      <a href="{{ url_for('user.profile', username=comment.author.username) }}">
-        <img class="img-rounded profile-thumbnail">
-      </a>
-    </div>
-    <div class="comment-content">
-      <div class="comment-date">{{ moment(comment.timestamp).fromNow() }}</div>
-      <div class="comment-author"><a href="{{ url_for('user.profile', username=comment.author.username) }}">{{ comment.author.username }}</a></div>
-      <div class="comment-body">{{ comment.body }}</div>
-    </div>
-  </li>
+  <br><a class="user-comment" href="{{ url_for('user.profile',
+    username=comment.author.username) }}">{{ comment.author.username
+    }}</a><span style="padding-left:10px"> {{comment.body}}</span></br
   {% endfor %}
-</ul>
+</div>

@@ -50,10 +50,9 @@ def unfollow(username):
         return redirect(url_for('main.index'))
     if user == current_user:
         flash('You cannot unfollow yourself!')
-        # return redirect(url_for('main.user', username=username))
+        return redirect(url_for('main.user', username=username))
     current_user.unfollow(user)
     db.session.commit()
-    # flash('You are not following %(username)s.', username=username)
     return redirect(url_for('main.user', username=username))
 
 
@@ -74,15 +73,17 @@ def like(id):
         'data': current_user.username})
 
 
-@api.route('/unlike/<id>')
+@api.route('/unlike/<id>', methods=['GET', 'POST'])
 @login_required
 def unlike(id):
     post = Post.query.filter_by(id=id).first()
     if post is None:
+        flash('User not found.')
         return redirect(url_for('main.index'))
     current_user.unlike(post)
     db.session.commit()
-    return redirect(url_for('main.index'))
+    return jsonify({
+        'data': current_user.username})
 
 
 @api.route('/notifications')
@@ -105,8 +106,6 @@ def comment(id):
     print(form, sys.stdout)
     print(post, sys.stdout)
     if form.validate_on_submit():
-        print('hey', sys.stdout)
-        print('***********', sys.stdout)
         comment = Comment(body=form.body.data,
                           post=post,
                           author=current_user._get_current_object())

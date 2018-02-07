@@ -11,16 +11,19 @@ from flask_login import current_user, login_required
 from app.extensions import db, images
 from app.user import user
 from app.user.forms import (
+    CommentForm,
     EditProfileForm
 )
 from app.models import (
     Post,
     User,
+    Comment,
 )
 
 
 @user.route('/<username>')
 def profile(username):
+    form = CommentForm()
     user = User.query.filter_by(username=username).first_or_404()
     page = request.args.get('page', 1, type=int)
     posts = user.posts.order_by(Post.timestamp.desc()).paginate(
@@ -29,10 +32,16 @@ def profile(username):
         page=posts.next_num) if posts.has_next else None
     prev_url = url_for('user.profile', username=user.username,
         page=posts.prev_num) if posts.has_prev else None
-
+    if form.validate_on_submit():
+        comment = Comment(body=form.body.data,
+                          post=post,
+                          author=current_user._get_current_object())
+        db.session.add(comment)
+        db.session.commit()
     return render_template('user/profile.html', 
                            title='User',
                            user=user, 
+                           form=form,
                            posts=posts.items,
                            next_url=next_url, 
                            prev_url=prev_url)

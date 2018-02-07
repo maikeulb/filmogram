@@ -1,48 +1,78 @@
-<div class="grid-item">
+<div class="post-item">
 
-  <table class = "mui-table">
-    <thead>
-      <tr>
-        <th class="single line">
-          <img class="ui avatar image" 
-            src="{{ post.author.profile_img_url or
-            post.author.avatar(70) }}"
-            style="height:70px;" />
-          <span>
-            {% set user_link %}
-            <a href="{{ url_for('user.profile', username=post.author.username) }}">
-              {{ post.author.username }}
-            </a>
-            {% endset %}
-            {{ user_link }} said {{ moment(post.timestamp).fromNow() }}
-            <br>
-          </span>
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-      <td>
-          <img id="post{{ post.id }}" src={{ post.photo_url }} height="400px">
-        <br><br>
-        {% if current_user.has_liked(post) %}
-        <p><a class = "unlike_post{{ post.id }}" href="{{ url_for('api.unlike', id=post.id) }}">UnLike</a></p>
-        {% else %}
-        <p><a class = "like_post" data-post-id="{{ post.id }}" href="{{ url_for('api.like', id=post.id) }}"> Like</a></p>
-        {% endif %}
+  <div class="Instagram-card">
+    <div class="Instagram-card-header">
+      <img class="Instagram-card-user-image" src="{{ post.author.profile_img_url or post.author.avatar(70) }}" style="height:50px;" />
+      <a class="Instagram-card-user-name" href="{{ url_for('user.profile', username=post.author.username) }}">{{ post.author.username }}</a>
+      <div class="Instagram-card-time">{{ moment(post.timestamp).fromNow() }}</div>
+    </div>
+
+    <div class="Instagram-card-image">
+      <img id="post{{ post.id }}" src={{ post.photo_url }} height="400px">
+    </div>
+
+    <div class="Instagram-card-content">
+
+      <div style="float:left;">
+        <a class="footer-action-icons" href="#">
+          <i class="fa fa-heart-o"></i>
+
+          {% if current_user.has_liked(post) %}
+            <form role="form" id="unlike-post" data-post-id={{ post.id }}>
+              <div class="form-group">
+                <button id="unlike-send" type="submit" class="uk-button">Unlike</button>
+              </div>
+            </form>
+          {% else %}
+            <form role="form" id="like-post" data-post-id={{ post.id }}>
+              <div class="form-group">
+                <button id="like-send" type="submit" class="uk-button">Like</button>
+              </div>
+            </form>
+          {% endif %}
+        </a>
+      </div>
+
+      <div class="Likes" style="float:left;">
         <div id = "likes" data-post-id={{ post.id }}>
-          {% for like in post['likes'] %} {{ like.username }} {% endfor %}</div>
-        <form role="form" id="like-post" data-post-id={{ post.id }}>
-            <div class="form-group">
-              <button id="like-send" type="submit" class="btn btn-primary">Like</button>
-            </div>
-        </form>
-      </td>
-      </tr>
-    </tbody>
-  </table>
+          {% for like in post['likes'] %} 
+            <a href="{{ url_for('user.profile', username=like.username) }}">{{ like.username }}</a>
+          {% endfor %}
+        </div>
+      </div>
 
+      <br>
+      <br>
+      <div>
+        <a class="Instagram-card-content-user" href="{{ url_for('user.profile', username=post.author.username) }}">
+          {{ post.author.username }}
+          </a><span style="padding-left:10px">
+          {{ post.caption }}<span>
+      </div>
+      {% include 'main/_comments.html' %}
+    <hr>
+    </div>  
+
+    <div class="Instagram-card-footer">
+
+      <div class="comment form">
+        <form name="comment" data-post-id="{{post.id}}" action="{{ url_for('main.details', id=post.id) }}" method="POST">
+          {{ form.hidden_tag() }}
+            <div class="field">
+              {{ form.body(class_="comments-input") }}
+            </div>
+          {{ form.submit }}
+          {% for error in form.body.errors %}
+            <li>{{ error }}</li>
+          {% endfor %}
+        </form>
+      </div>
+
+      <a class="footer-action-icons"href="#"><i class="fa fa-ellipsis-h"></i></a>
+    </div>
+  </div>
 </div>
+<br><br>
 
 {% block js %}
   <script>
@@ -58,14 +88,62 @@
            url: "{{ url_for('api.like', id=post.id) }}",
            type: "GET",
            success: function (data) {
-             console.log(JSON.stringify(data))
              $('#likes[data-post-id="{{ post.id }}"]').append(" " +data.data)
            },
            error: function(xhr, ajaxOptions, thrownError){
-            alert('not_cool')  //what to do in success
+            alert('not_cool') 
            },
         });
       }
   });
+  $(document).ready(function () {
+    $('#unlike-post[data-post-id="{{ post.id }}"]').submit(handleFormSubmit);
+      function handleFormSubmit(evt) {
+        postId = $(this).data('post-id');
+        evt.preventDefault();
+        addMessage(postId);
+      }
+      function addMessage() {
+        $.ajax({
+           url: "{{ url_for('api.unlike', id=post.id) }}",
+           type: "GET",
+           success: function (data) {
+             $('#likes[data-post-id="{{ post.id }}"]').append(" " +data.data)
+           },
+           error: function(xhr, ajaxOptions, thrownError){
+            alert('not_cool')  
+           },
+        });
+      }
+  });
+
+  </script>
+  <script>
+      $(document).ready(function() {
+        $('form[name="comment"][data-post-id="{{ post.id }}"]').submit(function (e) {
+          alert(JSON.stringify($('form[data-post-id="{{post.id}}"]').serialize()));
+              $.ajax({
+                  type: "POST",
+                  url: "{{ url_for('api.comment', id=post.id) }}",
+                data: $('form[data-post-id="{{ post.id }}"]').serialize(),
+                  success: function (data) {
+                     alert(JSON.stringify(data));
+                     $('#comments[data-post-id="{{ post.id }}"]').append(" " +data.data)
+                  },
+                  error: function(xhr, ajaxOptions, thrownError){
+                   alert('not_cool') 
+                  },
+              });
+              e.preventDefault(); // block the traditional submission of the form.
+          });
+          $.ajaxSetup({
+              beforeSend: function(xhr, settings) {
+                  if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+                      xhr.setRequestHeader("X-CSRFToken", "{{ form.csrf_token._value() }}")
+                  }
+              }
+          })
+      });
   </script>
 {% endblock %}
+
