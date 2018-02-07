@@ -19,6 +19,13 @@ from app.models import (
     UserNotification
 )
 import json
+from app.api.forms import (
+    CommentForm,
+)
+from app.models import (
+    Post,
+    Comment,
+)
 
 @api.route('/follow/<username>')
 @login_required
@@ -89,3 +96,11 @@ def notifications():
         'data': n.get_data(),
         'timestamp': n.timestamp
     } for n in notifications])
+
+
+@api.route('/comment/<id>', methods=['post'])
+def comment(id):
+    form = CommentForm()
+    if form.validate_on_submit():
+        return jsonify(data={'message': 'hello {}'.format(form.comment.data)})
+    return jsonify(data=form.errors)
