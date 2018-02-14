@@ -18,15 +18,15 @@
           <i class="fa fa-heart-o"></i>
 
           {% if current_user.has_liked(post) %}
-            <form role="form" id="unlike-post" data-post-id={{ post.id }}>
+            <form role="form">
               <div class="form-group">
-                <button id="unlike-send" type="submit" class="uk-button">Unlike</button>
+                <button id="unlike-post" data-post-id={{ post.id }} type="submit" class="uk-button">Unlike</button>
               </div>
             </form>
           {% else %}
-            <form role="form" id="like-post" data-post-id={{ post.id }}>
+            <form role="form">
               <div class="form-group">
-                <button id="like-send" type="submit" class="uk-button">Like</button>
+                <button id="like-post" data-post-id={{ post.id }} type="submit" class="uk-button">Like</button>
               </div>
             </form>
           {% endif %}
@@ -75,49 +75,7 @@
 <br><br>
 
 {% block js %}
-  <script>
-  $(document).ready(function () {
-    $('#like-post[data-post-id="{{ post.id }}"]').submit(handleFormSubmit);
-      function handleFormSubmit(evt) {
-        postId = $(this).data('post-id');
-        evt.preventDefault();
-        addMessage(postId);
-      }
-      function addMessage() {
-        $.ajax({
-           url: "{{ url_for('api.like', id=post.id) }}",
-           type: "GET",
-           success: function (data) {
-             $('#likes[data-post-id="{{ post.id }}"]').append(" " +data.data)
-           },
-           error: function(xhr, ajaxOptions, thrownError){
-            alert('not_cool') 
-           },
-        });
-      }
-  });
-  $(document).ready(function () {
-    $('#unlike-post[data-post-id="{{ post.id }}"]').submit(handleFormSubmit);
-      function handleFormSubmit(evt) {
-        postId = $(this).data('post-id');
-        evt.preventDefault();
-        addMessage(postId);
-      }
-      function addMessage() {
-        $.ajax({
-           url: "{{ url_for('api.unlike', id=post.id) }}",
-           type: "GET",
-           success: function (data) {
-             $('#likes[data-post-id="{{ post.id }}"]').append(" " +data.data)
-           },
-           error: function(xhr, ajaxOptions, thrownError){
-            alert('not_cool')  
-           },
-        });
-      }
-  });
 
-  </script>
   <script>
       $(document).ready(function() {
         $('form[name="comment"][data-post-id="{{ post.id }}"]').submit(function (e) {
@@ -145,5 +103,6 @@
           })
       });
   </script>
+
 {% endblock %}
 
