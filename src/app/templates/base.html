@@ -8,109 +8,24 @@
       <title>Welcome to FilmoGram</title>
     {% endif %}
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.39/css/uikit.min.css" />
-
-<!-- UIkit JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.39/js/uikit.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.39/js/uikit-icons.min.js"></script>
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.39/css/uikit.min.css" />
     {% if config.DEVELOPMENT %}
       <!-- Webpack Dev Mode -->
       <link rel="stylesheet" href="http://localhost:8080/static/css/app.css">
     {% else %}
       <!-- Static Build Mode -->
       <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/app.css') }}">
-
     {% endif %}
-
-  <style>
-
-  .site-title {
-      font-size: 1.75em;
-      margin-bottom: 0px;
-  }
-  .site-title a:hover {
-      text-decoration: none;
-      border: 0px;
-      font-style: italic;
-  }
-  .site-header .meta {
-      margin-top: 0px;
-      }
-
-  html {
-    color: #4a4a4a !important!;
-    background-color: #f9f9f9 !important;
-  }
-  table {
-    color: #4a4a4a !important!;
-    background-color: #f9f9f9 !important;
-  }
-  body {
-    width: 38em !important;
-    margin: auto;
-  }
-  img {
-    max-width: 30em !important;
-  }
-  textarea, select, input[type] {
-    color: #4a4a4a;
-    padding: 6px 10px;
-    /* The 6px vertically centers text on FF, ignored by Webkit */
-    margin-bottom: 10px;
-    background-color: #f1f1f1;
-    border: 1px solid #f1f1f1;
-    border-radius: 4px;
-    box-shadow: none;
-    box-sizing: border-box; }
-    textarea:focus, select:focus, input[type]:focus {
-      border: 1px solid #2c8898;
-      outline: 0; }
-
-  .pagination li {
-    display:inline-block;
-    padding:5px;
-  }
-
-  </style>
-  	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-      <script src="https://unpkg.com/infinite-scroll@3/dist/infinite-scroll.pkgd.js"></script>
-      <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.js"></script>
   </head>
 
   <body>
-    <header class="site-header">
-      <h1 class="site-title"><!--em>func</em--> <a href="/" class="no-border
-          fancy-font">filmogram<span class="meta"></span></a> </h1>
-      <p class="meta fancy-font"> 
-        <a href="{{ url_for('main.explore') }}" class="item">Explore</a> |
-        <a href="{{ url_for('main.post') }}" class="item">Post</a> |
-        <a href="{{ url_for('main.index') }}" class="item">Feed</a> |
-        <a href="{{ url_for('main.favorites') }}" class="item">Favorites</a> |
-        <a href="{{ url_for('user.discover') }}" class="item">Discover</a> |
-        <a href="{{ url_for('user.profile', username=current_user.username) }}"
-          class="item">Profile</a> |
-        <a href="{{ url_for('account.login') }}" class="item">Login</a> |
-        <a href="{{ url_for('account.register') }}" class="item">Register</a> |
-        <a href="{{ url_for('account.logout') }}" class="item">Logout</a> |
-
-        {% if current_user.is_authenticated %}
-        {% set new_messages = current_user.new_messages() %}
-        <span id="user_notification_count" class="dynamic_badge" 
-          data-badge="{{ new_messages }}"
-          style="visibility: {% if new_messages %}visible
-                             {% else %}hidden{% endif %};">
-        </span>
-        {% endif %}
-        
-      </p>
-    </header>
+    {% include '_navbar.html' %}
 
     {% block content %}
         {% block app_content %}{% endblock %}
     {% endblock %}
 
-    {% include '/shared/_footer.html' %}
+    {% include '_footer.html' %}
 
     {% if config.DEVELOPMENT %}
       <!-- Webpack Dev Mode -->
@@ -122,6 +37,11 @@
 
     {% block scripts %}
       {{ moment.include_moment() }}
+  	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+      <script src="https://unpkg.com/infinite-scroll@3/dist/infinite-scroll.pkgd.js"></script>
+      <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.39/js/uikit.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.39/js/uikit-icons.min.js"></script>
       <script>
         function set_user_notification_count(n) {
           $('#user_notification_count').data('badge',n);
@@ -144,7 +64,19 @@
         });
         {% endif %}
       </script>
-
+      <script>
+        $(function(){
+          $('.nav-sub-toggle').on('click', function(){
+            if ($(this).next('.uk-nav-sub').hasClass('closed')) {
+              $(this).removeClass('uk-icon-chevron-right').addClass('uk-icon-chevron-down');
+              $(this).next('.uk-nav-sub').removeClass('closed');
+            } else {
+              $(this).removeClass('uk-icon-chevron-down').addClass('uk-icon-chevron-right');
+              $(this).next('.uk-offcanvas-bar .uk-parent .uk-nav-sub').addClass('closed');
+            }
+          });
+          });
+      </script>
     {% endblock %}
     {% block js %}{% endblock %}
 
