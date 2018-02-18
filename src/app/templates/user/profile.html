@@ -99,52 +99,6 @@
       }
   });
   </script>
-<script>
-  $(document).ready(function () {
-    $('#posts').on("click", '.js-toggle-like', toggleLike);
-    var button;
-    var postId;
-
-    function toggleLike (e) {
-      e.preventDefault();
-      button = $(e.target);
-      postId = button.data("post-id");
-
-      if (button.hasClass("uk-button-default"))
-        likePost(postId, like_cb, fail);
-      else
-        unlikePost(postId, unlike_cb, fail);
-    };
-     function like_cb(data) {
-        button.toggleClass("uk-button-default").toggleClass("uk-button-primary")
-       $("#likes[data-post-id=" + postId +"]").append("<a class='uk-link-text' href='/user/" + data.result + "'>" + data.result + "</a>&nbsp;");
-    };
-     function unlike_cb(data) {
-        button.toggleClass("uk-button-default").toggleClass("uk-button-primary")
-        $("#likes[data-post-id=" + postId +"]:last a").last().remove();
-    };
-     function fail() {
-        alert("Something failed");
-    };
-    function likePost(postId, done, fail) {
-      $.ajax({
-         url: "/api/like/" + postId,
-         method: "POST",
-       })
-         .done(like_cb)
-         .fail(fail);
-    };
-    function unlikePost(postId, done, fail) {
-      $.ajax({
-         url: "/api/like/" + postId,
-         method: "DELETE",
-       })
-         .done(unlike_cb)
-         .fail(fail);
-    };
-  });
-</script>
-
 
 {#
 <script>

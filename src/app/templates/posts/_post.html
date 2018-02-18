@@ -16,13 +16,11 @@
       <div style="float:left; padding-right:10px;">
           {% if current_user.has_liked(post) %}
           <button class="uk-button uk-button-small uk-button-primary js-toggle-like"
-            type="button" data-post-id={{ post.id }}>
-            <span uk-icon="check"></span>
+            type="button" data-post-id={{ post.id }} uk-icon="check">
           </button>
           {% else %}
           <button class="uk-button uk-button-small uk-button-default js-toggle-like" 
-            type="button" data-post-id={{ post.id }}>
-            <span uk-icon="check"></span>
+            type="button" data-post-id={{ post.id }} uk-icon="check">
           </button>
           {% endif %}
       </div>
