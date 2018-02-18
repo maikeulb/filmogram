@@ -10,13 +10,13 @@
         post.author.avatar(70) }}"
         height="70px" />
       <span>
-          {% set user_link %}
-          <a href="{{ url_for('user.profile', username=post.author.username) }}">
-            {{ post.author.username }}
-          </a>
-          {% endset %}
-          {{ user_link }} said {{ moment(post.timestamp).fromNow() }}
-          <br>
+        {% set user_link %}
+        <a href="{{ url_for('user.profile', username=post.author.username) }}">
+          {{ post.author.username }}
+        </a>
+        {% endset %}
+        {{ user_link }} said {{ moment(post.timestamp).fromNow() }}
+        <br>
       </span>
     </th>
     </tr>
@@ -25,20 +25,18 @@
       <tr>
       <td>
         <img id="post{{ post.id }}" src={{ post.photo_url }} height="400px">
-         <br><br>
-          {% if current_user.has_liked(post) %}
-          <p><a class = "unlike_post{{ post.id }}" href="{{ url_for('api.unlike', id=post.id) }}">UnLike</a></p>
-          {% else %}
-          <p><a class = "like_post{{ post.id }}" href="{{ url_for('api.like', id=post.id) }}"> Like</a></p>
-          {% endif %}
-          {% for like in post['likes'] %} {{ like.username }} {% endfor %}
-
-          <form role="form" id="like-post{{ post.id }}">
-            <div class="form-group">
-              <button id="like-send" type="submit" class="btn btn-primary">Like</button>
-            </div>
-          </form>
-
+        <br><br>
+        {% if current_user.has_liked(post) %}
+        <p><a class = "unlike_post{{ post.id }}" href="{{ url_for('api.unlike', id=post.id) }}">UnLike</a></p>
+        {% else %}
+        <p><a class = "like_post{{ post.id }}" href="{{ url_for('api.like', id=post.id) }}"> Like</a></p>
+        {% endif %}
+        {% for like in post['likes'] %} {{ like.username }} {% endfor %}
+        <form role="form" id="like-post{{ post.id }}">
+          <div class="form-group">
+            <button id="like-send" type="submit" class="btn btn-primary">Like</button>
+          </div>
+        </form>
       </td>
       </tr>
     </tbody>
@@ -60,7 +58,6 @@
   </div>
 
   {% include 'explore/_comments.html' %}
-
 {% endblock %}
 
 {% block js %}
@@ -92,4 +89,3 @@
       });
   </script>
 {% endblock %}
-

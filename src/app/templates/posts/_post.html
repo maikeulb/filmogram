@@ -8,15 +8,13 @@
     </div>
 
     <div class="Instagram-card-image">
-      <img id="post{{ post.id }}" src={{ post.photo_url }} height="400px">
+      <img id="post" data-post-id="{{ post.id}}" src={{ post.photo_url }} height="400px">
     </div>
 
     <div class="Instagram-card-content">
-
       <div style="float:left;">
         <a class="footer-action-icons" href="#">
           <i class="fa fa-heart-o"></i>
-
           {% if current_user.has_liked(post) %}
             <form role="form">
               <div class="form-group">
@@ -54,20 +52,21 @@
     </div>  
 
     <div class="Instagram-card-footer">
-
-      <div class="comment form">
+      <div style="box-sizing: border-box; width:100%;">
         <form name="comment" data-post-id="{{post.id}}" action="{{
           url_for('posts.details', id=post.id) }}" method="POST">
-          {{ form.hidden_tag() }}
-            <div class="field">
-              {{ form.body(class_="comments-input") }}
-            </div>
-          {{ form.submit }}
-          {% for error in form.body.errors %}
-            <li>{{ error }}</li>
-          {% endfor %}
+          <fieldset class="uk-fieldset">
+            {{ form.hidden_tag() }}
+              <div class="uk-margin">
+                {{ form.body(class_="comments-input uk-textarea") }}
+                {{ form.submit(class_="uk-button uk-button-default") }}
+              </div>
+            {% for error in form.body.errors %}
+              <span class="uk-text-danger">{{ error }}</span>
+            {% endfor %}
+          </fieldset>
         </form>
-      </div>
+        </div>
 
       <a class="footer-action-icons"href="#"><i class="fa fa-ellipsis-h"></i></a>
     </div>
@@ -75,35 +74,36 @@
 </div>
 <br><br>
 
+{#
 {% block js %}
+<script>
+  $(document).ready(function() {
+    $.ajaxSetup({
+      beforeSend: function(xhr, settings) {
+        if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+          xhr.setRequestHeader("X-CSRFToken", "{{ form.csrf_token._value() }}")
+        }
+      }
+    })
+  });
+</script>
 
-  <script>
-      $(document).ready(function() {
-        $('form[name="comment"][data-post-id="{{ post.id }}"]').submit(function (e) {
-          alert(JSON.stringify($('form[data-post-id="{{post.id}}"]').serialize()));
-              $.ajax({
-                  type: "POST",
-                  url: "{{ url_for('api.comment', id=post.id) }}",
-                data: $('form[data-post-id="{{ post.id }}"]').serialize(),
-                  success: function (data) {
-                     alert(JSON.stringify(data));
-                     $('#comments[data-post-id="{{ post.id }}"]').append(" " +data.data)
-                  },
-                  error: function(xhr, ajaxOptions, thrownError){
-                   alert('not_cool') 
-                  },
-              });
-              e.preventDefault(); // block the traditional submission of the form.
-          });
-          $.ajaxSetup({
-              beforeSend: function(xhr, settings) {
-                  if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
-                      xhr.setRequestHeader("X-CSRFToken", "{{ form.csrf_token._value() }}")
-                  }
-              }
-          })
+<script>
+  $(document).ready(function() {
+    $('form[name="comment"][data-post-id="{{ post.id }}"]').submit(function (e) {
+      $.ajax({
+        type: "POST",
+        url: "{{ url_for('api.comment', id=post.id) }}",
+        data: $('form[data-post-id="{{ post.id }}"]').serialize(),
+        success: function (data) {
+          $('#comments[data-post-id="{{ post.id }}"]').append(" " +data.data)
+        },
+        error: function(xhr, ajaxOptions, thrownError){
+        },
       });
-  </script>
-
+    e.preventDefault();
+    });
+  });
+</script>
 {% endblock %}
-
+#}

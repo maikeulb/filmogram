@@ -2,11 +2,10 @@
 
 {% block app_content %}
 
-  <main class="ui text container">
-  
-    <form class = "mui-form" action="{{ url_for('posts.post') }}" method="POST" enctype="multipart/form-data">
+<main class="ui text container">
+  <form action="{{ url_for('posts.post') }}" method="POST" enctype="multipart/form-data">
     <fieldset class="uk-fieldset">
-    <legend class="uk-legend">Add a Photo</legend> 
+      <legend class="uk-legend">Add a Photo</legend> 
       {{ form.hidden_tag() }}
 
         <img id="target" src="http://placehold.it/180" alt="your image" />
@@ -14,34 +13,27 @@
         <div class="uk-margin">
           <div uk-form-custom>
             {{ form.photo(class_="imgInp uk-input") }}
-            <button class="uk-button" type="button"
-              tabindex="-1">Upload Photo</button>
+            <button class="uk-button" type="button" tabindex="-1">Upload Photo</button>
           </div>
         </div>
 
         <div class="uk-margin">
-          {{ form.photo_description.label }}
-          {{ form.photo_description(class_="uk-textarea") }}
+          {{ form.photo_description(class_="uk-textarea", placeholder="Caption") }}
         </div>
 
       {{ form.submit(class_="uk-button uk-button-default") }}
-
       {% for error in form.photo_description.errors %}
-        <li>{{ error }}</li>
+        <span class="uk-text-danger">{{ error }}</span>
       {% endfor %}
 
     </fieldset>
-    </form>
-  {% if success %}
-  <br>
-  <p>Post Success!</p>
-  {% endif %}
-  </main>
+  </form>
+</main>
  
 {% endblock %}
 
-  {% block js %}
-  <script>
+{% block js %}
+<script>
    function readURL(input) {
      if (input.files && input.files[0]) {
        var reader = new FileReader();
@@ -56,6 +48,6 @@
     readURL(this);
   })
   ;
-  </script>
-  {% endblock %}
+</script>
+{% endblock %}
 
