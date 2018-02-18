@@ -20,8 +20,9 @@ from app.models import (
     Comment,
 )
 
-@explore.route('/explore', methods=['GET', 'POST'])
-def explore():
+@explore.route('/')
+@explore.route('/index')
+def index():
     current_user.last_user_notification_read_time = datetime.utcnow()
     current_user.add_notification('unread_message_count', 0)
     db.session.commit()
@@ -32,11 +33,11 @@ def explore():
             .order_by(Post.timestamp.desc()) \
             .paginate(page, current_app.config['POSTS_PER_PAGE'], False)
     print(posts, sys.stdout)
-    next_url = url_for('explore.explore', page=posts.next_num) \
+    next_url = url_for('explore.index', page=posts.next_num) \
         if posts.has_next else None
-    prev_url = url_for('explore.explore', page=posts.prev_num) \
+    prev_url = url_for('explore.index', page=posts.prev_num) \
         if posts.has_prev else None
-    return render_template('explore/explore.html',
+    return render_template('explore/index.html',
                            title='Explore',
                            posts=posts.items,
                            next_url=next_url,

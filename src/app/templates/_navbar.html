@@ -3,11 +3,13 @@
   <div class="uk-navbar-left">
     <ul class="uk-navbar-nav">
       <li class="uk-active"><a class="uk-navbar-item uk-logo" href="{{ url_for('posts.index') }}"><img
-          src='https://cdn.dribbble.com/users/300948/screenshots/3089597/analog_camera.jpg'/>Filmogram</a></li>
+          src='https://cdn.dribbble.com/users/300948/screenshots/3089597/analog_camera.jpg'
+          uk-tooltip="View Photos made by your friends"/>Filmogram</a></li>
       {% if current_user.is_authenticated %}
-      <li><a href="{{ url_for('posts.post') }}">Post</a></li>
+      <li><a href="{{ url_for('posts.post') }}" uk-tooltip="Upload a photo">Post</a></li>
       {% endif %}
-      <li><a href="{{ url_for('user.discover') }}">Discover</a>
+      <li><a href="{{ url_for('user.discover') }}" uk-tooltip="Discover other
+          users and make friends">Discover</a>
     </ul>
   </div>
 

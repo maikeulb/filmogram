@@ -10,7 +10,7 @@
 
         {{ form.hidden_tag() }}
         <div class="uk-card-body">
-          <img id="target" src="http://placehold.it/180" alt="your image" />
+          <img id="target" src="http://placehold.it/256" alt="your image" />
           <div class="uk-margin">
             <div uk-form-custom>
               {{ form.photo(class_="imgInp uk-input") }}
@@ -20,10 +20,10 @@
           <div class="uk-margin">
             {{ form.photo_description(class_="uk-textarea", placeholder="Caption") }}
           </div>
-          {{ form.submit(class_="uk-button uk-button-default") }}
           {% for error in form.photo_description.errors %}
             <span class="uk-text-danger">{{ error }}</span>
           {% endfor %}
+          {{ form.submit(class_="uk-button uk-button-default") }}
         </div>
 
       </fieldset>

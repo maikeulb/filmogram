@@ -2,7 +2,8 @@
 
   <div class="Instagram-card">
     <div class="Instagram-card-header">
-      <img class="Instagram-card-user-image" src="{{ post.author.profile_img_url or post.author.avatar(70) }}" style="height:50px;" />
+      <img class="Instagram-card-user-image" src="{{
+      post.author.profile_img_url or post.author.avatar(70) }}" />
       <a class="Instagram-card-user-name" href="{{ url_for('user.profile', username=post.author.username) }}">{{ post.author.username }}</a>
       <div class="Instagram-card-time">{{ moment(post.timestamp).fromNow() }}</div>
     </div>
@@ -31,7 +32,7 @@
         </a>
       </div>
 
-      <div class="Likes" style="float:left;">
+      <div class="Likes" >
         <div id = "likes" data-post-id={{ post.id }}>
           {% for like in post['likes'] %} 
             <a href="{{ url_for('user.profile', username=like.username) }}">{{ like.username }}</a>
