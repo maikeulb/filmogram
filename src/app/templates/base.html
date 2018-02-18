@@ -21,6 +21,7 @@
   </head>
 
   <body class="site">
+
     {% include '_navbar.html' %}
 
     {% block content %}
@@ -61,29 +62,32 @@
       <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.39/js/uikit.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.39/js/uikit-icons.min.js"></script>
+
       <script>
-        function set_user_notification_count(n) {
-          $('#user_notification_count').data('badge',n);
-          $('#user_notification_count').css('visibility', n ? 'visible' : 'hidden');
-        }
+        $(document).ready(function () {
 
-        {% if current_user.is_authenticated %}
+          function set_user_notification_count(n) {
+            $('#user_notification_count').data('badge',n);
+            $('#user_notification_count').css('visibility', n ? 'visible' : 'hidden');
+          }
 
-        $(function() {
-          var since = 0;
-          setInterval(function() {
-            $.ajax('{{ url_for('api.get_notifications') }}?since=' + since)
-              .done(function(notifications) {
-                for (var i = 0; i < notifications.length; i++) {
-                  if (notifications[i].name == 'unread_user_notification_count')
-                    set_user_notification_count(notifications[i].data);
-                  since = notifications[i].timestamp;
+          {% if current_user.is_authenticated %}
+
+          $(function() {
+            var since = 0;
+            setInterval(function() {
+              $.ajax('{{ url_for('api.get_notifications') }}?since=' + since)
+                .done(function(notifications) {
+                  for (var i = 0; i < notifications.length; i++) {
+                    if (notifications[i].name == 'unread_user_notification_count')
+                      set_user_notification_count(notifications[i].data);
+                    since = notifications[i].timestamp;
+                  }
                 }
-              }
-            );
-          }, 10000);
+              );
+            }, 10000);
+          });
         });
-
         {% endif %}
 
       </script>
@@ -99,20 +103,6 @@
             }
           });
         });
-      </script>
-
-      <script>
-        $(function(){
-          $('.nav-sub-toggle').on('click', function(){
-            if ($(this).next('.uk-nav-sub').hasClass('closed')) {
-              $(this).removeClass('uk-icon-chevron-right').addClass('uk-icon-chevron-down');
-              $(this).next('.uk-nav-sub').removeClass('closed');
-            } else {
-              $(this).removeClass('uk-icon-chevron-down').addClass('uk-icon-chevron-right');
-              $(this).next('.uk-offcanvas-bar .uk-parent .uk-nav-sub').addClass('closed');
-            }
-          });
-          });
       </script>
 
       <script>
@@ -264,6 +254,7 @@
           var userList = new List('users', options);
         });
       </script>
+
       <script>
         $(document).ready(function () {
           var options = {
@@ -274,6 +265,7 @@
           var userList = new List('followers', options);
         });
       </script>
+
       <script>
         $(document).ready(function () {
           var options = {
@@ -285,7 +277,47 @@
         });
       </script>
 
-
+      <script>
+        $(document).ready(function () {
+          $('.js-toggle-follow').on("click", toggleFollow);
+          var button;
+          var username;
+          function toggleFollow (e) {
+            e.preventDefault();
+            button = $(e.target)
+            username = button.data("username");
+            if (button.hasClass("uk-button-default"))
+              followUser(username, follow_cb, fail);
+            else
+              unfollowUser(username, unfollow_cb, fail);
+          };
+           function follow_cb(data) {
+              button.toggleClass("uk-button-default").toggleClass("uk-button-primary").text("Following")
+          };
+           function unfollow_cb(data) {
+              button.toggleClass("uk-button-default").toggleClass("uk-button-primary").text("Follow")
+          };
+           function fail() {
+              alert("Something failed");
+          };
+          function followUser(username, done, fail) {
+            $.ajax({
+               url: "/api/follow/" + username,
+               method: "POST",
+             })
+               .done(follow_cb)
+               .fail(fail);
+          };
+          function unfollowUser(username, done, fail) {
+            $.ajax({
+               url: "/api/follow/" + username,
+               method: "DELETE",
+             })
+               .done(unfollow_cb)
+               .fail(fail);
+          };
+        });
+      </script>
 
     {% endblock %}
     {% block js %}{% endblock %}

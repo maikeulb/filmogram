@@ -26,19 +26,20 @@
         {% if user == current_user %}
           <a href="{{ url_for('user.edit_profile') }}" class="uk-button
             uk-button-default">Edit Profile</a> 
-        {% elif not current_user.is_following(user) %}
+        {% endif %}
+
+        {% if not user == current_user %}
+        {% if current_user.is_following(user) %}
           <a href="{{ url_for('api.follow', username=user.username) }}"
-            class="uk-button uk-button-default"> Follow</a>
+            class="uk-button uk-button-primary js-toggle-follow" type="button"
+            data-username={{ user.username }}>Following</a>
         {% else %}
           <a href="{{ url_for('api.unfollow', username=user.username) }}"
-            class="uk-button uk-button-default">Unfollow</a>
+            class="uk-button uk-button-default js-toggle-follow" type="button" 
+            data-username={{ user.username }}>Follow</a>
         {% endif %}
-        <form role="form" id="follow-user" data-username="{{
-          user.username}}">
-           <fieldset class="uk-fieldset">
-              <button id="user-send" class="uk-button uk-button-default" type="button" tabindex="-1">Follow</button>
-          </fieldset>
-        </form>
+        {% endif %}
+
       </div>
     </div>
 
@@ -66,44 +67,4 @@
   </div>
 
 </main>
-{% endblock %}
-
-{% block js %}
-<script type="text/javascript">
-  $(document).ready(function () {
-    var csrf_token = "{{ csrf_token() }}";
-    $.ajaxSetup({
-      beforeSend: function(xhr, settings) {
-        if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
-          xhr.setRequestHeader("X-CSRFToken", csrf_token);
-        }
-      }
-    });
-  });
-</script>
-
-  <script>
-  $(document).ready(function () {
-    $("#follow-user").submit(handleFormSubmit);
-
-      function handleFormSubmit(evt) {
-        username = $(this).data('username');
-        evt.preventDefault();
-        addMessage(username);
-      }
-
-      function addMessage(username) {
-        $.ajax({
-           url: "/api/follow/"+username,
-           type: "GET",
-           success: function (data) {
-            alert('cool')  
-           },
-           error: function(xhr, ajaxOptions, thrownError){
-            alert('not_cool') 
-           },
-        });
-      }
-  });
-  </script>
 {% endblock %}

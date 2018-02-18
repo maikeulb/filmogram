@@ -28,7 +28,7 @@ from app.models import (
 )
 
 
-@api.route('/follow/<username>')
+@api.route('/follow/<username>', methods=['POST'])
 @login_required
 def follow(username):
     user = User.query.filter_by(username=username).first()
@@ -42,10 +42,11 @@ def follow(username):
         return jsonify({'result': 'error'})
     current_user.follow(user)
     db.session.commit()
-    return jsonify({'result': 'success'})
+    response = jsonify({'result': user.username})
+    return response
 
 
-@api.route('/unfollow/<username>')
+@api.route('/follow/<username>', methods=['DELETE'])
 @login_required
 def unfollow(username):
     user = User.query.filter_by(username=username).first()
@@ -58,5 +59,5 @@ def unfollow(username):
         return jsonify({'result': 'error'})
     current_user.unfollow(user)
     db.session.commit()
-    return jsonify({'result': 'success'})
-    # return redirect(url_for('posts.user', username=username))
+    response = jsonify({'result': user.username})
+    return response

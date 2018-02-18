@@ -24,7 +24,6 @@
                 {% endif %}
               </div>
             </td>
-
             <td style="padding-left:10px">
               <p class="name">
                 <a href="{{ url_for('user.profile', username=user.username) }}">{{ user.username }}</a>
@@ -32,6 +31,17 @@
               <p class="followers">
                 {{ '%d followers' % user.followers.count() }}, {{ '%d following' % user.followed.count() }}
               </p>
+            </td>
+            <td style="padding-left:10px">
+              {% if current_user.is_following(user) %}
+                <a href="{{ url_for('api.follow', username=user.username) }}"
+                  class="uk-button uk-button-primary js-toggle-follow" type="button"
+                  data-username={{ user.username }}>Following</a>
+              {% else %}
+                <a href="{{ url_for('api.unfollow', username=user.username) }}"
+                  class="uk-button uk-button-default js-toggle-follow" type="button" 
+                  data-username={{ user.username }}>Follow</a>
+              {% endif %}
             </td>
           </tr>
         </table>
