@@ -71,7 +71,7 @@
     modal.classList.add('is-active');
     html.classList.add('is-clipped');
     $.ajax({
-      url: "{{ url_for('main.details', id=post.id )}}",
+      url: "{{ url_for('explore.details', id=post.id )}}",
        type: "GET",
        success: function (data) {
          $(".modal-content").html(data);

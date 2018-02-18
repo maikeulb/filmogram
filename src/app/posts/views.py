@@ -10,8 +10,8 @@ from flask import (
 )
 from flask_login import current_user, login_required
 from app.extensions import db, images
-from app.main import main
-from app.main.forms import (
+from app.posts import posts
+from app.posts.forms import (
     CommentForm,
     UploadForm
 )
@@ -20,17 +20,17 @@ from app.models import (
     Comment,
 )
 
-@main.route('/')
-@main.route('/index')
+@posts.route('/')
+@posts.route('/index')
 @login_required
 def index():
     form = CommentForm()
     page = request.args.get('page', 1, type=int)
     posts = current_user.followed_posts().paginate(
         page, current_app.config['POSTS_PER_PAGE'], False)
-    next_url = url_for('main.index', page=posts.next_num) \
+    next_url = url_for('posts.index', page=posts.next_num) \
         if posts.has_next else None
-    prev_url = url_for('main.index', page=posts.prev_num) \
+    prev_url = url_for('posts.index', page=posts.prev_num) \
         if posts.has_prev else None
     if form.validate_on_submit():
         comment = Comment(body=form.body.data,
@@ -38,7 +38,7 @@ def index():
                           author=current_user._get_current_object())
         db.session.add(comment)
         db.session.commit()
-    return render_template('main/index.html',
+    return render_template('posts/index.html',
                            title='Followed Posts',
                            posts=posts.items,
                            form=form,
@@ -46,38 +46,15 @@ def index():
                            prev_url=prev_url)
 
 
-@main.route('/explore', methods=['GET', 'POST'])
-def explore():
-    current_user.last_user_notification_read_time = datetime.utcnow()
-    current_user.add_notification('unread_message_count', 0)
-    db.session.commit()
-    page = request.args.get('page', 1, type=int)
-    posts = Post.query.join(Post.likes) \
-            .group_by(Post.id) \
-            .order_by(db.func.count(Post.likes).desc()) \
-            .order_by(Post.timestamp.desc()) \
-            .paginate(page, current_app.config['POSTS_PER_PAGE'], False)
-    print(posts, sys.stdout)
-    next_url = url_for('main.explore', page=posts.next_num) \
-        if posts.has_next else None
-    prev_url = url_for('main.explore', page=posts.prev_num) \
-        if posts.has_prev else None
-    return render_template('main/explore.html',
-                           title='Explore',
-                           posts=posts.items,
-                           next_url=next_url,
-                           prev_url=prev_url)
-
-
-@main.route('/favorites')
+@posts.route('/favorites')
 def favorites():
     form = CommentForm()
     page = request.args.get('page', 1, type=int)
     posts = current_user.liked_posts().paginate(
         page, current_app.config['POSTS_PER_PAGE'], False)
-    next_url = url_for('main.favorites', page=posts.next_num) \
+    next_url = url_for('posts.favorites', page=posts.next_num) \
         if posts.has_next else None
-    prev_url = url_for('main.favorites', page=posts.prev_num) \
+    prev_url = url_for('posts.favorites', page=posts.prev_num) \
         if posts.has_prev else None
     print(posts.items, file=sys.stdout)
     if form.validate_on_submit():
@@ -86,7 +63,7 @@ def favorites():
                           author=current_user._get_current_object())
         db.session.add(comment)
         db.session.commit()
-    return render_template('main/index.html',
+    return render_template('posts/index.html',
                            title='Favorites',
                            posts=posts.items,
                            form=form,
@@ -94,7 +71,7 @@ def favorites():
                            prev_url=prev_url)
 
 
-@main.route('/post', methods=['GET', 'POST'])
+@posts.route('/post', methods=['GET', 'POST'])
 @login_required
 def post():
     form = UploadForm()
@@ -109,14 +86,14 @@ def post():
         db.session.add(post)
         db.session.commit()
         flash('Your post is now live!')
-        return redirect(url_for('main.index'))
+        return redirect(url_for('posts.index'))
 
-    return render_template('main/post.html',
+    return render_template('posts/post.html',
                            title='Post',
                            form=form)
 
 
-@main.route('/details/<id>')
+@posts.route('/details/<id>')
 @login_required
 def details(id):
     post = Post.query.filter_by(id=id).first_or_404()
@@ -128,9 +105,9 @@ def details(id):
         db.session.add(comment)
         db.session.commit()
         flash('Your comment has been published.')
-        return redirect(url_for('main.index'))
+        return redirect(url_for('posts.index'))
 
-    return render_template('main/details.html',
+    return render_template('posts/details.html',
                            title='Details',
                            form=form,
                            post=post)

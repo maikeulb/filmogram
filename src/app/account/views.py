@@ -25,7 +25,7 @@ from app.extensions import login, db
 @account.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('main.index'))
+        return redirect(url_for('posts.index'))
     form = LoginForm(request.form)
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
@@ -36,7 +36,7 @@ def login():
         login_user(user, remember=remember_me)
         next_page = request.args.get('next')
         if not next_page or url_parse(next_page).netloc != '':
-            next_page = url_for('main.index')
+            next_page = url_for('posts.index')
         return redirect(next_page)
     return render_template('account/login.html', 
                            title='Sign In', 
@@ -46,13 +46,13 @@ def login():
 @account.route('/logout')
 def logout():
     logout_user()
-    return redirect(url_for('main.index'))
+    return redirect(url_for('posts.index'))
 
 
 @account.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for('main.index'))
+        return redirect(url_for('posts.index'))
     form = RegistrationForm(request.form)
     if form.validate_on_submit():
         user = User(username=form.username.data,

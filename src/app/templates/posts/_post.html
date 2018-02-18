@@ -49,14 +49,15 @@
           </a><span style="padding-left:10px">
           {{ post.caption }}<span>
       </div>
-      {% include 'main/_comments.html' %}
+      {% include 'posts/_comments.html' %}
     <hr>
     </div>  
 
     <div class="Instagram-card-footer">
 
       <div class="comment form">
-        <form name="comment" data-post-id="{{post.id}}" action="{{ url_for('main.details', id=post.id) }}" method="POST">
+        <form name="comment" data-post-id="{{post.id}}" action="{{
+          url_for('posts.details', id=post.id) }}" method="POST">
           {{ form.hidden_tag() }}
             <div class="field">
               {{ form.body(class_="comments-input") }}

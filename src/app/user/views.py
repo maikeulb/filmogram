@@ -74,9 +74,9 @@ def followers(username):
     page = request.args.get('page', 1, type=int)
     followers = user.get_my_followers().paginate(
         page, current_app.config['POSTS_PER_PAGE'], False)
-    next_url = url_for('main.followers', page=followers.next_num) \
+    next_url = url_for('posts.followers', page=followers.next_num) \
         if followers.has_next else None
-    prev_url = url_for('main.followers', page=followers.prev_num) \
+    prev_url = url_for('posts.followers', page=followers.prev_num) \
         if followers.has_prev else None
     print(followers.items, file=sys.stdout)
     return render_template('user/followers.html',
@@ -92,9 +92,9 @@ def following(username):
     page = request.args.get('page', 1, type=int)
     following = user.get_my_following().paginate(
         page, current_app.config['POSTS_PER_PAGE'], False)
-    next_url = url_for('main.following', page=following.next_num) \
+    next_url = url_for('posts.following', page=following.next_num) \
         if following.has_next else None
-    prev_url = url_for('main.following', page=following.prev_num) \
+    prev_url = url_for('posts.following', page=following.prev_num) \
         if following.has_prev else None
     print(following.items, file=sys.stdout)
     return render_template('user/following.html',

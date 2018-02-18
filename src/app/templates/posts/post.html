@@ -4,7 +4,7 @@
 
   <main class="ui text container">
   
-    <form class = "mui-form" action="{{ url_for('main.post') }}" method="POST" enctype="multipart/form-data">
+    <form class = "mui-form" action="{{ url_for('posts.post') }}" method="POST" enctype="multipart/form-data">
     <fieldset class="uk-fieldset">
     <legend class="uk-legend">Add a Photo</legend> 
       {{ form.hidden_tag() }}

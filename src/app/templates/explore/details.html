@@ -46,7 +46,7 @@
 
   <div class="comment form">
     <h2>Leave a Comment</h2> 
-    <form  data-post-id="{{post.id}}" action="{{ url_for('main.details', id=post.id) }}" method="POST">
+    <form  data-post-id="{{post.id}}" action="{{ url_for('posts.details', id=post.id) }}" method="POST">
       {{ form.hidden_tag() }}
         <div class="field">
           {{ form.body.label }}
@@ -59,7 +59,7 @@
     </form>
   </div>
 
-  {% include 'main/_comments.html' %}
+  {% include 'explore/_comments.html' %}
 
 {% endblock %}
 

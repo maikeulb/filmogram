@@ -1,11 +1,11 @@
 <nav class="uk-navbar-container uk-margin uk-padding
   uk-padding-remove-vertical" uk-navbar>
   <div class="uk-navbar-left">
-    <a class="uk-navbar-item uk-logo" href="{{ url_for('main.index') }}"><img
+    <a class="uk-navbar-item uk-logo" href="{{ url_for('posts.index') }}"><img
       src='https://cdn.dribbble.com/users/300948/screenshots/3089597/analog_camera.jpg'/>Filmogram</a>
     <ul class="uk-navbar-nav">
       {% if current_user.is_authenticated %}
-      <li><a href="{{ url_for('main.post') }}">Post</a></li>
+      <li><a href="{{ url_for('posts.post') }}">Post</a></li>
       {% endif %}
       <li><a href="{{ url_for('user.discover') }}">Discover</a>
     </ul>
@@ -29,7 +29,7 @@
         <div class="uk-navbar-dropdown">
           <ul class="uk-nav uk-navbar-dropdown-nav">
             <li><a href="{{ url_for('user.profile', username=current_user.username) }}">Profile</a></li>
-            <li><a href="{{ url_for('main.favorites') }}">Favorites</a></li>
+            <li><a href="{{ url_for('posts.favorites') }}">Favorites</a></li>
             <li><a href="{{ url_for('account.logout') }}">Logout</a></li>
            </ul>
          </div>
