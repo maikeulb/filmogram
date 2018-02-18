@@ -1,61 +1,60 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-<main class="ui text container">
-
-  <h2 class="ui header">
-    <div class="content">
-      Edit Profile
-    </div>
-  </h2>
-
-  <form action="{{ url_for('user.edit_profile') }}" method="POST" enctype="multipart/form-data">
-    <div class="ui segment">
+<main class="uk-container">
+  <div class = "profile">
+    <h1 class = "uk-heading-line"><span>Edit Profile</span></h1>
+    <form action="{{ url_for('user.edit_profile') }}" method="POST" enctype="multipart/form-data">
+      <fieldset class="uk-fieldset">
         {{ form.hidden_tag() }}
+
+        <div class = "uk-flex uk-flex-center uk-padding">
         <img id="target" src="{{ current_user.profile_img_url or
-        current_user.avatar(180) }}" alt="your image" />
-        <div class="field">
-          {{ form.profile_img.label }}
-          {{ form.profile_img(class_="imgInp") }}
-        </div>
-        <div class="field">
-          {{ form.username.label }}<br>
-          {{ form.username(size=32) }}<br>
-          {% for error in form.username.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-          {% endfor %}
-        </div>
-        <div class="field">
-          {{ form.bio.label }}<br>
-          {{ form.bio(cols=50, rows=4) }}<br>
-          {% for error in form.bio.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-          {% endfor %}
+        current_user.avatar(256) }}" style="height:256px;" alt="your image" />
         </div>
 
-      {{ form.submit(class="ui submit button") }}
+        <div class="uk-margin">
+            <div uk-form-custom>
+          {{ form.profile_img(class_="imgInp uk-input") }}
+          <button class="uk-button" type="button" tabindex="-1">Upload Photo</button>
+        </div>
+        </div>
+        <div class="uk-margin">
+          {{ form.username.label }}<br>
+          {{ form.username(class_="uk-input") }}<br>
+          {% for error in form.username.errors %}
+            <span class="uk-text-danger">
+          {% endfor %}
+        </div>
+        <div class="uk-margin">
+          {{ form.bio.label }}<br>
+          {{ form.bio(class_="uk-textarea", placeholder="Caption") }}
+          {% for error in form.bio.errors %}
+            <span class="uk-text-danger">
+          {% endfor %}
+        </div>
+        {{ form.submit(class_="uk-button uk-button-default") }}
+      </fieldset>
     </form>
+  </div>
 </main>
 {% endblock %}
 
 {% block js %}
-
-  <script>
-   function readURL(input) {
-     if (input.files && input.files[0]) {
-       var reader = new FileReader();
-       reader.onload = function (e) {
-         $('#target')
-           .attr('src', e.target.result);
-       };
-       reader.readAsDataURL(input.files[0]);
-     }
+<script>
+ function readURL(input) {
+   if (input.files && input.files[0]) {
+     var reader = new FileReader();
+     reader.onload = function (e) {
+       $('#target')
+         .attr('src', e.target.result);
+     };
+     reader.readAsDataURL(input.files[0]);
    }
-  $(".imgInp").change(function(){
-    readURL(this);
-  })
-  ;
-  </script>
-
+ }
+$(".imgInp").change(function(){
+  readURL(this);
+})
+;
+</script>
 {% endblock %}
-
