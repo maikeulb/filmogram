@@ -1,48 +1,56 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-<main class="ui text container">
 
-  <h2 class="ui header">
-    <div class="content">
-      Login
-    </div>
-  </h2>
-
-  <form action="" method="post" class="ui form">
-    <div class="ui segment">
-      {{ form.hidden_tag() }}
-        <div class="field">
-          {{ form.username.label }}
-          {{ form.username }}
-          {% for error in form.username.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-          {% endfor %}
-        </div>
-        <div class="field">
-          {{ form.password.label }}
-          {{ form.password }}
-          {% for error in form.password.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-          {% endfor %}
-        </div>
-        <div class="field">
-          <div class="ui checkbox">
-            {{ form.remember_me() }} {{ form.remember_me.label }}
+<main class="uk-container">
+  <div class="uk-flex uk-flex-center">
+    <div class="uk-margin-large-top uk-card uk-card-default">
+      <form class="form-register" method="POST">
+        <fieldset class ="uk-fieldset">
+          <div class="uk-card-header">
+            <div class="uk-grid-small uk-flex-middle uk-flex-center" uk-grid>
+              <div class="uk-width-auto">
+                <h3 class="uk-card-title uk-margin-remove-bottom">Login</h3>
+              </div>
+            </div>
+            {% for error in form.password.errors %}
+            <span class="uk-text-danger">
+              {{ error }}
+            </span>
+            {% endfor %}
+            {% for error in form.username.errors %}
+            <span class="uk-text-danger">
+              {{ error }}
+            </span>
+            {% endfor %}
           </div>
-        </div>
-      {{ form.submit(class="ui fluid large submit button") }}
+          {{ form.hidden_tag() }}
+          <div class="uk-card-body">
+            {{ form.username.label(class="sr-only") }}
+            <div class="uk-margin">
+              <div class="uk-inline">
+                <span class="uk-form-icon uk-form-icon" uk-icon="icon: user"></span>
+                {{ form.username(class_="uk-input uk-form-width-large") }}
+
+              </div>
+            </div>
+            {{ form.password.label(class="sr-only") }}
+            <div class="uk-margin">
+              <div class="uk-inline">
+                <span class="uk-form-icon uk-form-icon" uk-icon="icon: lock"></span>
+                {{ form.password(class_="uk-input uk-form-width-large") }}
+              </div>
+            </div>
+          </div>
+          <div class = "uk-card-footer">
+          {{ form.submit(class="uk-button uk-button-primary uk-width-1-1") }}
+          </div>
+          <div uk-alert class="uk-flex uk-flex-center">New User? 
+            <a href="{{ url_for('account.register') }}"> Click to Register!</a>
+          </div>
+        </fieldset>
+      </form>
     </div>
-  </form>
-
-  <div class="ui center aligned container">
-    <div class="ui message">
-      New User? <a href="{{ url_for('account.register') }}"> Click to Register!</a>
-   </div>
   </div>
-  <div class="ui center aligned container">
-  </div>
-
-
 </main>
 {% endblock %}
