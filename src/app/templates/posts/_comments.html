@@ -1,9 +1,15 @@
-<div id = "comments" data-post-id = "{{post.id}}">
-  {% for comment in post['comments'] %} 
-    <br>
-    <a class="user-comment" href="{{ url_for('user.profile', username=comment.author.username) }}">
-      {{ comment.author.username }}
-    </a>
-    <span style="padding-left:10px"> {{comment.body}} </span></br>
-  {% endfor %}
+<div class = "comments" >
+  <div data-post-id = "{{post.id}}">
+    <ul class="uk-list">
+    {% for comment in post['comments'] %} 
+      <li>
+        <a class="Instagram-card-content-user" href="{{ url_for('user.profile', username=comment.author.username) }}">
+          {{ comment.author.username }}
+        </a>
+        <span style="padding-left:10px"> {{comment.body}} </span></br>
+      </li>
+    {% endfor %}
+    <ul>
+  </div>
 </div>
+

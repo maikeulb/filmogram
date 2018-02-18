@@ -33,9 +33,10 @@
           {% endfor %}
         </div>
       </div>
-      <br>
-      <br>
-      <div>
+
+      <br><br>
+
+      <div style = "padding-bottom: 5px;">
         <a class="Instagram-card-content-user" href="{{ url_for('user.profile', username=post.author.username) }}">
           {{ post.author.username }}
           </a><span style="padding-left:10px">
@@ -47,7 +48,7 @@
 
     <div class="Instagram-card-footer">
       <div style="box-sizing: border-box; width:100%;">
-        <form name="comment" data-post-id="{{post.id}}" action="{{
+        <form name="comment" data-post-id="{{post.id}}" class="js-comment"  action="{{
           url_for('posts.details', id=post.id) }}" method="POST">
           <fieldset class="uk-fieldset">
             {{ form.hidden_tag() }}
@@ -66,37 +67,3 @@
   </div>
 </div>
 <br><br>
-
-{#
-{% block js %}
-<script>
-  $(document).ready(function() {
-    $.ajaxSetup({
-      beforeSend: function(xhr, settings) {
-        if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
-          xhr.setRequestHeader("X-CSRFToken", "{{ form.csrf_token._value() }}")
-        }
-      }
-    })
-  });
-</script>
-
-<script>
-  $(document).ready(function() {
-    $('form[name="comment"][data-post-id="{{ post.id }}"]').submit(function (e) {
-      $.ajax({
-        type: "POST",
-        url: "{{ url_for('api.comment', id=post.id) }}",
-        data: $('form[data-post-id="{{ post.id }}"]').serialize(),
-        success: function (data) {
-          $('#comments[data-post-id="{{ post.id }}"]').append(" " +data.data)
-        },
-        error: function(xhr, ajaxOptions, thrownError){
-        },
-      });
-    e.preventDefault();
-    });
-  });
-</script>
-{% endblock %}
-#}
