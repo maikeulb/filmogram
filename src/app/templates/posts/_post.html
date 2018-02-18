@@ -1,18 +1,18 @@
 <div class="post-item">
 
-  <div class="Instagram-card">
-    <div class="Instagram-card-header">
-      <img class="Instagram-card-user-image" src="{{
+  <div class="social-card">
+    <div class="social-card-header">
+      <img class="social-card-user-image" src="{{
       post.author.profile_img_url or post.author.avatar(70) }}" />
-      <a class="Instagram-card-user-name" href="{{ url_for('user.profile', username=post.author.username) }}">{{ post.author.username }}</a>
-      <div class="Instagram-card-time">{{ moment(post.timestamp).fromNow() }}</div>
+      <a class="social-card-user-name" href="{{ url_for('user.profile', username=post.author.username) }}">{{ post.author.username }}</a>
+      <div class="social-card-time">{{ moment(post.timestamp).fromNow() }}</div>
     </div>
 
-    <div class="Instagram-card-image">
+    <div class="social-card-image">
       <img id="post" data-post-id="{{ post.id}}" src={{ post.photo_url }} height="400px">
     </div>
 
-    <div class="Instagram-card-content">
+    <div class="social-card-content">
       <div style="float:left; padding-right:10px;">
           {% if current_user.has_liked(post) %}
           <button class="uk-button uk-button-small uk-button-primary js-toggle-like"
@@ -37,7 +37,7 @@
       <br><br>
 
       <div style = "padding-bottom: 5px;">
-        <a class="Instagram-card-content-user" href="{{ url_for('user.profile', username=post.author.username) }}">
+        <a class="social-card-content-user" href="{{ url_for('user.profile', username=post.author.username) }}">
           {{ post.author.username }}
           </a><span style="padding-left:10px">
           {{ post.caption }}<span>
@@ -46,7 +46,7 @@
     <hr>
     </div>  
 
-    <div class="Instagram-card-footer">
+    <div class="social-card-footer">
       <div style="box-sizing: border-box; width:100%;">
         <form name="comment" data-post-id="{{post.id}}" class="js-comment"  action="{{
           url_for('posts.details', id=post.id) }}" method="POST">

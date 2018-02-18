@@ -112,7 +112,7 @@ hr{
 }
 
 // cards
-.Instagram-card{
+.social-card{
   background: #ffffff;
   border: 1px solid #f2f2f2;
   border-radius: 3px;
@@ -120,27 +120,27 @@ hr{
   max-width: 480px;
   margin: auto;
 }
-.Instagram-card-header{
+.social-card-header{
   padding: 20px;
   height: 40px;
 }
-.Instagram-card-user-image{
+.social-card-user-image{
   vertical-align: middle;
   height:50px;
 }
-.Instagram-card-time{
+.social-card-time{
   float: right;
   width: 100px;
   padding-top:10px;
   text-align: right;
   color: #999;
 }
-.Instagram-card-user-name{
+.social-card-user-name{
   margin-left:20px;
   font-weight:bold;
   color: #262626;
 }
-.Instagram-card-content{
+.social-card-content{
   padding-right: 20px;
   padding-left: 20px;
   padding-top: 20px;
@@ -149,7 +149,7 @@ hr{
   font-weight: bold;
   float:left;
 }
-.Instagram-card-content-user{
+.social-card-content-user{
   font-weight: bold;
   color: #262626;
 }
@@ -162,7 +162,7 @@ hr{
 .user-comment{
   color: #003569;
 }
-.Instagram-card-footer{
+.social-card-footer{
   padding-right: 20px;
   padding-left: 20px;
   padding-bottom: 20px;

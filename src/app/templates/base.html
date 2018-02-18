@@ -191,6 +191,40 @@
         });
       </script>
 
+      <script>
+        $(document).ready(function () {
+          $('form[name="comment"]').on("submit", main);
+          var form;
+          var postId;
+          function main (e) {
+            e.preventDefault();
+            form = $(e.target)
+            postId = form.data("post-id");
+            addComment(postId, done, fail);
+          };
+           function done(data) {
+             $(".comments [data-post-id=" + postId +"] > ul").append(
+                "<li> \
+                   <a class='social-card-content-user' href='/user/" + data.author +
+                   "'>" + data.author + "</a> \
+                  <span style='padding-left:10px'>" + data.body + "</span> \
+                </li>"
+             );
+          };
+           function fail() {
+              alert("Something failed");
+          };
+          function addComment(postId, done, fail) {
+            $.ajax({
+               url: "/api/comment/" + postId,
+               method: "POST",
+               data: form.serialize(),
+             })
+               .done(done)
+               .fail(fail);
+          };
+        });
+      </script>
 
 
     {% endblock %}
