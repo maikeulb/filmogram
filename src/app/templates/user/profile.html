@@ -62,6 +62,19 @@
 {% endblock %}
 
 {% block js %}
+<script type="text/javascript">
+  $(document).ready(function () {
+    var csrf_token = "{{ csrf_token() }}";
+    $.ajaxSetup({
+      beforeSend: function(xhr, settings) {
+        if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+          xhr.setRequestHeader("X-CSRFToken", csrf_token);
+        }
+      }
+    });
+  });
+</script>
+
   <script>
   $(document).ready(function () {
     $("#follow-user").submit(handleFormSubmit);
@@ -86,4 +99,77 @@
       }
   });
   </script>
+<script>
+  $(document).ready(function () {
+    $('#posts').on("click", '.js-toggle-like', toggleLike);
+    var button;
+    var postId;
+
+    function toggleLike (e) {
+      e.preventDefault();
+      button = $(e.target);
+      postId = button.data("post-id");
+
+      if (button.hasClass("uk-button-default"))
+        likePost(postId, like_cb, fail);
+      else
+        unlikePost(postId, unlike_cb, fail);
+    };
+     function like_cb(data) {
+        button.toggleClass("uk-button-default").toggleClass("uk-button-primary")
+       $("#likes[data-post-id=" + postId +"]").append("<a class='uk-link-text' href='/user/" + data.result + "'>" + data.result + "</a>&nbsp;");
+    };
+     function unlike_cb(data) {
+        button.toggleClass("uk-button-default").toggleClass("uk-button-primary")
+        $("#likes[data-post-id=" + postId +"]:last a").last().remove();
+    };
+     function fail() {
+        alert("Something failed");
+    };
+    function likePost(postId, done, fail) {
+      $.ajax({
+         url: "/api/like/" + postId,
+         method: "POST",
+       })
+         .done(like_cb)
+         .fail(fail);
+    };
+    function unlikePost(postId, done, fail) {
+      $.ajax({
+         url: "/api/like/" + postId,
+         method: "DELETE",
+       })
+         .done(unlike_cb)
+         .fail(fail);
+    };
+  });
+</script>
+
+
+{#
+<script>
+  $(document).ready(function () {
+    $("#posts").on("click","#unlike-post", unlikePost);
+    function unlikePost (e) {
+      e.preventDefault();
+      var button = $(e.target);
+      var postId = button.data("post-id");
+      unlikePostCall(postId);
+    };
+    function unlikePostCall(postId) {
+      $.ajax({
+         url: "/api/unlike/" + postId,
+         method: "GET",
+         success: function (data) {
+          alert('cool') 
+           $("#likes[data-post-id=" + postId +"]").remove(data.data);
+         },
+         error: function(xhr, ajaxOptions, thrownError){
+          alert('not_cool') 
+         },
+      });
+    }
+  });
+</script>
+#}
 {% endblock %}

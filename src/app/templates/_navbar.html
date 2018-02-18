@@ -17,11 +17,13 @@
     <ul class="uk-navbar-nav">
       {% if current_user.is_authenticated %}
       {% set new_messages = current_user.new_messages() %}
-      <li><span id="user_notification_count" class="dynamic_badge" 
+
+      <li><a><span id="user_notification_count" class="dynamic_badge" 
         data-badge="{{ new_messages }}"
         style="visibility: {% if new_messages %}visible
                            {% else %}hidden{% endif %};">
-      </span></li>
+
+      </span></a></li>
       {% endif %}
       {% if current_user.is_anonymous %}
       <li><a href="{{ url_for('account.login') }}">Login</a></li>

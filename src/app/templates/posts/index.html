@@ -14,6 +14,7 @@
 {% endblock %}
 
 {% block js %}
+
 <script type="text/javascript">
   $(document).ready(function () {
     var csrf_token = "{{ csrf_token() }}";
@@ -51,15 +52,12 @@
         unlikePost(postId, unlike_cb, fail);
     };
      function like_cb(data) {
-        console.log(data)
-        alert(data)
-        button.toggleClass("uk-button-default").toggleClass("uk-button-primary").text("Like");
-        $("#likes[data-post-id=" + postId +"]").append(" " + data.result);
+        button.toggleClass("uk-button-default").toggleClass("uk-button-primary")
+       $("#likes[data-post-id=" + postId +"]").append("<a class='uk-link-text' href='/user/" + data.result + "'>" + data.result + "</a>&nbsp;");
     };
      function unlike_cb(data) {
-        console.log(data)
-        alert(data)
-        button.toggleClass("uk-button-default").toggleClass("uk-button-primary").text("UnLike");
+        button.toggleClass("uk-button-default").toggleClass("uk-button-primary")
+        $("#likes[data-post-id=" + postId +"]:last a").remove();
     };
      function fail() {
         alert("Something failed");

@@ -13,42 +13,28 @@
     </div>
 
     <div class="Instagram-card-content">
-      <div style="float:left;">
-        <a class="footer-action-icons" href="#">
-          <i class="fa fa-heart-o"></i>
-
+      <div style="float:left; padding-right:10px;">
           {% if current_user.has_liked(post) %}
-          <button class="uk-button uk-button-primary js-toggle-like"
-            type="button" data-post-id={{ post.id }}>UnLike</button>
+          <button class="uk-button uk-button-small uk-button-primary js-toggle-like"
+            type="button" data-post-id={{ post.id }}>
+            <span uk-icon="check"></span>
+          </button>
           {% else %}
-          <button id="like-post" class="uk-button uk-button-default
-            js-toggle-like" type="button" data-post-id={{ post.id }}>Like</button>
+          <button class="uk-button uk-button-small uk-button-default js-toggle-like" 
+            type="button" data-post-id={{ post.id }}>
+            <span uk-icon="check"></span>
+          </button>
           {% endif %}
-
-          {% if current_user.has_liked(post) %}
-            <form role="form">
-              <div class="form-group">
-                <button id="unlike-post" data-post-id={{ post.id }} type="submit" class="uk-button">Unlike</button>
-              </div>
-            </form>
-          {% else %}
-            <form role="form">
-              <div class="form-group">
-                <button id="like-post" data-post-id={{ post.id }} type="submit" class="uk-button">Like</button>
-              </div>
-            </form>
-          {% endif %}
-        </a>
       </div>
 
       <div class = "likes" >
         <div id = "likes" data-post-id={{ post.id }}>
           {% for like in post['likes'] %} 
-            <a href="{{ url_for('user.profile', username=like.username) }}">{{ like.username }}</a>
+            <a href="{{ url_for('user.profile', username=like.username) }}"
+              class='uk-link-text'>{{ like.username }}</a>
           {% endfor %}
         </div>
       </div>
-
       <br>
       <br>
       <div>

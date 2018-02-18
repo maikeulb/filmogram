@@ -17,3 +17,11 @@ class Post(db.Model):
         backref='post',
         lazy='dynamic'
     )
+
+    def to_dict(self):
+        data = {
+            'likes': self.likes,
+        }
+        return data
+
+
