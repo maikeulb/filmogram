@@ -4,42 +4,44 @@
 
 <main class="uk-container">
   <h1 class="uk-heading-line"><span>Discover Users</span></h1>
+  <div id="users">
+    <div class="uk-search uk-search-default">
+      <span uk-search-icon></span>
+      <input class="search uk-search-input" placeholder="Search" />
+    </div>
+    <ul class="list uk-list uk-list-striped">
 
-<div id="users">
-  <div class="uk-search uk-search-default">
-    <span uk-search-icon></span>
-    <input class="search uk-search-input" placeholder="Search" />
+    {% for user in users %}
+      <li>
+        <table class="table">
+          <tr>
+            <td>
+              <div class="image">
+                {% if user.profile_img_url %}
+                  <img src="{{ user.profile_img_url }}" style="height:90px;">
+                {% else %}
+                  <img src="{{ user.avatar(90) }}">
+                {% endif %}
+              </div>
+            </td>
+
+            <td style="padding-left:10px">
+              <p class="name">
+                <a href="{{ url_for('user.profile', username=user.username) }}">{{ user.username }}</a>
+              </p>
+              <p class="followers">
+                {{ '%d followers' % user.followers.count() }}, {{ '%d following' % user.followed.count() }}
+              </p>
+            </td>
+          </tr>
+        </table>
+      </li>
+    {% endfor %}
+
+    </ul>
+    <ul class="pagination uk-pagination uk-flex-center"></ul>
   </div>
-  <ul class="list uk-list uk-list-striped">
-  {% for user in users %}
-    <li>
-      <table class="table">
-        <tr>
-          <td>
-            <div class="image">
-              {% if user.profile_img_url %}
-                <img src="{{ user.profile_img_url }}" style="height:90px;">
-              {% else %}
-                <img src="{{ user.avatar(90) }}">
-              {% endif %}
-            </div>
-          </td>
-
-          <td style="padding-left:10px">
-            <p class="name">
-              <a href="{{ url_for('user.profile', username=user.username) }}">{{ user.username }}</a>
-            </p>
-            <p class="followers">
-              {{ '%d followers' % user.followers.count() }}, {{ '%d following' % user.followed.count() }}
-            </p>
-          </td>
-        </tr>
-      </table>
-    </li>
-  {% endfor %}
-  </ul>
-  <ul class="pagination uk-pagination uk-flex-center"></ul>
-</div>
+</main>
 {% endblock %}
 
 {% block js %}

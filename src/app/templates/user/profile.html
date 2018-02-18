@@ -15,55 +15,49 @@
       </div>
     </div>
 
-
     <div class = "description">
       {% if user.bio %}
         <p>{{ user.bio }}</p>
       {% endif %}
     </div>
 
-      {% if user == current_user %}
-        <p><a href="{{ url_for('user.edit_profile') }}">Edit your
-          profile</a></p> 
-      {% elif not current_user.is_following(user) %}
-        <p><a href="{{ url_for('api.follow', username=user.username) }}"> Follow</a></p>
-      {% else %}
-        <p><a href="{{ url_for('api.unfollow', username=user.username) }}">Unfollow</a></p>
-      {% endif %}
-      <form role="form" id="follow-user" data-username="{{
-        user.username}}">
+    <div class = "action">
+      <div class="uk-flex uk-flex-center">
+        {% if user == current_user %}
+          <a href="{{ url_for('user.edit_profile') }}" class="uk-button
+            uk-button-default">Edit Profile</a> 
+        {% elif not current_user.is_following(user) %}
+          <a href="{{ url_for('api.follow', username=user.username) }}"
+            class="uk-button uk-button-default"> Follow</a>
+        {% else %}
+          <a href="{{ url_for('api.unfollow', username=user.username) }}"
+            class="uk-button uk-button-default">Unfollow</a>
+        {% endif %}
+        <form role="form" id="follow-user" data-username="{{
+          user.username}}">
            <fieldset class="uk-fieldset">
-              <button id="user-send" class="uk-button" type="button" tabindex="-1">Follow</button>
+              <button id="user-send" class="uk-button uk-button-default" type="button" tabindex="-1">Follow</button>
           </fieldset>
-      </form>
-
-
-    <h3 class = "uk-heading-line uk-text-right"><span>{{ user.username
-        }}</span></h3>
-
+        </form>
+      </div>
     </div>
 
-    <div class = "meta">
-
-      <ul class="uk-subnav uk-subnav-pill" uk-switcher>
-        <li><a href="#">Posts</a></li>
-        <li><a href="#">{{ user.followers.count() }} Followers</a></li>
-        <li><a href="#">{{ user.followed.count() }} Followings</a></li>
-      </ul>
-
-      <ul class="uk-switcher uk-margin">
-        <li>{% include 'posts/_posts.html' %}</li>
-        <li>{{ user.followers.count() }}
-          <a href="{{ url_for('user.followers', username=user.username) }}">
-            Followers</a>
-        </li>
-        <li>{{ user.followed.count() }}
-          <a href="{{url_for('user.following', username=user.username) }}">
-            Following</a>
-        </li>
-      </ul>
-
+    <h3 class = "uk-heading-line uk-text-right"><span>{{ user.username}}</span></h3>
   </div>
+
+  <div class = "content">
+    <ul class="uk-subnav uk-subnav-pill uk-flex-center" uk-switcher>
+      <li><a href="#">Posts</a></li>
+      <li><a href="#">{{ user.followers.count() }} Followers</a></li>
+      <li><a href="#">{{ user.followed.count() }} Followings</a></li>
+    </ul>
+    <ul class="uk-switcher uk-margin">
+      <li>{% include 'posts/_posts.html' %}</li>
+      <li>{% include 'user/_followers.html' %}</li>
+      <li>{% include 'user/_followings.html' %}</li>
+    </ul>
+  </div>
+
 </main>
 {% endblock %}
 
@@ -92,5 +86,4 @@
       }
   });
   </script>
-
 {% endblock %}

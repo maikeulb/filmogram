@@ -28,6 +28,8 @@ def profile(username):
     page = request.args.get('page', 1, type=int)
     posts = user.posts.order_by(Post.timestamp.desc()).paginate(
         page, current_app.config['POSTS_PER_PAGE'], False)
+    following = user.get_my_following()
+    followers = user.get_my_followers()
     next_url = url_for('user.profile', username=user.username,
         page=posts.next_num) if posts.has_next else None
     prev_url = url_for('user.profile', username=user.username,
@@ -41,6 +43,8 @@ def profile(username):
     return render_template('user/profile.html', 
                            title='User',
                            user=user, 
+                           followers=followers, 
+                           following=following, 
                            form=form,
                            posts=posts.items,
                            next_url=next_url, 
@@ -109,5 +113,3 @@ def discover():
     return render_template('user/discover.html',
                            title='Discover',
                            users=users)
-
-

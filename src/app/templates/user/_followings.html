@@ -1,0 +1,51 @@
+<div id="following">
+  <div class="uk-search uk-search-default">
+    <span uk-search-icon></span>
+    <input class="search uk-search-input" placeholder="Search" />
+  </div>
+
+  <ul class="list uk-list uk-list-striped">
+  {% for followee in following %}
+    <li>
+      <table class="table">
+          <tr>
+            <td>
+              <div class="image">
+                {% if followee.profile_img_url %}
+                  <img src="{{ followee.profile_img_url }}" style="height:90px;">
+                {% else %}
+                  <img src="{{ followee.avatar(90) }}">
+                {% endif %}
+              </div>
+            </td>
+            <td style="padding-left:10px">
+              <p class="name">
+                <a href="{{ url_for('user.profile', username=followee.username)
+                  }}">{{ followee.username }}</a>
+              </p>
+              <p class="following">
+                {{ '%d followings' % followee.followed.count() }}, {{ '%d
+                following' % followee.followed.count() }}
+              </p>
+            </td>
+          </tr>
+      </table>
+    </li>
+  {% endfor %}
+  </ul>
+  <ul class="pagination uk-pagination uk-flex-center"></ul>
+</div>
+
+{% block js %}
+<script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+
+<script>
+var options = {
+  valueNames: [ 'name', 'born' ],
+  page: 5,
+  pagination: true
+};
+
+var userList = new List('users', options);
+</script>
+{% endblock %}
