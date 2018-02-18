@@ -27,16 +27,19 @@ from app.models import (
     Comment,
 )
 
+
 @api.route('/follow/<username>')
 @login_required
 def follow(username):
     user = User.query.filter_by(username=username).first()
     if user is None:
         flash('User not found.')
-        return redirect(url_for('posts.index'))
+        # return redirect(url_for('posts.index'))
+        return jsonify({'result': 'error'})
     if user == current_user:
         flash('You cannot follow yourself!')
-        return redirect(url_for('posts.user', username=username))
+        # return redirect(url_for('posts.user', username=username))
+        return jsonify({'result': 'error'})
     current_user.follow(user)
     db.session.commit()
     return jsonify({'result': 'success'})
@@ -47,43 +50,48 @@ def follow(username):
 def unfollow(username):
     user = User.query.filter_by(username=username).first()
     if user is None:
-        return redirect(url_for('posts.index'))
+        # return redirect(url_for('posts.index'))
+        return jsonify({'result': 'error'})
     if user == current_user:
         flash('You cannot unfollow yourself!')
-        return redirect(url_for('posts.user', username=username))
+        # return redirect(url_for('posts.user', username=username))
+        return jsonify({'result': 'error'})
     current_user.unfollow(user)
     db.session.commit()
-    return redirect(url_for('posts.user', username=username))
+    return jsonify({'result': 'success'})
+    # return redirect(url_for('posts.user', username=username))
 
 
-@api.route('/like/<id>', methods=['GET', 'POST'])
+@api.route('/like/<int:id>', methods=['POST'])
 @login_required
 def like(id):
-    post = Post.query.filter_by(id=id).first()
+    post = Post.query.get_or_404(id)
     if post is None:
         flash('User not found.')
-        return redirect(url_for('posts.index'))
+        # return redirect(url_for('posts.index'))
+        return jsonify({'result': 'error'})
     current_user.like(post)
     user = User.query.filter_by(id=post.user_id).first_or_404()
     user.add_notification('unread_message_count', user.new_messages())
     notification = UserNotification(author=current_user, recipient=user, body=1)
     db.session.add(notification)
     db.session.commit()
-    return jsonify({
-        'data': current_user.username})
+    response = jsonify({'result': current_user.username})
+    return response
 
 
-@api.route('/unlike/<id>', methods=['GET', 'POST'])
+@api.route('/like/<int:id>', methods=['DELETE'])
 @login_required
 def unlike(id):
-    post = Post.query.filter_by(id=id).first()
+    post = Post.query.get_or_404(id)
     if post is None:
         flash('User not found.')
-        return redirect(url_for('posts.index'))
+        # return redirect(url_for('posts.index'))
+        return jsonify({'result': 'error'})
     current_user.unlike(post)
     db.session.commit()
-    return jsonify({
-        'data': current_user.username})
+    response = jsonify({'result': current_user.username})
+    return response
 
 
 @api.route('/notifications')

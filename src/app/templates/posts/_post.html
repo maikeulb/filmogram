@@ -16,6 +16,15 @@
       <div style="float:left;">
         <a class="footer-action-icons" href="#">
           <i class="fa fa-heart-o"></i>
+
+          {% if current_user.has_liked(post) %}
+          <button class="uk-button uk-button-primary js-toggle-like"
+            type="button" data-post-id={{ post.id }}>UnLike</button>
+          {% else %}
+          <button id="like-post" class="uk-button uk-button-default
+            js-toggle-like" type="button" data-post-id={{ post.id }}>Like</button>
+          {% endif %}
+
           {% if current_user.has_liked(post) %}
             <form role="form">
               <div class="form-group">
@@ -32,7 +41,7 @@
         </a>
       </div>
 
-      <div class="Likes" >
+      <div class = "likes" >
         <div id = "likes" data-post-id={{ post.id }}>
           {% for like in post['likes'] %} 
             <a href="{{ url_for('user.profile', username=like.username) }}">{{ like.username }}</a>
