@@ -81,31 +81,4 @@
   });
 </script>
 
-
-{#
-<script>
-  $(document).ready(function () {
-    $("#posts").on("click","#unlike-post", unlikePost);
-    function unlikePost (e) {
-      e.preventDefault();
-      var button = $(e.target);
-      var postId = button.data("post-id");
-      unlikePostCall(postId);
-    };
-    function unlikePostCall(postId) {
-      $.ajax({
-         url: "/api/unlike/" + postId,
-         method: "GET",
-         success: function (data) {
-          alert('cool') 
-           $("#likes[data-post-id=" + postId +"]").remove(data.data);
-         },
-         error: function(xhr, ajaxOptions, thrownError){
-          alert('not_cool') 
-         },
-      });
-    }
-  });
-</script>
-#}
 {% endblock %}

@@ -23,9 +23,6 @@ from app.models import (
 @explore.route('/')
 @explore.route('/index')
 def index():
-    current_user.last_user_notification_read_time = datetime.utcnow()
-    current_user.add_notification('unread_message_count', 0)
-    db.session.commit()
     page = request.args.get('page', 1, type=int)
     posts = Post.query.join(Post.likes) \
             .group_by(Post.id) \
