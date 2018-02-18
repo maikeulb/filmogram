@@ -1,9 +1,9 @@
 <nav class="uk-navbar-container uk-margin uk-padding
   uk-padding-remove-vertical" uk-navbar>
   <div class="uk-navbar-left">
-    <a class="uk-navbar-item uk-logo" href="{{ url_for('posts.index') }}"><img
-      src='https://cdn.dribbble.com/users/300948/screenshots/3089597/analog_camera.jpg'/>Filmogram</a>
     <ul class="uk-navbar-nav">
+      <li class="uk-active"><a class="uk-navbar-item uk-logo" href="{{ url_for('posts.index') }}"><img
+          src='https://cdn.dribbble.com/users/300948/screenshots/3089597/analog_camera.jpg'/>Filmogram</a></li>
       {% if current_user.is_authenticated %}
       <li><a href="{{ url_for('posts.post') }}">Post</a></li>
       {% endif %}
@@ -38,4 +38,3 @@
     </ul>
   </div>
 </nav>
-

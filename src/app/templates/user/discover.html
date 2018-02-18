@@ -2,33 +2,43 @@
 
 {% block app_content %}
 
+<main class="uk-container">
+  <h1 class="uk-heading-line"><span>Discover Users</span></h1>
 
 <div id="users">
-  <input class="search" placeholder="Search" />
-  <ul class="list">
-{% for user in users %}
+  <div class="uk-search uk-search-default">
+    <span uk-search-icon></span>
+    <input class="search uk-search-input" placeholder="Search" />
+  </div>
+  <ul class="list uk-list uk-list-striped">
+  {% for user in users %}
     <li>
       <table class="table">
         <tr>
-          <td width="64" style="border: 0px;"><img src="{{ user.avatar(64) }}"></td>
-            <td style="border: 0px;">
-              <p class="name">
-                <a href="{{ url_for('user.profile', username=user.username) }}">{{ user.username }}</a>
-              </p>
-              <p class="followers">
-                {{ '%d followers' % user.followers.count() }}, {{ '%d following' % user.followed.count() }}
-              </p>
-              <p class="bio">
-                {% if user.bio %}<p>{{ user.bio }}</p>{% endif %}
-              </p>
-            </td>
+          <td>
+            <div class="image">
+              {% if user.profile_img_url %}
+                <img src="{{ user.profile_img_url }}" style="height:90px;">
+              {% else %}
+                <img src="{{ user.avatar(90) }}">
+              {% endif %}
+            </div>
+          </td>
+
+          <td style="padding-left:10px">
+            <p class="name">
+              <a href="{{ url_for('user.profile', username=user.username) }}">{{ user.username }}</a>
+            </p>
+            <p class="followers">
+              {{ '%d followers' % user.followers.count() }}, {{ '%d following' % user.followed.count() }}
+            </p>
+          </td>
         </tr>
       </table>
-    <br>
     </li>
-{% endfor %}
+  {% endfor %}
   </ul>
-  <ul class="pagination"></ul>
+  <ul class="pagination uk-pagination uk-flex-center"></ul>
 </div>
 {% endblock %}
 
@@ -38,7 +48,7 @@
 <script>
 var options = {
   valueNames: [ 'name', 'born' ],
-  page: 3,
+  page: 5,
   pagination: true
 };
 

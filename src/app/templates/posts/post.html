@@ -2,34 +2,42 @@
 
 {% block app_content %}
 
-<main class="ui text container">
-  <form action="{{ url_for('posts.post') }}" method="POST" enctype="multipart/form-data">
-    <fieldset class="uk-fieldset">
-      <legend class="uk-legend">Add a Photo</legend> 
-      {{ form.hidden_tag() }}
+<main class="uk-container">
+<h1 class="uk-heading-line"><span>Upload A Photo</span></h1>
+  <div class="uk-card uk-card-default uk-card-body">
+    <form action="{{ url_for('posts.post') }}" method="POST" enctype="multipart/form-data">
+      <fieldset class="uk-fieldset">
 
-        <img id="target" src="http://placehold.it/180" alt="your image" />
-
-        <div class="uk-margin">
-          <div uk-form-custom>
-            {{ form.photo(class_="imgInp uk-input") }}
-            <button class="uk-button" type="button" tabindex="-1">Upload Photo</button>
+        {{ form.hidden_tag() }}
+        <div class="uk-card-body">
+          <img id="target" src="http://placehold.it/180" alt="your image" />
+          <div class="uk-margin">
+            <div uk-form-custom>
+              {{ form.photo(class_="imgInp uk-input") }}
+              <button class="uk-button" type="button" tabindex="-1">Upload Photo</button>
+            </div>
           </div>
+          <div class="uk-margin">
+            {{ form.photo_description(class_="uk-textarea", placeholder="Caption") }}
+          </div>
+          {{ form.submit(class_="uk-button uk-button-default") }}
+          {% for error in form.photo_description.errors %}
+            <span class="uk-text-danger">{{ error }}</span>
+          {% endfor %}
         </div>
 
-        <div class="uk-margin">
-          {{ form.photo_description(class_="uk-textarea", placeholder="Caption") }}
-        </div>
-
-      {{ form.submit(class_="uk-button uk-button-default") }}
-      {% for error in form.photo_description.errors %}
-        <span class="uk-text-danger">{{ error }}</span>
-      {% endfor %}
-
-    </fieldset>
-  </form>
+      </fieldset>
+    </form>
+  </div>
 </main>
  
+<footer>
+  <div class="uk-container">
+    <div class="uk-padding"></div>
+    </div>
+  </div>
+</footer>
+
 {% endblock %}
 
 {% block js %}

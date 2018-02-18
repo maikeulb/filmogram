@@ -1,62 +1,69 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-<main class="ui container">
+<main class="uk-container">
+  <div class = "profile">
+    <h1 class = "uk-heading-line"><span>Upload A Photo</span></h1>
 
-  <div class="ui items">
-    <div class="item">
-
-      <div class="image">
+    <div class = "image">
+      <div class = "uk-flex uk-flex-center uk-padding">
         {% if user.profile_img_url %}
-          <img src="{{ user.profile_img_url }}" style="width:256px;height:256px;">
+          <img src="{{ user.profile_img_url }}" style="height:256px;">
         {% else %}
           <img src="{{ user.avatar(256) }}">
         {% endif %}
       </div>
-
-      <div class="content">
-
-        <div class="header">{{ user.username }}</div>
-
-        <div class="meta">
-          <p>
-            <p><span> {{ user.followers.count() }}<a href="{{ url_for('user.followers', username=user.username) }}">
-               Followers</a></p>
-            <p><span> {{ user.followed.count() }}<a href="{{
-                  url_for('user.following', username=user.username) }}">
-               Following</a></p>
-          </p>
-        </div>
-
-        <div class="description">
-          {% if user.bio %}
-            <p>{{ user.bio }}</p>
-          {% endif %}
-        </div>
-
-        {% if user == current_user %}
-          <p><a href="{{ url_for('user.edit_profile') }}">Edit your profile</a></p>
-        {% elif not current_user.is_following(user) %}
-          <p><a href="{{ url_for('api.follow', username=user.username) }}"> Follow</a></p>
-        {% else %}
-          <p><a href="{{ url_for('api.unfollow', username=user.username) }}">Unfollow</a></p>
-        {% endif %}
-        <form role="form" id="follow-user" data-username="{{
-          user.username}}">
-            <div class="form-group">
-              <button id="user-send" type="submit" class="btn
-                btn-primary">Follow</button>
-            </div>
-        </form>
-
-      </div>
     </div>
+
+
+    <div class = "description">
+      {% if user.bio %}
+        <p>{{ user.bio }}</p>
+      {% endif %}
+    </div>
+
+      {% if user == current_user %}
+        <p><a href="{{ url_for('user.edit_profile') }}">Edit your
+          profile</a></p> 
+      {% elif not current_user.is_following(user) %}
+        <p><a href="{{ url_for('api.follow', username=user.username) }}"> Follow</a></p>
+      {% else %}
+        <p><a href="{{ url_for('api.unfollow', username=user.username) }}">Unfollow</a></p>
+      {% endif %}
+      <form role="form" id="follow-user" data-username="{{
+        user.username}}">
+           <fieldset class="uk-fieldset">
+              <button id="user-send" class="uk-button" type="button" tabindex="-1">Follow</button>
+          </fieldset>
+      </form>
+
+
+    <h3 class = "uk-heading-line uk-text-right"><span>{{ user.username
+        }}</span></h3>
+
+    </div>
+
+    <div class = "meta">
+
+      <ul class="uk-subnav uk-subnav-pill" uk-switcher>
+        <li><a href="#">Posts</a></li>
+        <li><a href="#">{{ user.followers.count() }} Followers</a></li>
+        <li><a href="#">{{ user.followed.count() }} Followings</a></li>
+      </ul>
+
+      <ul class="uk-switcher uk-margin">
+        <li>{% include 'posts/_posts.html' %}</li>
+        <li>{{ user.followers.count() }}
+          <a href="{{ url_for('user.followers', username=user.username) }}">
+            Followers</a>
+        </li>
+        <li>{{ user.followed.count() }}
+          <a href="{{url_for('user.following', username=user.username) }}">
+            Following</a>
+        </li>
+      </ul>
+
   </div>
-
-  {% for post in posts %}
-      {% include 'posts/_post.html' %}
-  {% endfor %}
-
 </main>
 {% endblock %}
 

@@ -8,6 +8,8 @@
       <title>Welcome to FilmoGram</title>
     {% endif %}
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css">
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js'></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.39/css/uikit.min.css" />
     {% if config.DEVELOPMENT %}
       <!-- Webpack Dev Mode -->
@@ -18,11 +20,27 @@
     {% endif %}
   </head>
 
-  <body>
+  <body class="site">
     {% include '_navbar.html' %}
 
     {% block content %}
+       <main class = "site-content">
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <script>
+              var messages = {{ messages | safe }};
+              for (var i=0; i<messages.length; i++) {
+                new Noty({
+                  theme: 'rellax',
+                  type: 'info',
+                  text: messages[i]
+                }).setTimeout(1000).show();
+              } 
+            </script>
+          {% endif %}
+        {% endwith %}
         {% block app_content %}{% endblock %}
+      </main>
     {% endblock %}
 
     {% include '_footer.html' %}
@@ -64,6 +82,7 @@
         });
         {% endif %}
       </script>
+
       <script>
         $(function(){
           $('.nav-sub-toggle').on('click', function(){
@@ -77,6 +96,16 @@
           });
           });
       </script>
+
+      <script>
+      $(document).ready(function() {
+        $(".uk-navbar-nav a").on("click", function(){
+           $(".uk-navbar-nav").find(".uk-active").removeClass("uk-active");
+           $(this).parent('li').addClass("uk-active");
+         });
+      });
+      </script>
+
     {% endblock %}
     {% block js %}{% endblock %}
 
