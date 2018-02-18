@@ -35,17 +35,3 @@
   </ul>
   <ul class="pagination uk-pagination uk-flex-center"></ul>
 </div>
-
-{% block js %}
-<script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
-
-<script>
-var options = {
-  valueNames: [ 'name', 'born' ],
-  page: 5,
-  pagination: true
-};
-
-var userList = new List('users', options);
-</script>
-{% endblock %}

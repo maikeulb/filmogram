@@ -56,6 +56,7 @@
     {% block scripts %}
       {{ moment.include_moment() }}
   	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
       <script src="https://unpkg.com/infinite-scroll@3/dist/infinite-scroll.pkgd.js"></script>
       <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.39/js/uikit.min.js"></script>
@@ -225,6 +226,65 @@
           };
         });
       </script>
+
+      <script>
+        $(document).ready(function () {
+          $('#posts').infiniteScroll({
+            path: '.npage',
+            append: '.post-item'
+          });
+        });
+      </script>
+
+      <script>
+        $(document).ready(function () {
+           function readURL(input) {
+             if (input.files && input.files[0]) {
+               var reader = new FileReader();
+               reader.onload = function (e) {
+                 $('#target')
+                   .attr('src', e.target.result);
+               };
+               reader.readAsDataURL(input.files[0]);
+             }
+           }
+          $(".imgInp").change(function(){
+            readURL(this);
+          });
+        });
+      </script>
+
+      <script>
+        $(document).ready(function () {
+          var options = {
+            valueNames: [ 'name' ],
+            page: 5,
+            pagination: true
+          };
+          var userList = new List('users', options);
+        });
+      </script>
+      <script>
+        $(document).ready(function () {
+          var options = {
+            valueNames: [ 'name' ],
+            page: 5,
+            pagination: true
+          };
+          var userList = new List('followers', options);
+        });
+      </script>
+      <script>
+        $(document).ready(function () {
+          var options = {
+            valueNames: [ 'name' ],
+            page: 5,
+            pagination: true
+          };
+          var userList = new List('followings', options);
+        });
+      </script>
+
 
 
     {% endblock %}

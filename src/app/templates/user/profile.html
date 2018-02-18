@@ -52,7 +52,14 @@
       <li><a href="#">{{ user.followed.count() }} Followings</a></li>
     </ul>
     <ul class="uk-switcher uk-margin">
-      <li>{% include 'posts/_posts.html' %}</li>
+      <li>
+        <div>
+          {% include 'posts/_posts.html' %}
+          {% if next_url %}
+            <a class="npage" hidden href={{ next_url or "#" }}>next_url</a>
+          {% endif %}
+        </div>
+      </li>
       <li>{% include 'user/_followers.html' %}</li>
       <li>{% include 'user/_followings.html' %}</li>
     </ul>
@@ -99,31 +106,4 @@
       }
   });
   </script>
-
-{#
-<script>
-  $(document).ready(function () {
-    $("#posts").on("click","#unlike-post", unlikePost);
-    function unlikePost (e) {
-      e.preventDefault();
-      var button = $(e.target);
-      var postId = button.data("post-id");
-      unlikePostCall(postId);
-    };
-    function unlikePostCall(postId) {
-      $.ajax({
-         url: "/api/unlike/" + postId,
-         method: "GET",
-         success: function (data) {
-          alert('cool') 
-           $("#likes[data-post-id=" + postId +"]").remove(data.data);
-         },
-         error: function(xhr, ajaxOptions, thrownError){
-          alert('not_cool') 
-         },
-      });
-    }
-  });
-</script>
-#}
 {% endblock %}
