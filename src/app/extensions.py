@@ -5,8 +5,8 @@ from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CSRFProtect
 from flask_uploads import (
-    UploadSet, 
-    configure_uploads, 
+    UploadSet,
+    configure_uploads,
     IMAGES,
     patch_request_class)
 

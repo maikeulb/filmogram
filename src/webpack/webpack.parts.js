@@ -4,7 +4,7 @@ const webpack = require("webpack");
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
-const UglifyWebpackPlugin = require("uglifyjs-webpack-plugin");
+// const UglifyWebpackPlugin = require("uglifyjs-webpack-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const cssnano = require("cssnano");
@@ -37,9 +37,9 @@ exports.minifyCSS = ({ options }) => ({
   ],
 });
 
-exports.minifyJavaScript = () => ({
-  plugins: [new UglifyWebpackPlugin()],
-});
+// exports.minifyJavaScript = () => ({
+//   plugins: [new UglifyWebpackPlugin()],
+// });
 
 
 exports.clean = (dirsToClean, options ={}) => ({

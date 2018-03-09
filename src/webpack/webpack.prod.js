@@ -19,7 +19,7 @@ module.exports = merge([
     // recordsPath: path.join(__dirname, "records.json"),
   // },
   parts.clean(['static'], parts.PATHS.assets),
-  parts.minifyJavaScript({}),
+  // parts.minifyJavaScript({}),
   parts.minifyCSS({
     options: {
       discardComments: {

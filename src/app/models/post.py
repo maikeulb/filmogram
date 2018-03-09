@@ -23,5 +23,3 @@ class Post(db.Model):
             'likes': self.likes,
         }
         return data
-
-

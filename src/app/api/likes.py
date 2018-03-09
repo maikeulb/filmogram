@@ -34,7 +34,6 @@ def like(id):
     post = Post.query.get_or_404(id)
     if post is None:
         flash('User not found.')
-        # return redirect(url_for('posts.index'))
         return jsonify({'result': 'error'})
     current_user.like(post)
     user = User.query.filter_by(id=post.user_id).first_or_404()
