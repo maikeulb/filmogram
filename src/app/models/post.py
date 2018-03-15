@@ -15,7 +15,7 @@ class Post(db.Model):
     comments = db.relationship(
         'Comment',
         backref='post',
-        lazy='dynamic'
+        # lazy='dynamic'
     )
 
     def to_dict(self):

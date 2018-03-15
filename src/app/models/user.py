@@ -25,11 +25,13 @@ followers = db.Table(
     db.Column('followed_id', db.Integer, db.ForeignKey('users.id'))
 )
 
+
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(64), index=True, unique=True, nullable=False)
+    username = db.Column(db.String(64), index=True,
+                         unique=True, nullable=False)
     email = db.Column(db.String(120), index=True, unique=True, nullable=False)
     password = db.Column(db.Binary(128), nullable=True)
     bio = db.Column(db.String(140))
@@ -39,46 +41,46 @@ class User(UserMixin, db.Model):
     posts = db.relationship(
         'Post',
         backref='author',
-        lazy='dynamic'
+        # lazy='dynamic'
     )
     followed = db.relationship(
         'User',
         secondary=followers,
         primaryjoin=(followers.c.follower_id == id),
         secondaryjoin=(followers.c.followed_id == id),
-        backref=db.backref('followers', lazy='dynamic'),
-        lazy='dynamic'
+        backref=db.backref('followers', lazy='joined'),
+        # backref=db.backref('followers', lazy='dynamic'),
+        # lazy='dynamic'
     )
     likes = db.relationship(
         'Post',
         secondary=likes,
         primaryjoin=(likes.c.user_id == id),
         backref=db.backref('likes', lazy='joined'),
-        lazy='dynamic'
+        # lazy='dynamic'
     )
     comments = db.relationship(
         'Comment',
         backref='author',
-        lazy='dynamic'
+        # lazy='dynamic'
     )
     notifications = db.relationship(
-        'Notification', 
-        backref='user', 
-        lazy='dynamic'
+        'Notification',
+        backref='user',
+        # lazy='dynamic'
     )
     user_notification_sent = db.relationship(
-        'UserNotification', 
+        'UserNotification',
         foreign_keys='UserNotification.sender_id',
-        backref='author', 
-        lazy='dynamic'
+        backref='author',
+        # lazy='dynamic'
     )
     user_notification_received = db.relationship(
         'UserNotification',
         foreign_keys='UserNotification.recipient_id',
-        backref='recipient', 
-        lazy='dynamic'
+        backref='recipient',
+        # lazy='dynamic'
     )
-
 
     def __init__(self, username, email, password=None, **kwargs):
         db.Model.__init__(self, username=username, email=email, **kwargs)
@@ -134,12 +136,13 @@ class User(UserMixin, db.Model):
         liked = Post.query.join(
             likes,
             (likes.c.post_id == Post.id)) \
-                .filter(
-                likes.c.user_id == self.id)
+            .filter(
+            likes.c.user_id == self.id)
         return liked.order_by(Post.timestamp.desc())
 
     def new_messages(self):
-        last_read_time = self.last_user_notification_read_time or datetime(1900, 1, 1)
+        last_read_time = self.last_user_notification_read_time or datetime(
+            1900, 1, 1)
         return UserNotification.query.filter_by(recipient=self).filter(
             UserNotification.timestamp > last_read_time).count()
 
@@ -153,7 +156,7 @@ class User(UserMixin, db.Model):
         my_following = self.query.join(
             followers,
             (followers.c.followed_id == User.id)) \
-                .filter(followers.c.follower_id == self.id)
+            .filter(followers.c.follower_id == self.id)
         print(my_following, sys.stdout)
         return my_following
 
@@ -161,10 +164,9 @@ class User(UserMixin, db.Model):
         my_followers = self.query.join(
             followers,
             (followers.c.follower_id == User.id)) \
-                .filter(followers.c.followed_id == self.id)
+            .filter(followers.c.followed_id == self.id)
         print(my_followers, sys.stdout)
         return my_followers
-
 
 
 @login.user_loader
