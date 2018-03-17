@@ -5,9 +5,6 @@ from flask import (
     render_template,
     request,
     current_app)
-from app import commands, models
-from app.account import account as account_bp
-from app.api import api as api_bp
 from app.extensions import (
     bcrypt,
     csrf_protect,
@@ -25,6 +22,9 @@ from app.extensions import (
 from app.posts import posts as posts_bp
 from app.explore import explore as explore_bp
 from app.user import user as user_bp
+from app.api import api as api_bp
+from app.admin import admin as admin_bp
+from app.account import account as account_bp
 from werkzeug.utils import secure_filename
 
 
@@ -55,6 +55,7 @@ def register_blueprints(app):
     app.register_blueprint(explore_bp, url_prefix='/explore')
     app.register_blueprint(api_bp, url_prefix='/api')
     app.register_blueprint(user_bp, url_prefix='/user')
+    app.register_blueprint(admin_bp, url_prefix='/admin')
     return None
 
 

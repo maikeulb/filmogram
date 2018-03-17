@@ -48,9 +48,15 @@
 
   <div class = "content">
     <ul class="uk-subnav uk-subnav-pill uk-flex-center" uk-switcher>
-      <li><a href="#">Posts</a></li>
-      <li><a href="#">{{ user.followers.count() }} Followers</a></li>
-      <li><a href="#">{{ user.followed.count() }} Followings</a></li>
+      {% if user.followers %}
+        <li><a href="#">Posts</a></li>
+      {% endif %}
+      {% if user.followers %}
+        <li><a href="#">{{ user.followers.count() }} Followers</a></li>
+      {% endif %}
+      {% if user.followed %}
+        <li><a href="#">{{ user.followed.count() }} Followings</a></li>
+      {% endif %}
     </ul>
     <ul class="uk-switcher uk-margin">
       <li>

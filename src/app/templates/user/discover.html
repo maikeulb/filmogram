@@ -29,7 +29,9 @@
                 <a href="{{ url_for('user.profile', username=user.username) }}">{{ user.username }}</a>
               </p>
               <p class="followers">
+                {% if user.followers %}
                 {{ '%d followers' % user.followers.count() }}, {{ '%d following' % user.followed.count() }}
+                {% endif %}
               </p>
             </td>
             <td style="padding-left:10px">

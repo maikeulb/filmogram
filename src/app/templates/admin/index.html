@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+  <main class="uk-container">
+    <h2>Posts</h2>
+    {% if posts %}
+      <table id="posts" class="uk-table uk-table-hover uk-table-striped" cellspacing="0" width="100%">
+        <thead>
+          <tr>
+            <th>Post</th>
+            <th>User</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+      <tbody></tbody>
+    </table>
+  {% else %}
+    <p>We don't have any posts yet.</p>
+  {% endif %}
+  </main>
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+  var csrf_token = "{{ csrf_token() }}";
+  $.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+    if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+      xhr.setRequestHeader("X-CSRFToken", csrf_token);
+    }
+  }
+});
+</script>
+
+<script>
+  $(document).ready(function () {
+    var table = $("#posts").DataTable({
+      ajax: {
+        url: "/api/posts",
+        dataSrc: ""
+      },
+      columns: [
+        {
+          data: "photo_url",
+          render: function(data, type, post) {
+            return "<img class='social-card-user-image' src=" + data + "/>" ;
+          }
+        },
+        {
+          data: "author"
+        },
+        {
+          data: "id",
+          render: function(data) {
+            return "<button class='uk-button js-delete' data-post-id=" + data + ">Delete</button>";
+          }
+        }
+      ]
+    });
+  });
+</script>
+
+<script>
+  $("#posts").on("click", ".js-delete", function () {
+    var button = $(this);
+
+          $.ajax({
+            url: "/api/posts/" + button.attr("data-post-id"),
+            method: "DELETE",
+            success: function () {
+              table.row(button.parents("tr")).remove().draw();
+            }
+          });
+
+  });
+</script>
+{% endblock %}

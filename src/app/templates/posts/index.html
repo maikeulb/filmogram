@@ -2,14 +2,16 @@
 
 {% block app_content %}
 <main class="uk-container">
-  <h1 class="uk-heading-line"><span>Photos</span></h1>
-
-    <div>
-      {% include 'posts/_posts.html' %}
-      {% if next_url %}
-        <a class="npage" hidden href={{ next_url or "#" }}>next_url</a>
-      {% endif %}
-    </div>
-
+  {% if posts %}
+    <h1 class="uk-heading-line"><span>Photos</span></h1>
+      <div>
+        {% include 'posts/_posts.html' %}
+        {% if next_url %}
+          <a class="npage" hidden href={{ next_url or "#" }}>next_url</a>
+        {% endif %}
+      </div>
+  {% else %}
+    <p> No posts!</p>
+  {% endif %}
 </main>
 {% endblock %}

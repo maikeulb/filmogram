@@ -41,7 +41,7 @@ class User(UserMixin, db.Model):
     posts = db.relationship(
         'Post',
         backref='author',
-        # lazy='dynamic'
+        lazy='dynamic'
     )
     followed = db.relationship(
         'User',
@@ -109,8 +109,9 @@ class User(UserMixin, db.Model):
             self.followed.remove(user)
 
     def is_following(self, user):
-        return self.followed.filter(
-            followers.c.followed_id == user.id).count() > 0
+        if self.followed:
+            return self.followed.filter(
+                followers.c.followed_id == user.id).count() > 0
 
     def followed_posts(self):
         followed = Post.query.join(
@@ -129,8 +130,9 @@ class User(UserMixin, db.Model):
             self.likes.remove(post)
 
     def has_liked(self, post):
-        return self.likes.filter(
-            likes.c.post_id == post.id).count() > 0
+        if self.likes:
+            return self.likes.filter(
+                likes.c.post_id == post.id).count() > 0
 
     def liked_posts(self):
         liked = Post.query.join(
