@@ -44,12 +44,73 @@
           <div class = "uk-card-footer">
             {{ form.submit(class="uk-button uk-button-primary uk-width-1-1") }}
           </div>
+          <div id="demo_login" class="uk-flex uk-flex-middle uk-flex-center">
+          <button 
+              type="submit"
+              data-username = "demo"
+              data-password = "P@ssw0rd!"
+              class="demo-user uk-button"
+              style="margin-left:10px; margin-right:10px">
+              Demo User
+          </button>
+          <button 
+              type="submit"
+              data-username = "demo_admin"
+              data-password = "P@ssw0rd!"
+              class="demo-user uk-button"
+              style="margin-left:10px; margin-right:10px">
+              Demo Admin
+          </button>
+          </div>
+
           <div uk-alert class="uk-flex uk-flex-center">New User? 
             <a href="{{ url_for('account.register') }}"> Click to Register!</a>
           </div>
+
         </fieldset>
       </form>
     </div>
   </div>
 </main>
+{% endblock %}
+
+{% block js %}
+<script>
+  $(document).ready(function () {
+    var button;
+    var returnUrl;
+    $("#demo_login").on("click",'button.demo-user', loginUser);
+
+    function loginUser (e) {
+      button = $(e.target);
+      var username = button.attr("data-username");
+      var password = button.attr("data-password");
+      loginUserCall(username, password);
+    };
+
+    function loginUserCall(email, password) {
+      var data = {};
+      data.username = email;
+      data.password = password;
+      $.ajax({
+         url: "/api/account",
+         contentType: 'application/json',
+         dataType: 'json',
+         method: "POST",
+         data: JSON.stringify(data),
+         success: function (data) {
+           if (data.result != 0) {
+             new Noty({
+               text: 'Login Successful'
+             }).setTimeout(2000).show();
+             window.location= '/';
+           }
+         },
+         error: function(xhr, ajaxOptions, thrownError){
+          alert('something went wrong')  
+         },
+      });
+    }
+  })
+</script>
 {% endblock %}

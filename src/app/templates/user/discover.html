@@ -29,7 +29,7 @@
                 <a href="{{ url_for('user.profile', username=user.username) }}">{{ user.username }}</a>
               </p>
               <p class="followers">
-                {% if user.followers %}
+                {% if user.followers == true and user.followed == true %}
                 {{ '%d followers' % user.followers.count() }}, {{ '%d following' % user.followed.count() }}
                 {% endif %}
               </p>
@@ -40,9 +40,15 @@
                   class="uk-button uk-button-primary js-toggle-follow" type="button"
                   data-username={{ user.username }}>Following</a>
               {% else %}
-                <a href="{{ url_for('api.unfollow', username=user.username) }}"
-                  class="uk-button uk-button-default js-toggle-follow" type="button" 
-                  data-username={{ user.username }}>Follow</a>
+                {% if user == current_user %}
+                  <button href="{{ url_for('api.unfollow', username=user.username) }}"
+                    class="uk-button uk-button-disabled" type="button" 
+                    data-username={{ user.username }} disabled>Follow</button>
+                {% else %}
+                  <a href="{{ url_for('api.unfollow', username=user.username) }}"
+                    class="uk-button uk-button-default js-toggle-follow" type="button" 
+                    data-username={{ user.username }}>Follow</a>
+                {% endif %}
               {% endif %}
             </td>
           </tr>

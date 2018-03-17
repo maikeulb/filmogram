@@ -6,7 +6,7 @@ class Post(db.Model):
     __tablename__ = 'posts'
 
     id = db.Column(db.Integer, primary_key=True)
-    caption = db.Column(db.String(140))
+    caption = db.Column(db.String(140), nullable=True)
     photo_filename = db.Column(db.String)
     photo_url = db.Column(db.String)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
@@ -15,7 +15,7 @@ class Post(db.Model):
     comments = db.relationship(
         'Comment',
         backref='post',
-        # lazy='dynamic'
+        lazy='dynamic'
     )
 
     def to_dict(self):

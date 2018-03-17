@@ -15,7 +15,7 @@
       </div>
     </div>
 
-    <div class = "description">
+    <div class = "description uk-text-center">
       {% if user.bio %}
         <p>{{ user.bio }}</p>
       {% endif %}
@@ -27,17 +27,16 @@
           <a href="{{ url_for('user.edit_profile') }}" class="uk-button
             uk-button-default">Edit Profile</a> 
         {% endif %}
-
         {% if not user == current_user %}
-        {% if current_user.is_following(user) %}
-          <a href="{{ url_for('api.follow', username=user.username) }}"
-            class="uk-button uk-button-primary js-toggle-follow" type="button"
-            data-username={{ user.username }}>Following</a>
-        {% else %}
-          <a href="{{ url_for('api.unfollow', username=user.username) }}"
-            class="uk-button uk-button-default js-toggle-follow" type="button" 
-            data-username={{ user.username }}>Follow</a>
-        {% endif %}
+          {% if current_user.is_following(user) %}
+            <a href="{{ url_for('api.follow', username=user.username) }}"
+              class="uk-button uk-button-primary js-toggle-follow" type="button"
+              data-username={{ user.username }}>Following</a>
+          {% else %}
+            <a href="{{ url_for('api.unfollow', username=user.username) }}"
+              class="uk-button uk-button-default js-toggle-follow" type="button" 
+              data-username={{ user.username }}>Follow</a>
+          {% endif %}
         {% endif %}
 
       </div>
@@ -48,15 +47,11 @@
 
   <div class = "content">
     <ul class="uk-subnav uk-subnav-pill uk-flex-center" uk-switcher>
-      {% if user.followers %}
+      {% if user.posts %}
         <li><a href="#">Posts</a></li>
       {% endif %}
-      {% if user.followers %}
-        <li><a href="#">{{ user.followers.count() }} Followers</a></li>
-      {% endif %}
-      {% if user.followed %}
-        <li><a href="#">{{ user.followed.count() }} Followings</a></li>
-      {% endif %}
+        <li><a href="#">{{ user.follower_count }} Followers</a></li>
+        <li><a href="#">{{ user.followed_count }} Followings</a></li>
     </ul>
     <ul class="uk-switcher uk-margin">
       <li>

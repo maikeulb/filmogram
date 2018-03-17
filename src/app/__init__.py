@@ -63,14 +63,6 @@ def register_errorhandlers(app):
     def render_error(error):
         error_code = getattr(error, 'code', 500)
         return render_template('errors/{0}.html'.format(error_code)), error_code
-    for errcode in [401, 404, 500]:
+    for errcode in [401, 403, 404, 500]:
         app.errorhandler(errcode)(render_error)
     return None
-
-
-def register_shellcontext(app):
-    def shell_context():
-        return {
-            'db': db,
-            'User': models.User}
-    app.shell_context_processor(shell_context)

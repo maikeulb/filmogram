@@ -13,6 +13,15 @@ class Config(object):
         'postgresql://postgres:P@ssw0rd!@172.17.0.2/filmogram'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
+    ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD') or 'P@ssw0rd!'
+    ADMIN_EMAIL = os.environ.get('ADMIN_EMAIL') or 'admin@email.com'
+
+    DEMO_PASSWORD = os.environ.get('DEMO_PASSWORD') or 'P@ssw0rd!'
+    DEMO_EMAIL = 'demo@email.com'
+
+    DEMO_ADMIN_PASSWORD = os.environ.get('DEMO_ADMIN_PASSWORD') or 'P@ssw0rd!'
+    DEMO_ADMIN_EMAIL = 'demo_admin@mail.com'
+
     UPLOADS_DEFAULT_DEST = basedir + '/app/static/uploads/'
     UPLOADS_DEFAULT_URL = 'http://localhost:5000/static/uploads/'
     POSTS_PER_PAGE = 4

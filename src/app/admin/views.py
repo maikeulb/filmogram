@@ -9,16 +9,16 @@ from flask import (
 )
 from flask_login import current_user, login_required
 from app.extensions import login, db
-# from app.decorators import admin_required, demo_admin_required
+from app.decorators import admin_required, demo_admin_required
 from app.admin import admin
 from app.models import (
     Post
 )
 
 
-# @admin.before_request
+@admin.before_request
 @login_required
-# @demo_admin_required
+@demo_admin_required
 def require_login():
     pass
 

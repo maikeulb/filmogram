@@ -1,6 +1,3 @@
-admin,
-  seed
-  httpcache front page
-  clean pip freeze
-  change script to install requirements, production
-  social login
+seed
+clean pip freeze
+change script to install requirements, production

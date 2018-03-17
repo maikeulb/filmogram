@@ -64,6 +64,7 @@
   $("#posts").on("click", ".js-delete", function () {
     var button = $(this);
 
+    {% if current_user.is_admin() %}
           $.ajax({
             url: "/api/posts/" + button.attr("data-post-id"),
             method: "DELETE",
@@ -71,7 +72,12 @@
               table.row(button.parents("tr")).remove().draw();
             }
           });
-
+    {% else %}
+          new Noty({
+            type: 'error',
+            text: 'sorry, admins only'
+          }).setTimeout(1500).show();
+    {% endif %}
   });
 </script>
 {% endblock %}
