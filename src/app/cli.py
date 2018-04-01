@@ -170,3 +170,9 @@ def register(app):
 
         for row in rows:
             click.echo(str_template.format(*row[:column_length]))
+
+    @app.cli.command("test")
+    def test():
+        import pytest
+        rv = pytest.main([TEST_PATH, '--verbose'])
+        exit(rv)
