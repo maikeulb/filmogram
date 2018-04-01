@@ -19,9 +19,9 @@ from app.models import (
     UserNotification
 )
 import json
-from app.api.forms import (
-    CommentForm,
-)
+# from app.api.forms import (
+    # CommentForm,
+# )
 from app.models import (
     Post,
     Comment,

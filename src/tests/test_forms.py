@@ -5,7 +5,10 @@ from app.account.forms import (
     LoginForm,
     RegistrationForm,
 )
-from app.api.forms import CommentForm
+from app.user.forms import (
+    CommentForm,
+    EditProfileForm
+)
 
 
 class TestRegistrationForm:
@@ -49,14 +52,3 @@ class TestCommentForm:
                            post=post,
                            author=user)
         assert form.validate() is True
-
-
-# class CatalogItemForm:
-#     def test_validate_success(self, user):
-#         form = CatalogItemForm(
-#             name='pencil',
-#             description='amazing',
-#             image_url="http://image.jpg",
-#             price=200,
-#             category_id=1)
-#         assert form.validate() is True
