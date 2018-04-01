@@ -3,7 +3,7 @@ import pytest
 from app import create_app
 from app.extensions import db as _db
 from webtest import TestApp
-from .factories import UserFactory
+from .factories import UserFactory, PostFactory
 
 
 @pytest.fixture
@@ -39,3 +39,11 @@ def user(db):
     user = UserFactory(password='myprecious')
     db.session.commit()
     return user
+
+
+@pytest.fixture
+def post(db):
+    user = UserFactory(password='myprecious')
+    post = PostFactory()
+    db.session.commit()
+    return post

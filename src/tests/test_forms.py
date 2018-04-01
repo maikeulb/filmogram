@@ -5,6 +5,7 @@ from app.account.forms import (
     LoginForm,
     RegistrationForm,
 )
+from app.api.forms import CommentForm
 
 
 class TestRegistrationForm:
@@ -42,10 +43,12 @@ class TestLoginForm:
         assert form.validate() is False
 
 
-# class TestSearchForm:
-#     def test_validate_success(self, user):
-#         form = SearchForm(q='pencil')
-#         assert form.validate() is True
+class TestCommentForm:
+    def test_validate_success(self, post, user):
+        form = CommentForm(body='cool',
+                           post=post,
+                           author=user)
+        assert form.validate() is True
 
 
 # class CatalogItemForm:
