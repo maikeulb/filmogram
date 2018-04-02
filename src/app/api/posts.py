@@ -42,3 +42,5 @@ def delete_post(id):
 
     response = jsonify({'data': 'success'})
     return response
+
+
