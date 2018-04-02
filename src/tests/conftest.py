@@ -4,6 +4,7 @@ from app import create_app
 from app.extensions import db as _db
 from webtest import TestApp
 from .factories import UserFactory, PostFactory
+from app.models import User, Post, Role
 
 
 @pytest.fixture
@@ -35,15 +36,41 @@ def db(app):
 
 
 @pytest.fixture
+def post(db):
+    post = Post(caption='caption',
+                photo_filename='filename',
+                photo_url='url',
+                user_id=1)
+    db.session.add(post)
+    db.session.commit()
+    return post
+
+
+@pytest.fixture
 def user(db):
-    user = UserFactory(password='myprecious')
+    role = Role(name='Administrator',
+                permissions=2,
+                index='admin',
+                default=False)
+    user = User(username='demo',
+                email='demo@example.com',
+                bio='fummy bio',
+                profile_img_url='dimmy url',
+                role_id=1)
+    user.set_password('P@ssw0rd!')
+    db.session.add(role)
+    db.session.add(user)
     db.session.commit()
     return user
 
 
-@pytest.fixture
-def post(db):
-    user = UserFactory(password='myprecious')
-    post = PostFactory()
-    db.session.commit()
-    return post
+# @pytest.fixture
+# def role(db):
+#     db.session.commit()
+#     return role
+
+# @pytest.fixture
+# def post(db):
+#     post = PostFactory()
+#     db.session.commit()
+#     return post
