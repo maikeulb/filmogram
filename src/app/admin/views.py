@@ -32,21 +32,21 @@ def index():
                            title='Posts')
 
 
-@admin.route('/details/<int:post_id>')
-def details(id):
-    post = Post.query \
-        .filter_by(id=id) \
-        .first_or_404()
+# @admin.route('/details/<int:post_id>')
+# def details(post_id):
+#     post = Post.query \
+#         .filter_by(id=post_id) \
+#         .first_or_404()
 
-    return render_template('admin/details.html',
-                           post=post,
-                           title='Post')
+    # return render_template('admin/details.html',
+    #                        post=post,
+    #                        title='Post') // most likely incorrect - delete
 
 
 @admin.route('/delete/<int:post_id>', methods=['POST'])
-def delete(id):
+def delete(post_id):
     post = Post.query \
-        .filter_by(id=id).first_or_404()
+        .filter_by(id=post_id).first_or_404()
 
     db.session.delete(post)
     db.session.commit()

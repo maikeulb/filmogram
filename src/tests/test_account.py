@@ -22,3 +22,7 @@ class TestAccount:
         res = testapp.post(url_for('account.register', data=user))
         res = testapp.post(url_for('account.login', data=user))
         assert res.status_code == 200
+
+    def test_can_logout(self, user, testapp):
+        res = testapp.get(url_for('account.logout'))
+        assert res.status_code == 302

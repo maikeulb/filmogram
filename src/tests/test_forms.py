@@ -44,10 +44,9 @@ class TestLoginForm:
         form = LoginForm(username=user.username, password='wrongpassword')
         assert form.validate() is False
 
-
-# class TestCommentForm:
-#     def test_validate_success(self, post, user):
-#         form = CommentForm(body='cool',
-#                            post=post,
-#                            author=user)
-#         assert form.validate() is True
+    class TestCommentForm:
+        def test_validate_success(self, post, user):
+            form = CommentForm(body='cool',
+                               post=post,
+                               author=user)
+            assert form.validate() is True

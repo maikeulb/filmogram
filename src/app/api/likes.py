@@ -43,7 +43,7 @@ def like(id):
     db.session.add(notification)
     db.session.commit()
     response = jsonify({'result': current_user.username})
-    return response
+    return response, 200
 
 
 @api.route('/like/<int:id>', methods=['DELETE'])
@@ -57,4 +57,4 @@ def unlike(id):
     current_user.unlike(post)
     db.session.commit()
     response = jsonify({'result': current_user.username})
-    return response
+    return response, 200

@@ -20,7 +20,7 @@ from app.models import (
 )
 import json
 # from app.api.forms import (
-    # CommentForm,
+# CommentForm,
 # )
 from app.models import (
     Post,
@@ -32,7 +32,7 @@ from app.models import (
 def get_posts():
     posts = Post.query.all()
     response = jsonify([post.to_dict() for post in posts])
-    return response
+    return response, 200
 
 
 @api.route('/posts/<int:id>', methods=['DELETE'])
@@ -41,6 +41,4 @@ def delete_post(id):
     db.session.commit()
 
     response = jsonify({'data': 'success'})
-    return response
-
-
+    return response, 200

@@ -20,7 +20,7 @@ from app.models import (
 )
 import json
 # from app.api.forms import (
-    # CommentForm,
+# CommentForm,
 # )
 from app.models import (
     Post,
@@ -39,7 +39,8 @@ def get_notifications():
         'data': n.get_data(),
         'timestamp': n.timestamp
     } for n in notifications])
-    return response
+    return response, 200
+
 
 @api.route('/notifications', methods=['DELETE'])
 @login_required
@@ -47,4 +48,4 @@ def reset_notifications():
     current_user.last_user_notification_read_time = datetime.utcnow()
     current_user.add_notification('unread_message_count', 0)
     db.session.commit()
-    return jsonify({'result': 'success'})
+    return jsonify({'result': 'success'}), 200

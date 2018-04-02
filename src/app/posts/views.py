@@ -20,6 +20,7 @@ from app.models import (
     Comment,
 )
 
+
 @posts.route('/')
 @posts.route('/index')
 @login_required

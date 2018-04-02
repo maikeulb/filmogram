@@ -1,21 +1,21 @@
 from flask import (
-    render_template, 
-    flash, 
-    redirect, 
-    url_for, 
+    render_template,
+    flash,
+    redirect,
+    url_for,
     request
 )
 from werkzeug.urls import url_parse
 from flask_login import (
-    login_user, 
+    login_user,
     logout_user,
     current_user,
     login_required
 )
 from werkzeug.urls import url_parse
 from app.account import account
-from app.account.forms import ( 
-    LoginForm, 
+from app.account.forms import (
+    LoginForm,
     RegistrationForm
 )
 from app.models import User
@@ -38,8 +38,8 @@ def login():
         if not next_page or url_parse(next_page).netloc != '':
             next_page = url_for('posts.index')
         return redirect(next_page)
-    return render_template('account/login.html', 
-                           title='Sign In', 
+    return render_template('account/login.html',
+                           title='Sign In',
                            form=form)
 
 
@@ -62,6 +62,6 @@ def register():
         db.session.commit()
         flash('Congratulations, you are now a registered user!')
         return redirect(url_for('account.login'))
-    return render_template('account/register.html', 
+    return render_template('account/register.html',
                            title='Register',
                            form=form)
