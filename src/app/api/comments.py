@@ -27,6 +27,7 @@ from app.models import (
     Comment,
 )
 
+
 @api.route('/comment/<id>', methods=['post'])
 def comment(id):
     post = Post.query.filter_by(id=id).first_or_404()
@@ -41,4 +42,4 @@ def comment(id):
             'body': form.body.data,
             'author': current_user.username
         })
-    return jsonify(data=form.errors)
+    return jsonify(data=form.errors), 400

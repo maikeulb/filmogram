@@ -13,4 +13,4 @@ def login_demo_user():
     if user.check_password(data['password']):
         login_user(user)
         return jsonify({'result': user.id})
-    return jsonify({'result': 0})
+    return jsonify({'result': 0}), 400

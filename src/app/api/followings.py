@@ -32,12 +32,12 @@ from app.models import (
 @login_required
 def follow(username):
     user = User.query.filter_by(username=username).first()
-    if user is None:
-        flash('User not found.')
-        return jsonify({'result': 'error'}), 400
+    # if user is None:
+        # flash('User not found.')
+        # return jsonify({'result': 'error'}), 400
     if user == current_user:
         flash('You cannot follow yourself!')
-        return jsonify({'result': 'error'}), 400
+        return jsonify({'result': 'error'}), 422
     current_user.follow(user)
     db.session.commit()
     response = jsonify({'result': user.username})
@@ -48,11 +48,11 @@ def follow(username):
 @login_required
 def unfollow(username):
     user = User.query.filter_by(username=username).first()
-    if user is None:
-        return jsonify({'result': 'error'}), 400
+    # if user is None:
+        # return jsonify({'result': 'error'}), 400
     if user == current_user:
         flash('You cannot unfollow yourself!')
-        return jsonify({'result': 'error'}), 400
+        return jsonify({'result': 'error'}), 422
     current_user.unfollow(user)
     db.session.commit()
     response = jsonify({'result': user.username})
