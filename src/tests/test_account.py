@@ -6,12 +6,12 @@ import pytest
 
 @pytest.mark.usefixtures('db')
 class TestAccount:
-    def test_get_register(self, user, testapp):
-        res = testapp.get(url_for('account.register'))
+    def test_get_register(user, client):
+        res = client.get(url_for('account.register'))
         assert res.status_code == 200
 
-    def test_get_login(self, user, testapp):
-        res = testapp.get(url_for('account.login'))
+    def test_get_login(user, client):
+        res = client.get(url_for('account.login'))
         assert res.status_code == 200
 
     def test_can_register(self, user, testapp):

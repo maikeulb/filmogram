@@ -34,7 +34,7 @@ def like(id):
     post = Post.query.get_or_404(id)
     if post is None:
         flash('User not found.')
-        return jsonify({'result': 'error'})
+        return jsonify({'result': 'error'}), 200
     current_user.like(post)
     user = User.query.filter_by(id=post.user_id).first_or_404()
     user.add_notification('unread_message_count', user.new_messages())
@@ -43,7 +43,7 @@ def like(id):
     db.session.add(notification)
     db.session.commit()
     response = jsonify({'result': current_user.username})
-    return response, 200
+    return response, 201
 
 
 @api.route('/like/<int:id>', methods=['DELETE'])
@@ -52,9 +52,8 @@ def unlike(id):
     post = Post.query.get_or_404(id)
     if post is None:
         flash('User not found.')
-        # return redirect(url_for('posts.index'))
-        return jsonify({'result': 'error'})
+        return jsonify({'result': 'error'}), 200
     current_user.unlike(post)
     db.session.commit()
     response = jsonify({'result': current_user.username})
-    return response, 200
+    return response, 201

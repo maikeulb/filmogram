@@ -26,6 +26,14 @@ def app():
     ctx.pop()
 
 
+@pytest.yield_fixture
+def api_client(app):
+    app.response_class = ApiTestResponse
+    app.test_client_class = ApiTestClient
+    with app.test_client() as client:
+        yield client
+
+
 @pytest.fixture
 def client(app):
     app.test_client_class = HtmlTestClient
@@ -68,6 +76,22 @@ def user(db):
     db.session.commit()
     user = UserFactory(
         username='demo',
+        password='P@ssw0rd!',
+        role_id=role.id)
+    db.session.commit()
+    return user
+
+
+@pytest.fixture
+def second_user(db):
+    role = RoleFactory(
+        name='User',
+        permissions=0,
+        index='user',
+        default=False)
+    db.session.commit()
+    user = UserFactory(
+        username='user',
         password='P@ssw0rd!',
         role_id=role.id)
     db.session.commit()
