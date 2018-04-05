@@ -6,23 +6,23 @@ import pytest
 
 @pytest.mark.usefixtures('db')
 class TestAccount:
-    def test_get_register(user, client):
+    def test_get_register(self, client):
         res = client.get(url_for('account.register'))
         assert res.status_code == 200
 
-    def test_get_login(user, client):
+    def test_get_login(self, client):
         res = client.get(url_for('account.login'))
         assert res.status_code == 200
 
-    def test_can_register(self, user, testapp):
-        res = testapp.post(url_for('account.register', data=user))
+    def test_can_register(self, client, user):
+        res = client.post(url_for('account.register', data=user))
         assert res.status_code == 200
 
-    def test_can_login(self, user, testapp):
-        res = testapp.post(url_for('account.register', data=user))
-        res = testapp.post(url_for('account.login', data=user))
+    def test_can_login(self, client, user):
+        res = client.post(url_for('account.register', data=user))
+        res = client.post(url_for('account.login', data=user))
         assert res.status_code == 200
 
-    def test_can_logout(self, user, testapp):
-        res = testapp.get(url_for('account.logout'))
+    def test_can_logout(self, client, user):
+        res = client.get(url_for('account.logout'))
         assert res.status_code == 302

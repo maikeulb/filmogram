@@ -7,22 +7,22 @@ from app.models import Post
 @pytest.mark.usefixtures('db')
 class TestPosts:
 
-    def test_get_index(user, client, post):
+    def test_get_index(self, client, post):
         client.login_user()
         resp = client.get(url_for('posts.index'))
         assert resp.status_code == 200
 
-    def test_get_post(user, client, post):
+    def test_get_post(self, client, post):
         client.login_user()
         resp = client.get(url_for('posts.post'))
         assert resp.status_code == 200
 
-    def test_get_favorites(user, client, post):
+    def test_get_favorites(self, client, post):
         client.login_user()
         resp = client.get(url_for('posts.favorites'))
         assert resp.status_code == 200
 
-    def test_can_post(user, client, post):
+    def test_can_post(self, client, post):
         client.login_user()
         post = Post(caption='caption',
                     photo_filename='filename',
@@ -31,9 +31,9 @@ class TestPosts:
         resp = client.post(url_for('posts.post', data=post))
         assert resp.status_code == 200
 
-    def test_can_login(self, user, testapp):
-        res = testapp.post(url_for('account.register', data=user))
-        res = testapp.post(url_for('account.login', data=user))
+    def test_can_login(self, client, user):
+        res = client.post(url_for('account.register', data=user))
+        res = client.post(url_for('account.login', data=user))
         assert res.status_code == 200
 
 #     def test_get_details(user, client, post):
