@@ -82,7 +82,7 @@ def user(db):
     return user
 
 
-@pytest.fixture
+@pytest.fixture()
 def second_user(db):
     role = RoleFactory(
         name='User',

@@ -39,6 +39,5 @@ def get_posts():
 def delete_post(id):
     Post.query.filter_by(id=id).delete()
     db.session.commit()
-
     response = jsonify({'data': 'success'})
     return response, 200
