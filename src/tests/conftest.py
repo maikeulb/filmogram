@@ -1,5 +1,4 @@
 import pytest
-
 from app import create_app
 from app.extensions import db as _db
 from app.models import User, Post, Role
@@ -70,13 +69,6 @@ def post(db, user):
 
 
 @pytest.fixture
-def comment(db, user):
-    comment = CommentFactory(post_id=post.id)
-    db.session.commit()
-    return comment
-
-
-@pytest.fixture
 def comment(db, user, post):
     comment = CommentFactory(user_id=user.id,
                              post_id=post.id)
@@ -88,15 +80,15 @@ def comment(db, user, post):
 def notification(db, user):
     notification = NotificationFactory(user_id=user.id)
     db.session.commit()
-    return comment
+    return notification
 
 
 @pytest.fixture
 def user_notification(db, user, second_user):
-    notification = NotificationFactory(sender_id=user.id,
-                                       recipient_id=second_user.id)
+    user_notification = UserNotificationFactory(sender_id=user.id,
+                                                recipient_id=second_user.id)
     db.session.commit()
-    return comment
+    return user_notification
 
 
 @pytest.fixture

@@ -1,9 +1,6 @@
-from flask import url_for
-from datetime import datetime
 import pytest
-import json
+from flask import url_for
 from app.decorators import (
-    permission_required,
     admin_required,
     demo_admin_required
 )

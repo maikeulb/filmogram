@@ -1,5 +1,4 @@
 import json
-
 from flask import Response, url_for
 from flask.testing import FlaskClient
 from urllib.parse import urlparse

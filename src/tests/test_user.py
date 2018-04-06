@@ -1,7 +1,6 @@
-from flask import url_for
-from datetime import datetime
 import pytest
-from app.models import Post, User
+from flask import url_for
+from app.models import User
 
 
 @pytest.mark.usefixtures('db')
@@ -35,4 +34,3 @@ class TestUser:
     #     client.login_user()
     #     resp = client.get(url_for('user.profile', username='demo'))
     #     assert resp.status_code == 200
-

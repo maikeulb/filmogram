@@ -1,7 +1,3 @@
-import datetime as dt
-import pytest
-from app.models import Role, User
-
 from ._factories import UserFactory
 
 

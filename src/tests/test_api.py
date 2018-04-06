@@ -1,8 +1,6 @@
-from flask import url_for
-from datetime import datetime
 import pytest
 import json
-from ._factories import UserFactory
+from flask import url_for
 
 
 @pytest.mark.usefixtures('db')

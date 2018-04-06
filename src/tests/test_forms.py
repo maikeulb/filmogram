@@ -1,5 +1,3 @@
-from flask import url_for
-from datetime import datetime
 import pytest
 from app.account.forms import (
     LoginForm,
@@ -9,7 +7,6 @@ from app.user.forms import (
     CommentForm,
     EditProfileForm
 )
-
 from app.api.forms import CommentForm as _CommentForm
 from app.posts.forms import CommentForm as _PostCommentForm
 
