@@ -93,6 +93,8 @@ def post():
                            title='Post',
                            form=form)
 
+# this can probably be removed
+
 
 @posts.route('/details/<id>')
 @login_required

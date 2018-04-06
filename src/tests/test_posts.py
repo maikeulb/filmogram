@@ -31,10 +31,10 @@ class TestPosts:
         resp = client.post(url_for('posts.post', data=post))
         assert resp.status_code == 200
 
-    def test_can_login(self, client, user):
-        res = client.post(url_for('account.register', data=user))
-        res = client.post(url_for('account.login', data=user))
-        assert res.status_code == 200
+    # def test_can_login(self, client, user):
+    #     res = client.post(url_for('account.register', data=user))
+    #     res = client.post(url_for('account.login', data=user))
+    #     assert res.status_code == 200
 
 #     def test_get_details(user, client, post):
 #         client.login_user()

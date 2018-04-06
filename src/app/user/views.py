@@ -31,9 +31,9 @@ def profile(username):
     following = user.get_my_following()
     followers = user.get_my_followers()
     next_url = url_for('user.profile', username=user.username,
-        page=posts.next_num) if posts.has_next else None
+                       page=posts.next_num) if posts.has_next else None
     prev_url = url_for('user.profile', username=user.username,
-        page=posts.prev_num) if posts.has_prev else None
+                       page=posts.prev_num) if posts.has_prev else None
     if form.validate_on_submit():
         comment = Comment(body=form.body.data,
                           post=post,
@@ -64,13 +64,14 @@ def edit_profile():
         current_user.bio = form.bio.data
         db.session.commit()
         flash('Your changes have been saved.')
-        return redirect(url_for('user.profile', username = current_user.username))
-    elif request.method == 'GET':
-        form.username.data = current_user.username
-        form.bio.data = current_user.bio
+        return redirect(url_for('user.profile', username=current_user.username))
+    # elif request.method == 'GET':
+    form.username.data = current_user.username
+    form.bio.data = current_user.bio
     return render_template('user/edit_profile.html',
                            title='Edit Profile',
                            form=form)
+
 
 @user.route('/discover/')
 def discover():

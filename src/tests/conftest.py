@@ -67,6 +67,13 @@ def post(db, user):
 
 
 @pytest.fixture
+def comment(db, user):
+    comment = CommentFactory(post_id=post.id)
+    db.session.commit()
+    return comment
+
+
+@pytest.fixture
 def user(db):
     role = RoleFactory(
         name='Administrator',

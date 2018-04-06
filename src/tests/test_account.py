@@ -18,10 +18,19 @@ class TestAccount:
         res = client.post(url_for('account.register', data=user))
         assert res.status_code == 200
 
-    def test_can_login(self, client, user):
+    def test_can_authenticated_user_register(self, client, user):
+        client.login_user()
         res = client.post(url_for('account.register', data=user))
+        assert res.status_code == 302
+
+    def test_can_login(self, client, user):
         res = client.post(url_for('account.login', data=user))
         assert res.status_code == 200
+
+    def test_can_authenticated_user_login(self, client, user):
+        client.login_user()
+        res = client.post(url_for('account.login', data=user))
+        assert res.status_code == 302
 
     def test_can_logout(self, client, user):
         res = client.get(url_for('account.logout'))

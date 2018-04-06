@@ -30,3 +30,9 @@ class TestUser:
                     profile_img_url='dimmy url')
         resp = client.post(url_for('posts.post', data=user))
         assert resp.status_code == 200
+
+    # def test_can_leave_comment(self, client, post):
+    #     client.login_user()
+    #     resp = client.get(url_for('user.profile', username='demo'))
+    #     assert resp.status_code == 200
+

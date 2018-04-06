@@ -70,3 +70,9 @@ class TestPostModel:
         data['caption'] = 'my_caption'
         post.from_dict(data)
         assert post.caption == data['caption']
+
+# class TestNotificationModel:
+
+#     def test_get_data(self, notification):
+#         data = post.to_dict()
+#         assert data['id'] == post.id
