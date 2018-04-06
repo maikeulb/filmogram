@@ -1,4 +1,7 @@
-from factory import PostGenerationMethodCall, Sequence, SubFactory
+from factory import (
+    PostGenerationMethodCall,
+    Sequence,
+    SubFactory)
 from factory.alchemy import SQLAlchemyModelFactory
 from app.extensions import db
 from app.models import (
@@ -33,7 +36,6 @@ class UserFactory(BaseFactory):
     email = Sequence(lambda n: 'user{0}@example.com'.format(n))
     password = PostGenerationMethodCall('set_password', 'P@ssw0rd!')
     role_id = Sequence(lambda n: n)
-    # role = SubFactory(UserFactory)
 
     class Meta:
         model = User
@@ -45,7 +47,6 @@ class PostFactory(BaseFactory):
     photo_filename = Sequence(lambda n: 'filename{0}'.format(n))
     photo_url = Sequence(lambda n: 'filename_url{0}'.format(n))
     user_id = Sequence(lambda n: n)
-    # user = SubFactory(UserFactory)
 
     class Meta:
         model = Post
@@ -56,31 +57,28 @@ class CommentFactory(BaseFactory):
     body = Sequence(lambda n: 'body{0}'.format(n))
     user = SubFactory(UserFactory)
     post = SubFactory(PostFactory)
-    # user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    # post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
+    user_id = Sequence(lambda n: n)
+    post_id = Sequence(lambda n: n)
 
     class Meta:
         model = Comment
 
 
-class NoficationFactory(BaseFactory):
+class NotificationFactory(BaseFactory):
     id = Sequence(lambda n: n)
     name = Sequence(lambda n: 'name{0}'.format(n))
     payload_json = Sequence(lambda n: 'payload{0}'.format(n))
-    user = SubFactory(UserFactory)
-    # user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user_id = Sequence(lambda n: n)
 
     class Meta:
         model = Notification
 
 
-class UserNoficiationFactory(BaseFactory):
+class UserNotificationFactory(BaseFactory):
     id = Sequence(lambda n: n)
     body = Sequence(lambda n: 'body{0}'.format(n))
-    sender = SubFactory(UserFactory)
-    recipient = SubFactory(UserFactory)
-    # sender_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    # recipient_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
+    sender_id = Sequence(lambda n: n)
+    recipient_id = Sequence(lambda n: n)
 
     class Meta:
         model = UserNotification

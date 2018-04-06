@@ -13,7 +13,10 @@ from ._client import (
 from ._factories import (
     UserFactory,
     PostFactory,
-    RoleFactory
+    RoleFactory,
+    CommentFactory,
+    NotificationFactory,
+    UserNotificationFactory
 )
 
 
@@ -69,6 +72,29 @@ def post(db, user):
 @pytest.fixture
 def comment(db, user):
     comment = CommentFactory(post_id=post.id)
+    db.session.commit()
+    return comment
+
+
+@pytest.fixture
+def comment(db, user, post):
+    comment = CommentFactory(user_id=user.id,
+                             post_id=post.id)
+    db.session.commit()
+    return comment
+
+
+@pytest.fixture
+def notification(db, user):
+    notification = NotificationFactory(user_id=user.id)
+    db.session.commit()
+    return comment
+
+
+@pytest.fixture
+def user_notification(db, user, second_user):
+    notification = NotificationFactory(sender_id=user.id,
+                                       recipient_id=second_user.id)
     db.session.commit()
     return comment
 
