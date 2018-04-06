@@ -131,21 +131,3 @@ class TestFollowingsApi:
     #                                id=comment.id)
     #     data=json.loads(resp.get_data(as_text=True))
     #     assert resp.status_code == 400
-
-# @pytest.mark.usefixtures('db')
-# class TestAccountApi:
-#     @pytest.mark.skip(reason="need to make factory for demo user")
-#     def test_can_login_demo(self, client, post, user, second_user):
-#         client.login_user()
-#         resp=client.post(url_for('api.follow',
-#                                    id=comment.id)
-#         data=json.loads(resp.get_data(as_text=True))
-#         assert resp.status_code == 201
-
-#     @pytest.mark.skip(reason="need to make factory for demo user")
-#     def test_invalid_login_demo(self, client, post, user, second_user):
-#         client.login_user()
-#         resp=client.post(url_for('api.follow',
-#                                    id=comment.id)
-#         data=json.loads(resp.get_data(as_text=True))
-#         assert resp.status_code == 400

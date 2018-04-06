@@ -2,7 +2,11 @@ from flask import url_for
 from datetime import datetime
 import pytest
 import json
-from app.decorators import permission_required, admin_required, demo_admin_required
+from app.decorators import (
+    permission_required,
+    admin_required,
+    demo_admin_required
+)
 
 
 class MethodCalled(Exception):
