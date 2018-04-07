@@ -24,6 +24,7 @@ def require_login():
 @admin.route('/index')
 def index():
     posts = Post.query.all()
+
     return render_template('admin/index.html',
                            posts=posts,
                            title='Posts')
@@ -36,4 +37,5 @@ def delete(post_id):
     db.session.delete(post)
     db.session.commit()
     flash('Delete successfully.', 'success')
+
     return redirect(url_for('admin.index'))

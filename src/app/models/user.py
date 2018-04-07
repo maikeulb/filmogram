@@ -4,7 +4,7 @@ import json
 from app.extensions import db
 from datetime import datetime
 from hashlib import md5
-from flask_login import UserMixin, AnonymousUserMixin
+from flask_login import AnonymousUserMixin, UserMixin
 from app.extensions import bcrypt, login
 from app.models.post import Post
 from app.models.notification import Notification
@@ -95,15 +95,6 @@ class User(UserMixin, db.Model):
     def check_password(self, value):
         return bcrypt.check_password_hash(self.password, value)
 
-    def can(self, permissions):
-        return self.role.permissions >= permissions
-
-    def is_demo_admin(self):
-        return self.can(Permission.DEMO_ADMINISTER)
-
-    def is_admin(self):
-        return self.can(Permission.ADMINISTER)
-
     def avatar(self, size):
         digest = md5(self.email.lower().encode('utf-8')).hexdigest()
         return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(
@@ -193,6 +184,15 @@ class User(UserMixin, db.Model):
             return len(self.followed.all())
         return 0
 
+    def can(self, permissions):
+        return self.role.permissions >= permissions
+
+    def is_demo_admin(self):
+        return self.can(Permission.DEMO_ADMINISTER)
+
+    def is_admin(self):
+        return self.can(Permission.ADMINISTER)
+
 
 class AnonymousUser(AnonymousUserMixin):
     def can(self, _):
@@ -238,6 +238,15 @@ class Role(db.Model):
             db.session.add(role)
         db.session.commit()
 
+class AnonymousUser(AnonymousUserMixin):
+    def can(self, _):
+        return False
+
+    def is_admin(self):
+        return False
+
+    def is_demo_admin(self):
+        return False
 
 @login.user_loader
 def load_user(id):

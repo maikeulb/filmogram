@@ -1,12 +1,11 @@
 import sys
-from datetime import datetime
 from flask import (
-    render_template,
+    current_app,
     flash,
     redirect,
-    url_for,
+    render_template,
     request,
-    current_app
+    url_for,
 )
 from flask_login import current_user, login_required
 from app.extensions import db, images
@@ -39,6 +38,7 @@ def index():
                           author=current_user._get_current_object())
         db.session.add(comment)
         db.session.commit()
+
     return render_template('posts/index.html',
                            title='Followed Posts',
                            posts=posts.items,
@@ -64,6 +64,7 @@ def favorites():
                           author=current_user._get_current_object())
         db.session.add(comment)
         db.session.commit()
+
     return render_template('posts/index.html',
                            title='Favorites',
                            posts=posts.items,

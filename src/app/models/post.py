@@ -21,15 +21,13 @@ class Post(db.Model):
     def to_dict(self):
         data = {
             'id': self.id,
-            'caption': self.caption,
             'photo_url': self.photo_url,
             'author': self.author.username,
-            'likes': self.likes,
         }
         return data
 
-    def from_dict(self, data):
-        for field in ['caption', 'photo_url', 'author',
-                      'likes']:
-            if field in data:
-                setattr(self, field, data[field])
+#     def from_dict(self, data):
+#         for field in ['caption', 'photo_url', 'author',
+#                       'likes']:
+#             if field in data:
+#                 setattr(self, field, data[field])

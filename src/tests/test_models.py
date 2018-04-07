@@ -1,3 +1,5 @@
+import pytest
+
 from ._factories import UserFactory
 
 
@@ -61,14 +63,9 @@ class TestPostModel:
         data = post.to_dict()
         assert data['id'] == post.id
 
-    def test_can_from_to_dict(self, user, post):
+    @pytest.mark.skip('removed from dict because it was not needed')
+    def test_can_from_dict(self, user, post):
         data = {}
-        data['caption'] = 'my_caption'
+        data['photo_url'] = 'my_author'
         post.from_dict(data)
-        assert post.caption == data['caption']
-
-# class TestNotificationModel:
-
-#     def test_get_data(self, notification):
-#         data = post.to_dict()
-#         assert data['id'] == post.id
+        assert post.caption == data['author']

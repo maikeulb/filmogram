@@ -73,12 +73,6 @@ def register(app):
         db.session.add(demo_post)
         db.session.add(admin_post)
 
-    # @click.command()
-    # def test():
-    #     import pytest
-    #     rv = pytest.main([TEST_PATH, '--verbose'])
-    #     exit(rv)
-
     @click.command()
     @click.option('-f', '--fix-imports', default=False, is_flag=True,
                   help='Fix imports using isort, before linting')

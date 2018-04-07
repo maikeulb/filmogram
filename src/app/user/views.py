@@ -1,11 +1,11 @@
 import sys
 from flask import (
+    current_app,
     render_template,
-    flash,
     redirect,
-    url_for,
     request,
-    current_app
+    flash,
+    url_for,
 )
 from flask_login import current_user, login_required
 from app.extensions import db, images
@@ -40,6 +40,7 @@ def profile(username):
                           author=current_user._get_current_object())
         db.session.add(comment)
         db.session.commit()
+
     return render_template('user/profile.html',
                            title='User',
                            user=user,
@@ -65,9 +66,9 @@ def edit_profile():
         db.session.commit()
         flash('Your changes have been saved.')
         return redirect(url_for('user.profile', username=current_user.username))
-    # elif request.method == 'GET':
     form.username.data = current_user.username
     form.bio.data = current_user.bio
+
     return render_template('user/edit_profile.html',
                            title='Edit Profile',
                            form=form)
@@ -76,6 +77,7 @@ def edit_profile():
 @user.route('/discover/')
 def discover():
     users = User.query.all()
+
     return render_template('user/discover.html',
                            title='Discover',
                            users=users)

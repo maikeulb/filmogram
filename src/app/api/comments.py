@@ -2,7 +2,7 @@ import sys
 from flask import (
     jsonify,
 )
-from flask_login import current_user
+from flask_login import current_user, login_required
 from app.extensions import db
 from app.api import api
 from app.models import (
@@ -15,6 +15,7 @@ from app.api.forms import (
 
 
 @api.route('/comment/<id>', methods=['post'])
+@login_required
 def comment(id):
     post = Post.query.filter_by(id=id).first_or_404()
     form = CommentForm()
