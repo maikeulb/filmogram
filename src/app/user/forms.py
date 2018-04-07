@@ -1,10 +1,8 @@
-from flask_uploads import (
-    IMAGES,
-)
+from flask_uploads import IMAGES
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 from wtforms import StringField, TextAreaField, SubmitField
-from wtforms.validators import DataRequired, Length
+from wtforms.validators import DataRequired, Length, ValidationError
 from app.models import User
 from app import images
 

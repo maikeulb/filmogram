@@ -1,6 +1,5 @@
 from app.extensions import db
 from time import time
-from flask import current_app
 import json
 
 

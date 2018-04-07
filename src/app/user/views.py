@@ -36,7 +36,7 @@ def profile(username):
                        page=posts.prev_num) if posts.has_prev else None
     if form.validate_on_submit():
         comment = Comment(body=form.body.data,
-                          post=post,
+                          # post=post,
                           author=current_user._get_current_object())
         db.session.add(comment)
         db.session.commit()

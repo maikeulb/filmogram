@@ -1,17 +1,14 @@
+import jwt
+import sys
+import json
 from app.extensions import db
-from datetime import datetime, timedelta
+from datetime import datetime
 from hashlib import md5
-from time import time
-from flask import current_app
 from flask_login import UserMixin, AnonymousUserMixin
 from app.extensions import bcrypt, login
 from app.models.post import Post
 from app.models.notification import Notification
 from app.models.user_notification import UserNotification
-import jwt
-import sys
-import json
-
 
 likes = db.Table(
     'likes',

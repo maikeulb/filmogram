@@ -1,8 +1,7 @@
 import os
+import click
 from glob import glob
 from subprocess import call
-
-import click
 from flask import current_app
 from flask.cli import with_appcontext
 from werkzeug.exceptions import MethodNotAllowed, NotFound
@@ -74,11 +73,11 @@ def register(app):
         db.session.add(demo_post)
         db.session.add(admin_post)
 
-    @click.command()
-    def test():
-        import pytest
-        rv = pytest.main([TEST_PATH, '--verbose'])
-        exit(rv)
+    # @click.command()
+    # def test():
+    #     import pytest
+    #     rv = pytest.main([TEST_PATH, '--verbose'])
+    #     exit(rv)
 
     @click.command()
     @click.option('-f', '--fix-imports', default=False, is_flag=True,

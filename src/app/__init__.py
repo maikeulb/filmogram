@@ -1,5 +1,4 @@
 import config
-import os
 from flask import (
     Flask,
     render_template,
@@ -13,11 +12,11 @@ from app.extensions import (
     migrate,
     moment,
     images,
-    configure_uploads,
+    # configure_uploads,
     patch_request_class,
-    UploadSet,
+    # UploadSet,
     configure_uploads,
-    IMAGES
+    # IMAGES
 )
 from app.posts import posts as posts_bp
 from app.explore import explore as explore_bp
@@ -25,7 +24,7 @@ from app.user import user as user_bp
 from app.api import api as api_bp
 from app.admin import admin as admin_bp
 from app.account import account as account_bp
-from werkzeug.utils import secure_filename
+# from werkzeug.utils import secure_filename
 
 
 def create_app(config_class):
