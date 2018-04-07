@@ -57,6 +57,6 @@ Go to http://localhost:5000
 ```
 TODO
 ----
-Secure APIs  
 Dockerfile  
 Configure Webpack
+

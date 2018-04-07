@@ -5,15 +5,15 @@ from flask import (
 from flask_login import login_required
 from app.api import api
 from app.extensions import db
-from app.decorators import demo_admin_required
+from app.decorators import demo_admin_required, admin_required
 from app.models import (
     Post,
 )
 
 
+@api.route('/posts')
 @login_required
 @demo_admin_required
-@api.route('/posts')
 def get_posts():
     posts = Post.query.all()
 
@@ -21,10 +21,9 @@ def get_posts():
     return response, 200
 
 
-# add real admin permissions
-@login_required
-@demo_admin_required
 @api.route('/posts/<int:id>', methods=['POST'])
+@login_required
+@admin_required
 def delete_post(id):
     print('hi')
     Post.query.filter_by(id=id).delete()
