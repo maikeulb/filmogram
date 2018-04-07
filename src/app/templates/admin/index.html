@@ -67,9 +67,13 @@
     {% if current_user.is_admin() %}
           $.ajax({
             url: "/api/posts/" + button.attr("data-post-id"),
-            method: "DELETE",
+            method: "POST",
             success: function () {
-              table.row(button.parents("tr")).remove().draw();
+                new Noty({
+                  theme: 'rellax',
+                  type: 'info',
+                  text: 'photo removed!'
+                }).setTimeout(1000).show();
             }
           });
     {% else %}

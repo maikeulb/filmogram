@@ -24,8 +24,9 @@ def get_posts():
 # add real admin permissions
 @login_required
 @demo_admin_required
-@api.route('/posts/<int:id>', methods=['DELETE'])
+@api.route('/posts/<int:id>', methods=['POST'])
 def delete_post(id):
+    print('hi')
     Post.query.filter_by(id=id).delete()
     db.session.commit()
 

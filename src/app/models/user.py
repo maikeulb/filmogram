@@ -13,7 +13,8 @@ from app.models.user_notification import UserNotification
 likes = db.Table(
     'likes',
     db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
-    db.Column('post_id', db.Integer, db.ForeignKey('posts.id'))
+    db.Column('post_id', db.Integer, db.ForeignKey('posts.id',
+                                                   ondelete='CASCADE'))
 )
 
 followers = db.Table(
@@ -238,6 +239,7 @@ class Role(db.Model):
             db.session.add(role)
         db.session.commit()
 
+
 class AnonymousUser(AnonymousUserMixin):
     def can(self, _):
         return False
@@ -247,6 +249,7 @@ class AnonymousUser(AnonymousUserMixin):
 
     def is_demo_admin(self):
         return False
+
 
 @login.user_loader
 def load_user(id):

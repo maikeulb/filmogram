@@ -11,7 +11,7 @@ class EditProfileForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     bio = TextAreaField('About me', validators=[Length(min=0, max=140)])
     profile_img = FileField('Photo Upload', validators=[FileAllowed(
-        images, 'Image Only!'), FileRequired('Choose a file!')])
+        images, 'Image Only!')])
     submit = SubmitField('Submit')
 
     def __init__(self, original_username, *args, **kwargs):

@@ -56,18 +56,22 @@ def profile(username):
 @login_required
 def edit_profile():
     form = EditProfileForm(current_user.username)
+    print('hi')
     if form.validate_on_submit():
-        file = request.files['profile_img']
-        filename = images.save(file)
-        url = images.url(filename)
-        current_user.profile_img_url = url
+        if request.files['profile_img']:
+            file = request.files['profile_img']
+            filename = images.save(file)
+            url = images.url(filename)
+            current_user.profile_img_url = url
         current_user.username = form.username.data
         current_user.bio = form.bio.data
         db.session.commit()
+        print('aobut to save')
         flash('Your changes have been saved.')
         return redirect(url_for('user.profile', username=current_user.username))
-    form.username.data = current_user.username
-    form.bio.data = current_user.bio
+    elif request.method == 'GET':
+        form.username.data = current_user.username
+        form.bio.data = current_user.bio
 
     return render_template('user/edit_profile.html',
                            title='Edit Profile',
