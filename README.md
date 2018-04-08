@@ -13,13 +13,13 @@ Technology
 * Noty
 * Infinity-Scroll
 
-Screenshot
+Screenshots
 ---
 ### Feed 
 Displays photos from yourself and your following (powered by infinity-scroll). Also get notified when a user likes one of your photos.
 ![feed](/screenshots/feed.png?raw=true "Feed")
 ### Profile 
-Displays your user profile and below that: your posts, followers, and followings (switch with tabs).
+Displays your user profile. The default profile image is a gravatar but users have the ability to upload a photo. Below your profile are your posts, followers, and followings (switch content with tabs).
 ![profile](/screenshots/daido.png?raw=true "Profile")
 ### Post
 Upload photos (from your filesystem) with captions.
@@ -42,13 +42,15 @@ If you have docker installed,
 TODO
 ```
 
-Create a database titled 'filmogram', open `config.py` and point the database
-URI to your server. After configuring the settings, set the
-`FLASK_APP` env variable to filmogram.py, and then install the javascript
-and python dependencies (e.g. `npm install` and `pip install -r
-requirements.txt`). 
+Alternatively, create a database named 'filmogram', open `config.py` and point
+the database URI to your server. After configuring the settings, set the
+`FLASK_APP` env variable to filmogram.py, and install the javascript (e.g `npm
+install`) and python dependencies (e.g. `pip install -r requirements.txt`). Be
+sure to install the python dependencies using `requirements.txt` located in
+`./src/`, not `./src/requirements/` (I'm working on pruning the dev/prod/test
+dependencies).
 
-`cd` to `./src` and run the following:
+`cd` into `./src` (if you are not already) and run the following:
 ```
 flask db upgrade
 flask seed-db
