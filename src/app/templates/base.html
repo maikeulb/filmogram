@@ -59,23 +59,19 @@
   	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
       <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
       <script src="https://unpkg.com/infinite-scroll@3/dist/infinite-scroll.pkgd.js"></script>
-      <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.39/js/uikit.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.39/js/uikit-icons.min.js"></script>
       <script src='https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js'></script>
       <script src='https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js'></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.js"</script>
 
-      <script>
+      <script type="text/javascript">
         $(document).ready(function () {
-
           function set_user_notification_count(n) {
             $('#user_notification_count').data('badge',n);
             $('#user_notification_count').css('visibility', n ? 'visible' : 'hidden');
           }
-
           {% if current_user.is_authenticated %}
-
           $(function() {
             var since = 0;
             setInterval(function() {
@@ -92,7 +88,6 @@
           });
         });
         {% endif %}
-
       </script>
 
       <script type="text/javascript">
@@ -108,16 +103,7 @@
         });
       </script>
 
-      <script>
-      $(document).ready(function() {
-        $(".uk-navbar-nav a").on("click", function(){
-           $(".uk-navbar-nav").find(".uk-active").removeClass("uk-active");
-           $(this).parent('li').addClass("uk-active");
-         });
-      });
-      </script>
-
-      <script>
+      <script type="text/javascript">
         $(document).ready(function () {
           $('#user_notification_count').on("click", resetCount);
           function resetCount (e) {
@@ -141,7 +127,7 @@
       });
       </script>
 
-      <script>
+      <script type="text/javascript">
         $(document).ready(function () {
           $('#posts').on("click", '.js-toggle-like', toggleLike);
           var button;
@@ -185,7 +171,7 @@
         });
       </script>
 
-      <script>
+      <script type="text/javascript">
         $(document).ready(function () {
           $('form[name="comment"]').on("submit", main);
           var form;
@@ -220,67 +206,7 @@
         });
       </script>
 
-      <script>
-        $(document).ready(function () {
-          $('#posts').infiniteScroll({
-            path: '.npage',
-            append: '.post-item'
-          });
-        });
-      </script>
-
-      <script>
-        $(document).ready(function () {
-           function readURL(input) {
-             if (input.files && input.files[0]) {
-               var reader = new FileReader();
-               reader.onload = function (e) {
-                 $('#target')
-                   .attr('src', e.target.result);
-               };
-               reader.readAsDataURL(input.files[0]);
-             }
-           }
-          $(".imgInp").change(function(){
-            readURL(this);
-          });
-        });
-      </script>
-
-      <script>
-        $(document).ready(function () {
-          var options = {
-            valueNames: [ 'name' ],
-            page: 5,
-            pagination: true
-          };
-          var userList = new List('users', options);
-        });
-      </script>
-
-      <script>
-        $(document).ready(function () {
-          var options = {
-            valueNames: [ 'name' ],
-            page: 5,
-            pagination: true
-          };
-          var userList = new List('followers', options);
-        });
-      </script>
-
-      <script>
-        $(document).ready(function () {
-          var options = {
-            valueNames: [ 'name' ],
-            page: 5,
-            pagination: true
-          };
-          var userList = new List('followings', options);
-        });
-      </script>
-
-      <script>
+      <script type="text/javascript">
         $(document).ready(function () {
           $('.js-toggle-follow').on("click", toggleFollow);
           var button;
@@ -321,6 +247,23 @@
           };
         });
       </script>
+
+      <script>
+      $(document).ready(function () {
+        $('#posts').infiniteScroll({
+          path: '.npage',
+          append: '.post-item'
+        });
+      });
+      </script>
+
+      {% if config.DEVELOPMENT %}
+        <!-- Webpack Dev Mode -->
+        <script src="http://localhost:8080/static/js/app.bundle.js"></script>
+      {% else %}
+        <!-- Static Build Mode -->
+        <script src="/static/js/app.bundle.js"></script>
+      {% endif %}
 
     {% endblock %}
     {% block js %}{% endblock %}
