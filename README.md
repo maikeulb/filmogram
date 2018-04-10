@@ -37,7 +37,7 @@ Admin users may remove photos (admin interface powered by DataTables).
 
 Run
 ---
-If you have docker installed,
+With docker:
 ```
 docker-compose build
 docker-compose up
@@ -49,10 +49,10 @@ the database URI to your server. After configuring the settings, set the
 `FLASK_APP` env variable to filmogram.py, and install the javascript (e.g `npm
 install`) and python dependencies (e.g. `pip install -r requirements.txt`). Be
 sure to install the python dependencies using `requirements.txt` located in
-`./src/`, not `./src/requirements/` (I'm working on pruning the dev/prod/test
+`./filmogram/`, not `./filmogram/requirements/` (I'm working on pruning the dev/prod/test
 dependencies).
 
-`cd` into `./src` (if you are not already) and run the following:
+`cd` into `./filmogram` (if you are not already); then run:
 ```
 flask db upgrade
 flask seed-db
