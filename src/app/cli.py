@@ -24,6 +24,7 @@ def register(app):
 
         seed_users()
         seed_posts()
+
         db.session.commit()
         print('DB seed complete')
 
