@@ -61,6 +61,7 @@ Go to http://localhost:5000
 ```
 TODO
 ----
-Dockerfile  
-Configure Webpack
+Push Dockerfile to dockerhub  
+lean out npm and python dependencies  
+configure production dockerfiles
 

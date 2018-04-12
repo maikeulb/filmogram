@@ -5,8 +5,6 @@ services:
     build: .
     volumes:
       - ./app/static/images/uploads:/app/app/static/images/uploads
-    ports:
-      - "5000:5000"
     networks:
       - filmogram_web_nw
       - filmogram_db_nw
@@ -18,14 +16,28 @@ services:
       DATABASE_URI: "postgresql://postgres:P@ssw0rd!@db/postgres"
 
   db:
-    image: postgres
+    image: postgres:9.6.5
+    volumes:
+      - dbdata:/var/lib/postgresql/data
     networks:
       - filmogram_db_nw
     environment:
       POSTGRES_PASSWORD: "P@ssw0rd!"
+
+  nginx:
+    build: ./nginx
+    ports:
+      - "5000:80"
+    networks:
+      - filmogram_web_nw
+    depends_on:
+      - web
 
 networks:
   filmogram_db_nw:
     driver: bridge
   filmogram_web_nw:
     driver: bridge
+
+volumes:
+   dbdata:

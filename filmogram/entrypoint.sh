@@ -1,6 +1,6 @@
 #!/bin/sh
 echo waiting for db
-./wait-for-it.sh db:5432 -t 5
+./wait-for-it.sh db:5432
 
 flask db upgrade
 flask seed-db
