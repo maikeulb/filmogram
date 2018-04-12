@@ -7,6 +7,9 @@ services:
       - ./app/static/images/uploads:/app/app/static/images/uploads
     ports:
       - "5000:5000"
+    networks:
+      - filmogram_web_nw
+      - filmogram_db_nw
     depends_on:
       - db
     env_file:
@@ -16,5 +19,13 @@ services:
 
   db:
     image: postgres
+    networks:
+      - filmogram_db_nw
     environment:
       POSTGRES_PASSWORD: "P@ssw0rd!"
+
+networks:
+  filmogram_db_nw:
+    driver: bridge
+  filmogram_web_nw:
+    driver: bridge
