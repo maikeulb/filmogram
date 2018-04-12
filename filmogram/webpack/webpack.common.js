@@ -3,8 +3,7 @@ const merge = require('webpack-merge');
 const parts = require('./webpack.parts');
 const path = require('path');
 
-module.exports = merge([
-  {
+module.exports = merge([{
     entry: {
       app: path.resolve(parts.PATHS.assets, 'js', 'script.js'),
     },
@@ -15,13 +14,7 @@ module.exports = merge([
     },
     plugins: [
       new webpack.NamedModulesPlugin(),
-      new webpack.HotModuleReplacementPlugin(),
-      new webpack.ProvidePlugin({
-        $: "jquery",
-        jQuery: "jquery",
-        "window.jQuery": "jquery",
-        "window.toastr": "toastr"
-      })
+      new webpack.HotModuleReplacementPlugin()
     ],
   },
   parts.extractCSS({

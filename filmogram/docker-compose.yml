@@ -3,10 +3,14 @@ version: '3'
 services:
   web:
     build: .
+    volumes:
+      - ./app/static/images/uploads:/app/app/static/images/uploads
     ports:
       - "5000:5000"
     depends_on:
       - db
+    env_file:
+      - .env
     environment:
       DATABASE_URI: "postgresql://postgres:P@ssw0rd!@db/postgres"
 
