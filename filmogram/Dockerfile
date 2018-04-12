@@ -1,19 +1,15 @@
-FROM ubuntu:latest
+FROM python:3.6
 
 COPY . /app
 WORKDIR /app
 
-RUN apt-get update 
-RUN apt-get install -y python3-pip python3-dev \
-  && cd /usr/local/bin \
-  && ln -s /usr/bin/python3 python \
-  && pip3 install --upgrade pip
+RUN apt-get update && \
+    apt-get install -y && \
+    pip3 install gunicorn
 
-RUN pip3 install gunicorn
-RUN pip3 install -r requirements.txt
-
-RUN chmod +x entrypoint.sh
-RUN chmod +x wait-for-it.sh
+RUN pip3 install -r /app/requirements.txt
+RUN chmod a+x entrypoint.sh
+RUN chmod a+x wait-for-it.sh
 
 ENV FLASK_APP=filmogram.py
 ENV FLASK_APP_CONFIG=config.ProductionConfig
