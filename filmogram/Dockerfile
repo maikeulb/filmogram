@@ -16,6 +16,5 @@ ENV FLASK_APP_CONFIG=config.ProductionConfig
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
 
-
 EXPOSE 5000
 ENTRYPOINT ["./entrypoint.sh"]

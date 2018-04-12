@@ -4,7 +4,7 @@ services:
   web:
     build: .
     volumes:
-      - ./app/static/images/uploads:/app/app/static/images/uploads
+      - static:/app/app/static/
     networks:
       - filmogram_web_nw
       - filmogram_db_nw
@@ -18,7 +18,7 @@ services:
   db:
     image: postgres:9.6.5
     volumes:
-      - dbdata:/var/lib/postgresql/data
+      - db:/var/lib/postgresql/data
     networks:
       - filmogram_db_nw
     environment:
@@ -28,6 +28,8 @@ services:
     build: ./nginx
     ports:
       - "5000:80"
+    volumes:
+      - static:/app/app/static/
     networks:
       - filmogram_web_nw
     depends_on:
@@ -40,4 +42,5 @@ networks:
     driver: bridge
 
 volumes:
-   dbdata:
+   db:
+   static:
