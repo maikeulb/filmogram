@@ -37,22 +37,24 @@ Admin users may remove photos (admin interface powered by DataTables).
 
 Run
 ---
-With docker:
+You will need webpack. If you have webpack installed, then then go ahead and install the javascript dependencies (e.g. `npm install`).
+
 ```
+npm run build
 docker-compose build
 docker-compose up
 Go to http://localhost:5000
 ```
 
-Alternatively, create a database named 'filmogram', open `config.py` and point
-the database URI to your server. After configuring the settings, set the
-`FLASK_APP` env variable to filmogram.py, and install the javascript (e.g `npm
-install`) and python dependencies (e.g. `pip install -r requirements.txt`). Be
-sure to install the python dependencies using `requirements.txt` located in
-`./filmogram/`, not `./filmogram/requirements/` (I'm working on pruning the dev/prod/test
+Alternatively, create a database named 'filmogram', open `config.py`
+and point the database URI to your server. After configuring the
+settings, set the `FLASK_APP` env variable to filmogram.py, and then
+install the javascript (e.g `npm install`) and python dependencies
+(e.g. `pip install -r requirements.txt`). Be sure to install the
+python dependencies using `requirements.txt` located in `./src/`, not
+`./src/requirements/` (I'm working on pruning the dev/prod/test
 dependencies).
 
-`cd` into `./filmogram` (if you are not already); then run:
 ```
 flask db upgrade
 flask seed-db
@@ -61,7 +63,6 @@ Go to http://localhost:5000
 ```
 TODO
 ----
-Push Dockerfile to dockerhub  
-lean out npm and python dependencies  
-configure production dockerfiles
-
+Prune javascript and python dependencies<br>
+Build frontend in Dockerfile<br>
+Add Social Auth
