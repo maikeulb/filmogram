@@ -2,7 +2,7 @@ version: '3'
 
 services:
   web:
-    build: .
+    build: ./src
     volumes:
       - static:/app/app/static/
     networks:
@@ -21,7 +21,7 @@ services:
       - filmogram_db_nw
 
   nginx:
-    build: ./nginx
+    build: ./src/nginx
     volumes:
       - static:/app/app/static/
     networks:

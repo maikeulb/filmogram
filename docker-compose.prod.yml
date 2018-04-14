@@ -3,11 +3,11 @@ version: '3'
 services:
   web:
     env_file:
-      - .env
+      - ./src/.env
 
   db:
     env_file:
-      - .env
+      - ./src/.env
 
   nginx:
     ports:
