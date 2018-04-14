@@ -4,6 +4,8 @@ services:
   web:
     environment:
       DATABASE_URI: "postgresql://postgres:P@ssw0rd!@db/postgres"
+      ADMIN_EMAIL: "admin@email.com"
+      ADMIN_PASSWORD: "P@ssw0rd!"
 
   db:
     environment:

@@ -12,7 +12,6 @@ RUN chmod a+x entrypoint.sh
 RUN chmod a+x wait-for-it.sh
 
 ENV FLASK_APP=filmogram.py
-ENV FLASK_APP_CONFIG=config.ProductionConfig
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
 

@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  web:
+    env_file:
+      - .env
+
+  db:
+    env_file:
+      - .env
+
+  nginx:
+    ports:
+      - "5000:80"

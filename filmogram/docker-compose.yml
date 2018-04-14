@@ -8,6 +8,8 @@ services:
     networks:
       - filmogram_web_nw
       - filmogram_db_nw
+    environment:
+      FLASK_APP_CONFIG: "config.ProductionConfig"
     depends_on:
       - db
 
