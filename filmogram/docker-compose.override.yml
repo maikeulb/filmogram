@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  web:
+    environment:
+      DATABASE_URI: "postgresql://postgres:P@ssw0rd!@db/postgres"
+
+  db:
+    environment:
+      POSTGRES_PASSWORD: "P@ssw0rd!"
+
+  nginx:
+    ports:
+      - "5000:80"
