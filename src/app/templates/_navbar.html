@@ -4,9 +4,8 @@
     <ul class="uk-navbar-nav">
 
       {% if current_user.is_authenticated %}
-      <li><a href="{{ url_for('posts.index') }}" uk-tooltip="View friend posts">Feed</a>
-      <li><a href="{{ url_for('user.discover') }}" uk-tooltip="Discover
-          users and make friends">Discover</a>
+      <li><a href="{{ url_for('posts.index') }}">Feed</a>
+      <li><a href="{{ url_for('user.discover') }}">Discover</a>
 
       {% if config.DEVELOPMENT %}
       <li class="uk-active"><a class="uk-navbar-item uk-logo" href="{{ url_for('posts.index') }}"><img
@@ -16,7 +15,7 @@
           src='/static/images/logo.jpg'/></a></li>
       {% endif %}
 
-      <li><a href="{{ url_for('posts.post') }}" uk-tooltip="Upload a photo">Post</a></li>
+      <li><a href="{{ url_for('posts.post') }}">Post</a></li>
       {% endif %}
 
       {% if current_user.is_anonymous %}
@@ -27,10 +26,8 @@
         <div class="uk-navbar-dropdown">
           <ul class="uk-nav uk-navbar-dropdown-nav">
             <li><a href="{{ url_for('user.profile',
-                username=current_user.username) }}" uk-tooltip="View your
-                profile">Profile</a></li>
-            <li><a href="{{ url_for('posts.favorites') }}" uk-tooltip="View
-                your favorite posts">Favorites</a></li>
+                username=current_user.username) }}">Profile</a></li>
+            <li><a href="{{ url_for('posts.favorites') }}">Favorites</a></li>
             {% if current_user.role and current_user.is_demo_admin() %}
               <li><a href="{{ url_for('admin.index') }}">Admin</a></li>
             {% endif %}
@@ -39,7 +36,7 @@
          </div>
       </li>
       {% set new_messages = current_user.new_messages() %}
-      <li><a uk-tooltip="Your like notifications"><span id="user_notification_count" class="dynamic_badge" 
+      <li><a><span id="user_notification_count" class="dynamic_badge" 
         data-badge="{{ new_messages }}"
         style="visibility: {% if new_messages %}visible
                            {% else %}hidden{% endif %};">
