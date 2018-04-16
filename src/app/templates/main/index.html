@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+<div class="home-container">
+  <div class="uk-position-relative">
+    <div class="uk-position-top">
+      <div class="uk-container">
+        <nav class="uk-navbar-container uk-navbar-transparent" uk-navbar>
+          <div class="uk-navbar-left">
+            <ul class="uk-navbar-nav">
+              <li><a href="#">Trending Growls!!</a></li>
+              <li><a href="#">Hello User!</a></li>
+                <div class="uk-navbar-dropdown">
+                  <ul class="uk-nav uk-navbar-dropdown-nav">
+                    <li><a href="#">Profile</a></li>
+                    <li class="uk-nav-divider"></li>
+                    <li><a href="#">Logout</a></li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrapper">
+    <div class="message">
+      <div class="uk-container">
+        <h1 class = "uk-heading-primary">Filmogram</h1>    
+        <p>Yours to discover</p>    
+        <a class="uk-button uk-button-large uk-button-default"
+          href="{{ url_for('account.login') }}">Register</a>
+        <a class="uk-button uk-button-large uk-button-default"
+          href="{{ url_for('account.login') }}">Login</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

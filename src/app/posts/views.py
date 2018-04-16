@@ -20,8 +20,7 @@ from app.models import (
 )
 
 
-@posts.route('/')
-@posts.route('/index')
+@posts.route('/feed')
 @login_required
 def index():
     form = CommentForm()
