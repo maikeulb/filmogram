@@ -297,10 +297,12 @@
 
       <script>
       $(document).ready(function () {
-        $('#posts').infiniteScroll({
-          path: '.npage',
-          append: '.post-item'
-        });
+        {% if next_url %}
+          $('#posts').infiniteScroll({
+            path: '.npage',
+            append: '.post-item'
+          });
+        {% endif %}
       });
       </script>
 
