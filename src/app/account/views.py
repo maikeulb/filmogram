@@ -9,6 +9,7 @@ from werkzeug.urls import url_parse
 from flask_login import (
     login_user,
     logout_user,
+    login_required,
     current_user,
 )
 from app.account import account
@@ -43,6 +44,7 @@ def login():
 
 
 @account.route('/logout')
+@login_required
 def logout():
     logout_user()
 

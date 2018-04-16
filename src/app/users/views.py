@@ -20,6 +20,12 @@ from app.models import (
     Comment,
 )
 
+@users.before_request
+@login_required
+def require_login():
+    pass
+
+
 
 @users.route('/')
 def discover():
@@ -62,7 +68,6 @@ def profile(username):
 
 
 @users.route('/edit_profile', methods=['GET', 'POST'])
-@login_required
 def edit_profile():
     form = EditProfileForm(current_user.username)
     print('hi')

@@ -20,8 +20,13 @@ from app.models import (
 )
 
 
-@posts.route('/')
+@posts.before_request
 @login_required
+def require_login():
+    pass
+
+
+@posts.route('/')
 def index():
     form = CommentForm()
     page = request.args.get('page', 1, type=int)
@@ -73,7 +78,6 @@ def favorites():
 
 
 @posts.route('/upload', methods=['GET', 'POST'])
-@login_required
 def post():
     form = UploadForm()
     if form.validate_on_submit():
@@ -95,7 +99,6 @@ def post():
 
 
 @posts.route('/details/<id>')
-@login_required
 def details(id):
     post = Post.query.filter_by(id=id).first_or_404()
     form = CommentForm()
