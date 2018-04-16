@@ -20,7 +20,7 @@ from app.models import (
 )
 
 
-@posts.route('/feed')
+@posts.route('/')
 @login_required
 def index():
     form = CommentForm()
@@ -72,7 +72,7 @@ def favorites():
                            prev_url=prev_url)
 
 
-@posts.route('/post', methods=['GET', 'POST'])
+@posts.route('/upload', methods=['GET', 'POST'])
 @login_required
 def post():
     form = UploadForm()

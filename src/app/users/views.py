@@ -9,8 +9,8 @@ from flask import (
 )
 from flask_login import current_user, login_required
 from app.extensions import db, images
-from app.user import user
-from app.user.forms import (
+from app.users import users
+from app.users.forms import (
     CommentForm,
     EditProfileForm
 )
@@ -21,7 +21,16 @@ from app.models import (
 )
 
 
-@user.route('/<username>')
+@users.route('/')
+def discover():
+    users = User.query.all()
+
+    return render_template('user/discover.html',
+                           title='Discover',
+                           users=users)
+
+
+@users.route('/<username>')
 def profile(username):
     form = CommentForm()
     user = User.query.filter_by(username=username).first_or_404()
@@ -30,9 +39,9 @@ def profile(username):
         page, current_app.config['POSTS_PER_PAGE'], False)
     following = user.get_my_following()
     followers = user.get_my_followers()
-    next_url = url_for('user.profile', username=user.username,
+    next_url = url_for('users.profile', username=user.username,
                        page=posts.next_num) if posts.has_next else None
-    prev_url = url_for('user.profile', username=user.username,
+    prev_url = url_for('users.profile', username=user.username,
                        page=posts.prev_num) if posts.has_prev else None
     if form.validate_on_submit():
         comment = Comment(body=form.body.data,
@@ -52,7 +61,7 @@ def profile(username):
                            prev_url=prev_url)
 
 
-@user.route('/edit_profile', methods=['GET', 'POST'])
+@users.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
 def edit_profile():
     form = EditProfileForm(current_user.username)
@@ -68,7 +77,7 @@ def edit_profile():
         db.session.commit()
         print('aobut to save')
         flash('Your changes have been saved.')
-        return redirect(url_for('user.profile', username=current_user.username))
+        return redirect(url_for('users.profile', username=current_user.username))
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.bio.data = current_user.bio
@@ -76,12 +85,3 @@ def edit_profile():
     return render_template('user/edit_profile.html',
                            title='Edit Profile',
                            form=form)
-
-
-@user.route('/discover/')
-def discover():
-    users = User.query.all()
-
-    return render_template('user/discover.html',
-                           title='Discover',
-                           users=users)

@@ -24,7 +24,7 @@
     <div class = "action">
       <div class="uk-flex uk-flex-center">
         {% if user == current_user %}
-          <a href="{{ url_for('user.edit_profile') }}" class="uk-button
+          <a href="{{ url_for('users.edit_profile') }}" class="uk-button
             uk-button-default">Edit Profile</a> 
         {% endif %}
         {% if not user == current_user %}

@@ -17,7 +17,7 @@ from app.extensions import (
 )
 from app.main import main as main_bp
 from app.posts import posts as posts_bp
-from app.user import user as user_bp
+from app.users import users as users_bp
 from app.api import api as api_bp
 from app.admin import admin as admin_bp
 from app.account import account as account_bp
@@ -49,7 +49,7 @@ def register_blueprints(app):
     app.register_blueprint(posts_bp, url_prefix='/posts')
     app.register_blueprint(account_bp, url_prefix='/account')
     app.register_blueprint(api_bp, url_prefix='/api')
-    app.register_blueprint(user_bp, url_prefix='/user')
+    app.register_blueprint(users_bp, url_prefix='/users')
     app.register_blueprint(admin_bp, url_prefix='/admin')
     return None
 

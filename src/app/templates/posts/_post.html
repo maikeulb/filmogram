@@ -4,7 +4,7 @@
     <div class="social-card-header">
       <img class="social-card-user-image" src="{{
       post.author.profile_img_url or post.author.avatar(70) }}" />
-      <a class="social-card-user-name" href="{{ url_for('user.profile', username=post.author.username) }}">{{ post.author.username }}</a>
+      <a class="social-card-user-name" href="{{ url_for('users.profile', username=post.author.username) }}">{{ post.author.username }}</a>
       <div class="social-card-time">{{ moment(post.timestamp).fromNow() }}</div>
     </div>
 
@@ -28,7 +28,7 @@
       <div class = "likes" >
         <div id = "likes" data-post-id={{ post.id }}>
           {% for like in post['likes'] %} 
-            <a href="{{ url_for('user.profile', username=like.username) }}"
+            <a href="{{ url_for('users.profile', username=like.username) }}"
               class='uk-link-text'>{{ like.username }}</a>
           {% endfor %}
         </div>
@@ -37,7 +37,7 @@
       <br><br>
 
       <div style = "padding-bottom: 5px;">
-        <a class="social-card-content-user" href="{{ url_for('user.profile', username=post.author.username) }}">
+        <a class="social-card-content-user" href="{{ url_for('users.profile', username=post.author.username) }}">
           {{ post.author.username }}
           </a><span style="padding-left:10px">
           {{ post.caption }}<span>

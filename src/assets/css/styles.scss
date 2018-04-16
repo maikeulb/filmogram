@@ -237,3 +237,10 @@ body, html {
 .message .uk-button-default {
         color: #ffffff;
 }
+
+// overrides
+@media (min-width: 1200px) {
+        .uk-card-body {
+                padding: 30px 30px;
+        }
+}

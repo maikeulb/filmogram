@@ -3,7 +3,7 @@
     <ul class="uk-list">
     {% for comment in post['comments'] %} 
       <li>
-        <a class="social-card-content-user" href="{{ url_for('user.profile', username=comment.author.username) }}">
+        <a class="social-card-content-user" href="{{ url_for('users.profile', username=comment.author.username) }}">
           {{ comment.author.username }}
         </a>
         <span style="padding-left:10px"> {{comment.body}} </span></br>
