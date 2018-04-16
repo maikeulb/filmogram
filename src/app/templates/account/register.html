@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 
-{% block app_content %}
+{% block main_content %}
 
 <main class="uk-container">
   <div class="uk-flex uk-flex-center">
-    <div class="uk-margin-large-top uk-card uk-card-default">
+    <div class="uk-margin-medium-top uk-card uk-card-default">
       <form class="form-register" method="POST">
         <fieldset class ="uk-fieldset">
           <div class="uk-card-header">
@@ -67,9 +67,13 @@
           <div class = "uk-card-footer">
             {{ form.submit(class="uk-button uk-button-primary uk-width-1-1") }}
           </div>
-          <div uk-alert class="uk-flex uk-flex-center">Already registered? 
+
+          <div uk-alert class="uk-flex uk-flex-center"
+            style="background-color:#FFF; margin:0">
+            <span style="margin: 0 10px 0 0;">Already registered? </span>
             <a href="{{ url_for('account.login') }}"> Login</a>
           </div>
+
         </fieldset>
       </form>
     </div>

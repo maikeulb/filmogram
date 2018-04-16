@@ -22,34 +22,35 @@
 
   <body class="site">
 
-    {% include '_navbar.html' %}
-
-    {% block content %}
-       <main class = "site-content">
-        {% with messages = get_flashed_messages() %}
-          {% if messages %}
-            <script>
-             window.addEventListener('DOMContentLoaded', function() {
-              (function($) {
-                $(document).ready(function () {
-                if (typeof Noty == 'function') {
-                  var messages = {{ messages | safe }};
-                  for (var i=0; i<messages.length; i++) {
-                    new Noty({
-                      theme: 'rellax',
-                      type: 'info',
-                      text: messages[i]
-                    }).setTimeout(1000).show();
-                  } 
-                }; 
-                });
-               })(jQuery);
-             });
-            </script>
-          {% endif %}
-        {% endwith %}
-        {% block app_content %}{% endblock %}
-      </main>
+    {% block main_content %}
+      {% include '_navbar.html' %}
+      {% block content %}
+         <main class = "site-content">
+          {% with messages = get_flashed_messages() %}
+            {% if messages %}
+              <script>
+               window.addEventListener('DOMContentLoaded', function() {
+                (function($) {
+                  $(document).ready(function () {
+                  if (typeof Noty == 'function') {
+                    var messages = {{ messages | safe }};
+                    for (var i=0; i<messages.length; i++) {
+                      new Noty({
+                        theme: 'rellax',
+                        type: 'info',
+                        text: messages[i]
+                      }).setTimeout(1000).show();
+                    } 
+                  }; 
+                  });
+                 })(jQuery);
+               });
+              </script>
+            {% endif %}
+          {% endwith %}
+          {% block app_content %}{% endblock %}
+        </main>
+      {% endblock %}
     {% endblock %}
 
     {% if config.DEVELOPMENT %}
