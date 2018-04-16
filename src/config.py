@@ -21,7 +21,7 @@ class Config(object):
     DEMO_ADMIN_PASSWORD = os.environ.get('DEMO_ADMIN_PASSWORD') or 'P@ssw0rd!'
 
     UPLOADS_DEFAULT_DEST = basedir + '/app/static/uploads/'
-    UPLOADS_DEFAULT_URL = 'http://localhost:5000/static/uploads/'
+    UPLOADS_DEFAULT_URL = os.environ.get('UPLOADS_DEFAULT_URL') or 'http://localhost:5000/static/uploads/'
     POSTS_PER_PAGE = 4
 
     DEVELOPMENT = False
