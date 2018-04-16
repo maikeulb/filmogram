@@ -37,10 +37,7 @@ Admin users may remove photos (admin interface powered by DataTables).
 
 Run
 ---
-You will need webpack. If you have webpack installed, then then go ahead and install the javascript dependencies (e.g. `npm install`).
-
 ```
-npm run build
 docker-compose build
 docker-compose up
 Go to http://localhost:5000
