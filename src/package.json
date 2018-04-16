@@ -6,7 +6,8 @@
   "dependencies": {
     "babel-core": "^6.26.0",
     "css-modal": "^1.5.0",
-    "nodemon": "^1.17.3"
+    "nodemon": "^1.17.3",
+    "uglifyjs-webpack-plugin": "^1.2.4"
   },
   "devDependencies": {
     "autoprefix": "^1.0.1",

@@ -249,6 +249,53 @@
       </script>
 
       <script>
+
+      $(document).ready(function() {
+        function readURL(input) {
+          if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+              $('#target')
+                .attr('src', e.target.result);
+            };
+            reader.readAsDataURL(input.files[0]);
+          }
+        }
+        $(".imgInp").change(function() {
+          readURL(this);
+        });
+      });
+
+      $(document).ready(function() {
+        var options = {
+          valueNames: ['name'],
+          page: 5,
+          pagination: true
+        };
+        var userList = new List('users', options);
+      });
+
+      $(document).ready(function() {
+        var options = {
+          valueNames: ['name'],
+          page: 5,
+          pagination: true
+        };
+        var userList = new List('followers', options);
+      });
+
+      $(document).ready(function() {
+        var options = {
+          valueNames: ['name'],
+          page: 5,
+          pagination: true
+        };
+        var userList = new List('followings', options);
+      });
+
+      </script>
+
+      <script>
       $(document).ready(function () {
         $('#posts').infiniteScroll({
           path: '.npage',

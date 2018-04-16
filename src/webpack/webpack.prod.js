@@ -6,20 +6,20 @@ const path = require('path');
 
 module.exports = merge([
   common,
-  // {
-    // performance: {
-      // hints: "warning", 
-      // maxEntrypointSize: 100000, 
-      // maxAssetSize: 450000, 
-    // },
-    // output: {
-      // chunkFilename: "[name].[hash:8].js",
-      // filename: "[name].[hash:8].js",
-    // },
-    // recordsPath: path.join(__dirname, "records.json"),
-  // },
+  {
+    performance: {
+      hints: "warning", 
+      maxEntrypointSize: 100000, 
+      maxAssetSize: 450000, 
+    },
+    output: {
+      chunkFilename: "[name].[hash:8].js",
+      filename: "[name].[hash:8].js",
+    },
+    recordsPath: path.join(__dirname, "records.json"),
+  },
   parts.clean(['static'], parts.PATHS.assets),
-  // parts.minifyJavaScript({}),
+  parts.minifyJavaScript({}),
   parts.minifyCSS({
     options: {
       discardComments: {
@@ -28,16 +28,16 @@ module.exports = merge([
       },
     },
   }),
-  // parts.extractBundles([
-    // {
-      // name: "vendor",
-      // minChunks: ({ resource }) => /node_modules/.test(resource),
-    // },
-    // {
-      // name: "manifest",
-      // minChunks: Infinity,
-    // },
-  // ]),
+  parts.extractBundles([
+    {
+      name: "vendor",
+      minChunks: ({ resource }) => /node_modules/.test(resource),
+    },
+    {
+      name: "manifest",
+      minChunks: Infinity,
+    },
+  ]),
   parts.generateSourceMaps({ type: "source-map" }),
   parts.loadImages({
     options: {
