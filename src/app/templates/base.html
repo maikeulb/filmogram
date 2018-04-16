@@ -9,7 +9,6 @@
     {% endif %}
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css">
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js'></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.39/css/uikit.min.css" />
     {% if config.DEVELOPMENT %}
@@ -30,14 +29,22 @@
         {% with messages = get_flashed_messages() %}
           {% if messages %}
             <script>
-              var messages = {{ messages | safe }};
-              for (var i=0; i<messages.length; i++) {
-                new Noty({
-                  theme: 'rellax',
-                  type: 'info',
-                  text: messages[i]
-                }).setTimeout(1000).show();
-              } 
+             window.addEventListener('DOMContentLoaded', function() {
+              (function($) {
+                $(document).ready(function () {
+                if (typeof Noty == 'function') {
+                  var messages = {{ messages | safe }};
+                  for (var i=0; i<messages.length; i++) {
+                    new Noty({
+                      theme: 'rellax',
+                      type: 'info',
+                      text: messages[i]
+                    }).setTimeout(1000).show();
+                  } 
+                }; 
+                });
+               })(jQuery);
+             });
             </script>
           {% endif %}
         {% endwith %}
@@ -56,6 +63,7 @@
     {% block scripts %}
       {{ moment.include_moment() }}
 
+      <script src='https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js'></script>
   	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
       <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
       <script src="https://unpkg.com/infinite-scroll@3/dist/infinite-scroll.pkgd.js"></script>
