@@ -205,11 +205,12 @@ body, html {
 .home-container {
         height: 100%;
         width: 100%;
-        background-image: url(https://images6.alphacoders.com/656/656326.jpg);
+        background-image: url("/static/images/banner.jpg");
         background-position: right top;
         background-repeat: no-repeat;
         background-attachment: fixed;
-        background-size: cover;
+        background-position: center;
+        background-color: #000;
         margin: 0;
         padding: 0;
         font-family: exo, sans-serif;
