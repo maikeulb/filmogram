@@ -5,7 +5,6 @@
   "main": "webpack.config.js",
   "dependencies": {
     "babel-core": "^6.26.0",
-    "css-modal": "^1.5.0",
     "nodemon": "^1.17.3",
     "uglifyjs-webpack-plugin": "^1.2.4"
   },
@@ -14,7 +13,6 @@
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.4",
     "babel-preset-env": "^1.6.1",
-    "babel-preset-react": "^6.24.1",
     "clean-webpack-plugin": "^0.1.19",
     "concurrently": "^3.5.0",
     "copy-webpack-plugin": "^4.5.1",

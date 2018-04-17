@@ -44,7 +44,13 @@ exports.minifyCSS = ({
 });
 
 exports.minifyJavaScript = () => ({
-  plugins: [new UglifyWebpackPlugin()],
+  plugins: [
+    new UglifyWebpackPlugin({
+      compress: {
+        warnings: false
+      }
+    })
+  ],
 });
 
 
@@ -94,8 +100,7 @@ exports.extractCSS = ({
   use
 }) => {
   const plugin = new ExtractTextPlugin({
-    // allChunks: true,
-    // filename: "[name].[contenthash:8].css",
+    allChunks: true,
     filename: 'css/[name].css',
   });
   return {

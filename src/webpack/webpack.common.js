@@ -23,7 +23,6 @@ module.exports = merge([{
   parts.copyWebpackPlugin(),
   parts.loadFonts({
     options: {
-      // name: "[name].[hash:8].[ext]",
       name: "[name].[ext]",
       outputPath: "css/",
       publicPath: "../"

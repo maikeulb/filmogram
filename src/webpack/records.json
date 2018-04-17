@@ -15,21 +15,21 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       },
-      "prepreHash": "x",
-      "preHash": "ad052f7d5769a6925b52",
-      "hash": "d97607614c8caa25a4f9",
+      "prepreHash": "9ac692f27f79857607e4",
+      "preHash": "6dfe7e4651c488a474e5",
+      "hash": "56cff0d913806f346d5d",
       "moduleHashs": {
-        "/home/michael/Projects-Flask/filmogram/src/node_modules/css-loader/index.js!/home/michael/Projects-Flask/filmogram/src/node_modules/sass-loader/lib/loader.js!/home/michael/Projects-Flask/filmogram/src/node_modules/postcss-loader/lib/index.js??ref--0-4!/home/michael/Projects-Flask/filmogram/src/assets/css/styles.scss": "565d6051e0ddbe3ee9fdddecd2f8acb7",
+        "/home/michael/Projects-Flask/filmogram/src/node_modules/css-loader/index.js!/home/michael/Projects-Flask/filmogram/src/node_modules/sass-loader/lib/loader.js!/home/michael/Projects-Flask/filmogram/src/node_modules/postcss-loader/lib/index.js??ref--0-4!/home/michael/Projects-Flask/filmogram/src/assets/css/styles.scss": "3d1ab75a356e30aacff516b811830ba3",
         "/home/michael/Projects-Flask/filmogram/src/node_modules/css-loader/lib/css-base.js": "feee2a24dc85152980dbac6680fe3914"
       },
       "chunkHashs": {
-        "0": "f5909b5045565ed03931284b60dfb9ef"
+        "1": "5b7236e65bf5a8fd66789e821de2988d"
       },
       "chunkModuleIds": {
-        "0": [
+        "1": [
           "./node_modules/css-loader/index.js!./node_modules/sass-loader/lib/loader.js!./node_modules/postcss-loader/lib/index.js??ref--0-4!./assets/css/styles.scss",
           "./node_modules/css-loader/lib/css-base.js"
         ]
@@ -62,36 +62,25 @@
     },
     "byBlocks": {},
     "usedIds": {
-      "0": 0,
       "1": 1,
       "2": 2
     }
   },
-  "prepreHash": "x",
-  "preHash": "9f65f61382dbea057a73",
-  "hash": "a5891cd3894f1a808c9a",
+  "prepreHash": "0ad3473776ede816808d",
+  "preHash": "d18344e6621c3474c64d",
+  "hash": "8a44d77ad532e6225101",
   "moduleHashs": {
     "/home/michael/Projects-Flask/filmogram/src/node_modules/extract-text-webpack-plugin/dist/loader.js??ref--0-0!/home/michael/Projects-Flask/filmogram/src/node_modules/style-loader/index.js!/home/michael/Projects-Flask/filmogram/src/node_modules/css-loader/index.js!/home/michael/Projects-Flask/filmogram/src/node_modules/sass-loader/lib/loader.js!/home/michael/Projects-Flask/filmogram/src/node_modules/postcss-loader/lib/index.js??ref--0-4!/home/michael/Projects-Flask/filmogram/src/assets/css/styles.scss": "5d9898580476f8857dda941ce5352488",
-    "/home/michael/Projects-Flask/filmogram/src/node_modules/babel-loader/lib/index.js!/home/michael/Projects-Flask/filmogram/src/assets/js/script.js": "3ca079cb119a911dd7753b265123266d",
-    "/home/michael/Projects-Flask/filmogram/src/node_modules/css-loader/index.js!/home/michael/Projects-Flask/filmogram/src/node_modules/sass-loader/lib/loader.js!/home/michael/Projects-Flask/filmogram/src/node_modules/postcss-loader/lib/index.js??ref--0-4!/home/michael/Projects-Flask/filmogram/src/assets/css/styles.scss": "565d6051e0ddbe3ee9fdddecd2f8acb7",
-    "/home/michael/Projects-Flask/filmogram/src/node_modules/css-loader/lib/css-base.js": "feee2a24dc85152980dbac6680fe3914",
-    "/home/michael/Projects-Flask/filmogram/src/node_modules/style-loader/lib/addStyles.js": "3571c96d86970489ac5f55215f410cb1",
-    "/home/michael/Projects-Flask/filmogram/src/node_modules/style-loader/lib/urls.js": "40c4fd8e5a535980f7303c6b6b4a3dd6"
+    "/home/michael/Projects-Flask/filmogram/src/node_modules/babel-loader/lib/index.js!/home/michael/Projects-Flask/filmogram/src/assets/js/script.js": "3ca079cb119a911dd7753b265123266d"
   },
   "chunkHashs": {
-    "0": "e7e5857aa70a87e22f02e2ee9be55611",
-    "1": "67b1891f8cd014f93560785e0b1261e6",
-    "2": "641ef4fe61c4a6da7ffadc647c43d07c"
+    "1": "e87d646d5eb3adbfe386de3dc0322c01",
+    "2": "356451f06313f90366ec66f26a643359"
   },
   "chunkModuleIds": {
-    "0": [
-      "./node_modules/css-loader/lib/css-base.js",
-      "./node_modules/style-loader/lib/addStyles.js",
-      "./node_modules/style-loader/lib/urls.js"
-    ],
     "1": [
-      "./assets/css/styles.scss",
-      "./assets/js/script.js"
+      "./assets/js/script.js",
+      "./assets/css/styles.scss"
     ],
     "2": []
   }

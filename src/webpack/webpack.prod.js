@@ -8,17 +8,27 @@ module.exports = merge([
   common,
   {
     performance: {
-      hints: "warning", 
-      maxEntrypointSize: 100000, 
-      maxAssetSize: 450000, 
+      hints: "warning",
+      maxEntrypointSize: 100000,
+      maxAssetSize: 450000,
     },
     output: {
-      chunkFilename: "[name].[hash:8].js",
-      filename: "[name].[hash:8].js",
+      filename: "js/[name].bundle.js",
     },
     recordsPath: path.join(__dirname, "records.json"),
   },
   parts.clean(['static'], parts.PATHS.assets),
+  parts.extractBundles([{
+      name: "vendor",
+      minChunks: ({
+        resource
+      }) => /node_modules/.test(resource),
+    },
+    {
+      name: "manifest",
+      minChunks: Infinity,
+    },
+  ]),
   parts.minifyJavaScript({}),
   parts.minifyCSS({
     options: {
@@ -28,21 +38,11 @@ module.exports = merge([
       },
     },
   }),
-  parts.extractBundles([
-    {
-      name: "vendor",
-      minChunks: ({ resource }) => /node_modules/.test(resource),
-    },
-    {
-      name: "manifest",
-      minChunks: Infinity,
-    },
-  ]),
-  parts.generateSourceMaps({ type: "source-map" }),
+
   parts.loadImages({
     options: {
       limit: 15000,
-      name: "[name].[hash:8].[ext]",
+      name: "[name].[ext]",
     },
   }),
   parts.setFreeVariable("process.env.NODE_ENV", "production"),
