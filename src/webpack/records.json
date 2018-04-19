@@ -15,21 +15,21 @@
         "byName": {},
         "byBlocks": {},
         "usedIds": {
-          "0": 0
+          "1": 1
         }
       },
-      "prepreHash": "a599ab1ec82398eb7924",
-      "preHash": "9f937dc7ac8b2ef1b28e",
-      "hash": "a605e3036560186f5c53",
+      "prepreHash": "c67c97e0984ec5348de8",
+      "preHash": "6c34c1282956d7da8983",
+      "hash": "df76cbf56651dcc026f1",
       "moduleHashs": {
-        "/home/michael/Projects-Flask/filmogram/src/node_modules/css-loader/index.js!/home/michael/Projects-Flask/filmogram/src/node_modules/sass-loader/lib/loader.js!/home/michael/Projects-Flask/filmogram/src/node_modules/postcss-loader/lib/index.js??ref--0-4!/home/michael/Projects-Flask/filmogram/src/assets/css/styles.scss": "e1ad7907664b25a31f4e6603e1040f06",
+        "/home/michael/Projects-Flask/filmogram/src/node_modules/css-loader/index.js!/home/michael/Projects-Flask/filmogram/src/node_modules/sass-loader/lib/loader.js!/home/michael/Projects-Flask/filmogram/src/node_modules/postcss-loader/lib/index.js??ref--0-4!/home/michael/Projects-Flask/filmogram/src/assets/css/styles.scss": "20f28280c5d6b6536fa9545d11c1f5fc",
         "/home/michael/Projects-Flask/filmogram/src/node_modules/css-loader/lib/css-base.js": "feee2a24dc85152980dbac6680fe3914"
       },
       "chunkHashs": {
-        "0": "8c0fc353a2bcf47098f9aad8456b47ab"
+        "1": "2304f07f18ac1dd23cbd6bc8b266e896"
       },
       "chunkModuleIds": {
-        "0": [
+        "1": [
           "./node_modules/css-loader/index.js!./node_modules/sass-loader/lib/loader.js!./node_modules/postcss-loader/lib/index.js??ref--0-4!./assets/css/styles.scss",
           "./node_modules/css-loader/lib/css-base.js"
         ]
@@ -58,30 +58,28 @@
     "byName": {
       "vendor": 0,
       "app": 1,
-      "manifest": 2
+      "manifest": 2,
+      "mainifest": 0
     },
     "byBlocks": {},
     "usedIds": {
-      "1": 1,
-      "2": 2
+      "1": 1
     }
   },
-  "prepreHash": "9c1b6bc6e6c71e1ab98a",
-  "preHash": "ae092bebf3dea3350288",
-  "hash": "8bb92e338e354fe52501",
+  "prepreHash": "bdbe03fbe3ce6e2d934e",
+  "preHash": "6d83f726a76890f352f1",
+  "hash": "6112c34aaaa3a6c8569b",
   "moduleHashs": {
     "/home/michael/Projects-Flask/filmogram/src/node_modules/extract-text-webpack-plugin/dist/loader.js??ref--0-0!/home/michael/Projects-Flask/filmogram/src/node_modules/style-loader/index.js!/home/michael/Projects-Flask/filmogram/src/node_modules/css-loader/index.js!/home/michael/Projects-Flask/filmogram/src/node_modules/sass-loader/lib/loader.js!/home/michael/Projects-Flask/filmogram/src/node_modules/postcss-loader/lib/index.js??ref--0-4!/home/michael/Projects-Flask/filmogram/src/assets/css/styles.scss": "5d9898580476f8857dda941ce5352488",
     "/home/michael/Projects-Flask/filmogram/src/node_modules/babel-loader/lib/index.js!/home/michael/Projects-Flask/filmogram/src/assets/js/script.js": "3ca079cb119a911dd7753b265123266d"
   },
   "chunkHashs": {
-    "1": "e87d646d5eb3adbfe386de3dc0322c01",
-    "2": "356451f06313f90366ec66f26a643359"
+    "1": "58ce3a8815e07ad1b22ea7104677bda4"
   },
   "chunkModuleIds": {
     "1": [
       "./assets/js/script.js",
       "./assets/css/styles.scss"
-    ],
-    "2": []
+    ]
   }
 }

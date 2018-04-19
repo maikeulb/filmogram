@@ -18,17 +18,6 @@ module.exports = merge([
     recordsPath: path.join(__dirname, "records.json"),
   },
   parts.clean(['static'], parts.PATHS.assets),
-  parts.extractBundles([{
-      name: "vendor",
-      minChunks: ({
-        resource
-      }) => /node_modules/.test(resource),
-    },
-    {
-      name: "manifest",
-      minChunks: Infinity,
-    },
-  ]),
   parts.minifyJavaScript({}),
   parts.minifyCSS({
     options: {
