@@ -3,12 +3,12 @@ version: '3'
 services:
   flask:
     environment:
-      DATABASE_URI: "postgresql://postgres:P@ssw0rd!@db/postgres"
+      DATABASE_URI: "postgresql://postgres:P@ssw3rd!@db/postgres"
       ADMIN_EMAIL: "admin@email.com"
-      ADMIN_PASSWORD: "P@ssw0rd!"
+      ADMIN_PASSWORD: "P@ssw3rd!"
     ports:
       - "5000:5000"
 
   db:
     environment:
-      POSTGRES_PASSWORD: "P@ssw0rd!"
+      POSTGRES_PASSWORD: "P@ssw3rd!"

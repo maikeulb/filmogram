@@ -45,11 +45,7 @@ exports.minifyCSS = ({
 
 exports.minifyJavaScript = () => ({
   plugins: [
-    new UglifyWebpackPlugin({
-      compress: {
-        warnings: false
-      }
-    })
+    new UglifyWebpackPlugin()
   ],
 });
 
