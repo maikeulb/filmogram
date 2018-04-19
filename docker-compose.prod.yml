@@ -13,21 +13,6 @@ services:
     env_file:
       - ./src/.env
 
-  letsencrypt:
-    container_name: letsencrypt
-    image: jrcs/letsencrypt-nginx-proxy-companion
-    environment:
-      NGINX_PROXY_CONTAINER: nginx
-      NGINX_DOCKER_GEN_CONTAINER: nginx
-    volumes:
-      - vhost:/etc/nginx/vhost.d
-      - html:/usr/share/nginx/html
-      - certs:/etc/nginx/certs
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    depends_on:
-      - nginx
-    restart: always
-
   nginx:
     restart: always
     image: jwilder/nginx-proxy:alpine
@@ -45,6 +30,20 @@ services:
     depends_on:
       - flask
     restart: always
+
+  letsencrypt:
+    restart: always
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    environment:
+      NGINX_PROXY_CONTAINER: nginx
+      NGINX_DOCKER_GEN_CONTAINER: nginx
+    volumes:
+      - vhost:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - certs:/etc/nginx/certs
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    depends_on:
+      - nginx
 
 volumes:
   html:
