@@ -1,8 +1,9 @@
 version: '3'
 
 services:
-  web:
+  flask:
     environment:
+      VIRTUAL_HOST: "localhost"
       DATABASE_URI: "postgresql://postgres:P@ssw0rd!@db/postgres"
       ADMIN_EMAIL: "admin@email.com"
       ADMIN_PASSWORD: "P@ssw0rd!"

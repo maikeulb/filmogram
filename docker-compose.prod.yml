@@ -10,8 +10,3 @@ services:
     restart: always
     env_file:
       - ./src/.env
-
-  nginx:
-    restart: always
-    ports:
-      - "80:80"
