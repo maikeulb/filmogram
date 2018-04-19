@@ -1,10 +1,8 @@
 version: '3'
 
 services:
-  web:
+  flask:
     build: ./src
-    volumes:
-      - static:/app/app/static/
     environment:
       - FLASK_APP_CONFIG=config.ProductionConfig
       - VIRTUAL_HOST=filmogram.net,www.filmogram.net
@@ -19,42 +17,5 @@ services:
     volumes:
       - db:/var/lib/postgresql/data
 
-  nginx:
-    restart: always
-    image: jwilder/nginx-proxy:alpine
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - static:/app/app/static/
-      - vhost:/etc/nginx/vhost.d
-      - html:/usr/share/nginx/html
-      - certs:/etc/nginx/certs
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-    labels:
-      com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy: "true"
-    depends_on:
-      - web
-    restart: always
-
-  letsencrypt:
-    container_name: letsencrypt
-    image: jrcs/letsencrypt-nginx-proxy-companion
-    environment:
-      NGINX_PROXY_CONTAINER: nginx
-      NGINX_DOCKER_GEN_CONTAINER: nginx
-    volumes:
-      - vhost:/etc/nginx/vhost.d
-      - html:/usr/share/nginx/html
-      - certs:/etc/nginx/certs
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    depends_on:
-      - nginx
-    restart: always
-
 volumes:
-  html:
-  certs:
-  vhost:
   db:
-  static:
