@@ -6,14 +6,8 @@
       {% if current_user.is_authenticated %}
       <li><a href="{{ url_for('posts.index') }}">Feed</a>
       <li><a href="{{ url_for('users.discover') }}">Discover</a>
-
-      {% if config.DEVELOPMENT %}
-      <li class="uk-active"><a class="uk-navbar-item uk-logo" href="{{ url_for('posts.index') }}"><img
-          src='https://cdn.dribbble.com/users/300948/screenshots/3089597/analog_camera.jpg'/></a></li>
-      {% else %}
       <li class="uk-active"><a class="uk-navbar-item uk-logo" href="{{ url_for('posts.index') }}"><img
           src='/static/images/logo.jpg'/></a></li>
-      {% endif %}
 
       <li><a href="{{ url_for('posts.post') }}">Post</a></li>
       {% endif %}

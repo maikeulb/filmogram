@@ -36,21 +36,21 @@ def register(app):
             username='demo',
             password=Config.DEMO_PASSWORD,
             email=Config.DEMO_EMAIL,
-            profile_img_url="https://static1.squarespace.com/static/561e615ee4b039470e9d8203/t/592485e9e32140d9b0e9096a/1495565807914/",
+            profile_img_url="/static/images/uploads/avedon.jpg",
             bio="Me and my Rollei.",
             role=Role.query.filter_by(permissions=Permission.GENERAL).first())
         demo_admin = User(
             username='demo_admin',
             password=Config.DEMO_ADMIN_PASSWORD,
             email=Config.DEMO_ADMIN_EMAIL,
-            profile_img_url="http://collection.sinaimg.cn/yxys/20130718/U5826P1081T2D120702F6DT20130718141521.jpg",
+            profile_img_url="/static/images/uploads/daido.jpg",
             bio="The world through my eyes.",
             role=Role.query.filter_by(permissions=Permission.DEMO_ADMINISTER).first())
         admin = User(
             username='admin',
             password=Config.ADMIN_PASSWORD,
             email=Config.ADMIN_EMAIL,
-            profile_img_url="https://www.formidablemag.com/wp-content/uploads/2016/12/Lee-Friedlander-New-Orleans-1970-c-Lee-Friedlander-courtesy-Fraenkel-Gallery-San-Francisco.jpg",
+            profile_img_url="/static/images/uploads/lee.jpg",
             bio="The world makes up my pictures, not me.",
             role=Role.query.filter_by(permissions=Permission.ADMINISTER).first())
 
@@ -64,12 +64,12 @@ def register(app):
             user_id=1,
             caption='Twiggy',
             photo_filename='',
-            photo_url="https://images.curiator.com/images/t_x/art/peovu7y9axoez3zvwieh/richard-avedon-twiggy.jpg")
+            photo_url="/static/images/uploads/twiggy.jpg")
         admin_post = Post(
             user_id=2,
             caption='Nagisa',
             photo_filename='',
-            photo_url="https://www.vincentborrelli.com/pictures/112084_5.jpg?v=1448409170")
+            photo_url="/static/images/uploads/nagisa.jpg")
 
         db.session.add(demo_post)
         db.session.add(admin_post)

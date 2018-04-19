@@ -37,7 +37,9 @@ Admin users may remove photos (admin interface powered by DataTables).
 
 Run
 ---
-You will need webpack. If you have webpack installed, then then go ahead and install the javascript dependencies (e.g. `npm install`).
+You will need webpack. If you have webpack installed, then then go ahead and
+install the javascript dependencies (e.g. `npm install`).
+
 
 ```
 npm run build
@@ -58,6 +60,7 @@ dependencies).
 ```
 flask db upgrade
 flask seed-db
+npm run build (required for copying assets over to static directory)
 npm run start (runs the webpack dev server and flask dev server simultaneously)
 Go to http://localhost:5000
 ```
