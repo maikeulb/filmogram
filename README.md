@@ -13,6 +13,13 @@ Technology
 * Noty
 * Infinity-Scroll
 
+Infrastructure
+----------
+* Digital Ocean
+* Docker
+* Lets Encrypt
+* Nginx
+
 Screenshots
 ---
 ### Feed 
@@ -68,4 +75,5 @@ TODO
 ----
 Prune javascript and python dependencies<br>
 Build frontend in Dockerfile<br>
-Add Social Auth
+Add Social Auth <br>
+Move to object storage
