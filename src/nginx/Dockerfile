@@ -1,7 +1,3 @@
-FROM nginx:1.13.5
+FROM jwilder/nginx-proxy:alpine
 
-RUN rm /etc/nginx/conf.d/default.conf
-COPY wait-for-it.sh .
-COPY filmogram.conf /etc/nginx/conf.d/
-
-RUN chmod a+x wait-for-it.sh
+COPY proxy.conf /etc/nginx/conf.d/

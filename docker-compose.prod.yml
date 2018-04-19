@@ -15,7 +15,8 @@ services:
 
   nginx:
     restart: always
-    image: jwilder/nginx-proxy:alpine
+    container_name: nginx
+    build: ./src/nginx
     ports:
       - "80:80"
       - "443:443"
@@ -29,10 +30,10 @@ services:
       com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy: "true"
     depends_on:
       - flask
-    restart: always
 
   letsencrypt:
     restart: always
+    container_name: letsencrypt
     image: jrcs/letsencrypt-nginx-proxy-companion
     environment:
       NGINX_PROXY_CONTAINER: nginx
