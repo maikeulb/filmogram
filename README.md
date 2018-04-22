@@ -22,6 +22,9 @@ Infrastructure
 
 Screenshots
 ---
+### Landing 
+Photo creds to [Trent Parke](https://pro.magnumphotos.com/C.aspx?ERID=24KL534BCY&VF=MAGO31_10_VForm&VP3=CMS3)
+![landing](/screenshots/landing.png?raw=true "Feed")
 ### Feed 
 Displays photos from yourself and your following (powered by infinity-scroll). Also get notified when a user likes one of your photos.
 ![feed](/screenshots/feed.png?raw=true "Feed")
