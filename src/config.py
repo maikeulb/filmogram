@@ -24,6 +24,12 @@ class Config(object):
     UPLOADS_DEFAULT_URL = os.environ.get('UPLOADS_DEFAULT_URL') or 'http://localhost:5000/static/uploads/'
     POSTS_PER_PAGE = 4
 
+    S3_BUCKET = os.environ.get("S3_BUCKET_NAME")
+    S3_KEY = os.environ.get("S3_ACCESS_KEY")
+    S3_SECRET = os.environ.get("S3_SECRET_ACCESS_KEY")
+    S3_ENDPOINT_URL = os.environ.get("S3_ENDPOINT_URL")
+    S3_LOCATION = 'https://{}.nyc3.digitaloceanspaces.com/'.format(S3_BUCKET)
+
     DEVELOPMENT = False
     TESTING = False
     PRODUCTION = False
