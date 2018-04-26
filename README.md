@@ -1,7 +1,10 @@
 # Filmogram
 
-Instagram/Flickr clone where users share their favorite photos with other
-users. Admin users can manage the site content.
+Social network (similar to Instagram) for film photographers. Users share their
+favorite photos with other users. Admin users can manage the site content.
+There is a branch for integrating with DO Spaces but I have stopped working on
+that branch upon discovering that it's designed to serve moderate-large files
+only and very inefficient for serving small files.
 
 Technology
 ----------
