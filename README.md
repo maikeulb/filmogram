@@ -1,7 +1,7 @@
 # Filmogram
 
-Instagram/Flickr clone where users share their favorite photos with other
-users. Admin users can manage the site content.
+Social network (similar to Instagram) for film photographers. Users share their
+favorite photos with other users. Admin users can manage the site content.
 
 Technology
 ----------
