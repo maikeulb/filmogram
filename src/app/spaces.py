@@ -11,18 +11,12 @@ client = session.client(
     aws_secret_access_key=Config.AWS_SECRET_ACCESS_KEY
 )
 
-print(Config.FLASKS3_REGION)
-print(Config.FLASKS3_BUCKET_DOMAIN)
-print(Config.AWS_ACCESS_KEY_ID)
-print(Config.AWS_SECRET_ACCESS_KEY)
-print(Config.FLASKS3_BUCKET_NAME)
+
+def upload_file(file, filename, bucket_name=Config.FLASKS3_BUCKET_NAME, acl="public-read"):
+    if (bucket_name in [space['Name'] for space in client.list_buckets()['Buckets']]):
+        client.upload_file(file, bucket_name, filename)
 
 
-def upload_photo(file, bucket_name, acl="public-read"):
-    client.upload_fileobj(file, bucket_name, file.filename)
-
-
-def create_bucket():
-    if (Config.FLASKS3_BUCKET_NAME not in [space['Name'] for space in
-                                           client.list_buckets()['Buckets']]):
-        client.create_bucket(Bucket=Config.FLASKS3_BUCKET_NAME)
+def create_bucket(bucket_name=Config.FLASKS3_BUCKET_NAME):
+    if (bucket_name not in [space['Name'] for space in client.list_buckets()['Buckets']]):
+        client.create_bucket(Bucket=bucket_name)

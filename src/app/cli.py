@@ -19,8 +19,22 @@ def register(app):
     @app.cli.command('seed-s3')
     @click.command()
     def seed_s3():
-        print('creating bucket')
+        print('Starting S3 seed')
+        create_bucket()
+        upload_photos()
+        print('S3 seed complete')
+
+    def create_bucket():
+        print('creating bucket if it does not exist')
         spaces.create_bucket()
+
+    def upload_photos():
+        print('uploading photos')
+        spaces.upload_file('./media/avedon.jpg', 'avedon.jpg')
+        spaces.upload_file('./media/daido.jpg', 'daido.jpg')
+        spaces.upload_file('./media/lee.jpg', 'lee.jpg')
+        spaces.upload_file('./media/nagisa.jpg', 'nagisa.jpg')
+        spaces.upload_file('./media/twiggy.jpg', 'twiggy.jpg')
 
     @app.cli.command('seed-db')
     @click.command()
@@ -38,26 +52,26 @@ def register(app):
     def seed_users():
         print('Adding roles, demo-user, demo-admin, and admin')
         Role.insert_roles()
-
+        base_url = Config.FLASKS3_BUCKET_DOMAIN
         demo = User(
-            username='demo',
+            username='avedon',
             password=Config.DEMO_PASSWORD,
             email=Config.DEMO_EMAIL,
-            profile_img_url="/static/images/uploads/avedon.jpg",
+            profile_img_url=base_url + 'avedon.jpg',
             bio="Me and my Rollei.",
             role=Role.query.filter_by(permissions=Permission.GENERAL).first())
         demo_admin = User(
-            username='demo_admin',
+            username='daido',
             password=Config.DEMO_ADMIN_PASSWORD,
             email=Config.DEMO_ADMIN_EMAIL,
-            profile_img_url="/static/images/uploads/daido.jpg",
+            profile_img_url=base_url + 'daido.jpg',
             bio="The world through my eyes.",
             role=Role.query.filter_by(permissions=Permission.DEMO_ADMINISTER).first())
         admin = User(
-            username='admin',
+            username='lee',
             password=Config.ADMIN_PASSWORD,
             email=Config.ADMIN_EMAIL,
-            profile_img_url="/static/images/uploads/lee.jpg",
+            profile_img_url=base_url + 'lee.jpg',
             bio="The world makes up my pictures, not me.",
             role=Role.query.filter_by(permissions=Permission.ADMINISTER).first())
 
@@ -67,16 +81,17 @@ def register(app):
 
     def seed_posts():
         print('Adding posts')
+        base_url = Config.FLASKS3_BUCKET_DOMAIN
         demo_post = Post(
             user_id=1,
             caption='Twiggy',
             photo_filename='',
-            photo_url="/static/images/uploads/twiggy.jpg")
+            photo_url=base_url + 'twiggy.jpg')
         admin_post = Post(
             user_id=2,
             caption='Nagisa',
             photo_filename='',
-            photo_url="/static/images/uploads/nagisa.jpg")
+            photo_url=base_url + 'nagisa.jpg')
 
         db.session.add(demo_post)
         db.session.add(admin_post)
@@ -127,8 +142,8 @@ def register(app):
             try:
                 rule, arguments = (
                     current_app.url_map
-                               .bind('localhost')
-                               .match(url, return_rule=True))
+                    .bind('localhost')
+                    .match(url, return_rule=True))
                 rows.append((rule.rule, rule.endpoint, arguments))
                 column_length = 3
             except (NotFound, MethodNotAllowed) as e:
