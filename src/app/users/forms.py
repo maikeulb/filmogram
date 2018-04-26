@@ -1,17 +1,16 @@
-from flask_uploads import IMAGES
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 from wtforms import StringField, TextAreaField, SubmitField
 from wtforms.validators import DataRequired, Length, ValidationError
 from app.models import User
-from app import images
+# from app import images
 
 
 class EditProfileForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     bio = TextAreaField('About me', validators=[Length(min=0, max=140)])
-    profile_img = FileField('Photo Upload', validators=[FileAllowed(
-        images, 'Image Only!')])
+    # profile_img = FileField('Photo Upload', validators=[FileAllowed(
+    # images, 'Image Only!')])
     submit = SubmitField('Submit')
 
     def __init__(self, original_username, *args, **kwargs):

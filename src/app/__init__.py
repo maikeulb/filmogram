@@ -11,9 +11,6 @@ from app.extensions import (
     login,
     migrate,
     moment,
-    images,
-    patch_request_class,
-    configure_uploads,
     s3
 )
 from app.main import main as main_bp
@@ -40,8 +37,6 @@ def register_extensions(app):
     login.init_app(app)
     migrate.init_app(app, db)
     moment.init_app(app)
-    configure_uploads(app, images)
-    patch_request_class(app)
     s3.init_app(app)
     return None
 

@@ -7,8 +7,8 @@ from flask.cli import with_appcontext
 from werkzeug.exceptions import MethodNotAllowed, NotFound
 from app.extensions import db
 from app.models import Role, User, Post, Permission
-from app.spaces import create_bucket
 from config import Config
+from app import spaces
 
 HERE = os.path.abspath(os.path.dirname(__file__))
 PROJECT_ROOT = os.path.join(HERE, os.pardir)
@@ -16,11 +16,11 @@ TEST_PATH = os.path.join(PROJECT_ROOT, 'tests')
 
 
 def register(app):
-    @app.cli.command('create-bucket')
+    @app.cli.command('seed-s3')
     @click.command()
-    def create_bucket():
+    def seed_s3():
         print('creating bucket')
-        create_bucket(Bucket=Config.S3_BUCKET)
+        spaces.create_bucket()
 
     @app.cli.command('seed-db')
     @click.command()

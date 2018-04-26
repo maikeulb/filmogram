@@ -8,7 +8,7 @@ from flask import (
     url_for,
 )
 from flask_login import current_user, login_required
-from app.extensions import db, images
+from app.extensions import db
 from app.users import users
 from app.users.forms import (
     CommentForm,
@@ -20,11 +20,11 @@ from app.models import (
     Comment,
 )
 
+
 @users.before_request
 @login_required
 def require_login():
     pass
-
 
 
 @users.route('/')
@@ -72,14 +72,14 @@ def edit_profile():
     form = EditProfileForm(current_user.username)
     print('hi')
     if form.validate_on_submit():
-        if request.files['profile_img']:
-            file = request.files['profile_img']
-            filename = images.save(file)
-            url = images.url(filename)
-            current_user.profile_img_url = url
-        current_user.username = form.username.data
-        current_user.bio = form.bio.data
-        db.session.commit()
+        # if request.files['profile_img']:
+            # file = request.files['profile_img']
+            # filename = images.save(file)
+            # url = images.url(filename)
+            # current_user.profile_img_url = url
+        # current_user.username = form.username.data
+        # current_user.bio = form.bio.data
+        # db.session.commit()
         print('aobut to save')
         flash('Your changes have been saved.')
         return redirect(url_for('users.profile', username=current_user.username))

@@ -21,14 +21,17 @@ class Config(object):
     DEMO_ADMIN_PASSWORD = os.environ.get('DEMO_ADMIN_PASSWORD') or 'P@ssw0rd!'
 
     UPLOADS_DEFAULT_DEST = basedir + '/app/static/uploads/'
-    UPLOADS_DEFAULT_URL = os.environ.get('UPLOADS_DEFAULT_URL') or 'http://localhost:5000/static/uploads/'
+    UPLOADS_DEFAULT_URL = os.environ.get(
+        'UPLOADS_DEFAULT_URL') or 'http://localhost:5000/static/uploads/'
     POSTS_PER_PAGE = 4
 
-    S3_BUCKET = os.environ.get("S3_BUCKET_NAME")
-    S3_KEY = os.environ.get("S3_ACCESS_KEY")
-    S3_SECRET = os.environ.get("S3_SECRET_ACCESS_KEY")
-    S3_ENDPOINT_URL = os.environ.get("S3_ENDPOINT_URL")
-    S3_LOCATION = 'https://{}.nyc3.digitaloceanspaces.com/'.format(S3_BUCKET)
+    AWS_ACCESS_KEY_ID = os.environ.get("S3_ACCESS_KEY")
+    AWS_SECRET_ACCESS_KEY = os.environ.get("S3_SECRET_ACCESS_KEY")
+    FLASKS3_BUCKET_NAME = os.environ.get("S3_BUCKET_NAME")
+    FLASKS3_ENDPOINT_URL = 'https://nyc3.digitaloceanspaces.com/'
+    FLASKS3_BUCKET_DOMAIN = 'https://{}.nyc3.digitaloceanspaces.com/'.format(
+        FLASKS3_BUCKET_NAME)
+    FLASKS3_REGION = 'nyc3'
 
     DEVELOPMENT = False
     TESTING = False
