@@ -2,9 +2,10 @@
 
 Social network (similar to Instagram) for film photographers. Users share their
 favorite photos with other users. Admin users can manage the site content.
-There is a branch for integrating with DO Spaces but I have stopped working on
-that branch upon discovering that it's designed to serve moderate-large files
-only and very inefficient for serving small files.
+
+There are two branches: `master` persists the uploaded media files onto the
+filesystem while `s3` which persists them onto DigitalOcean Spaces
+(API is compatible with S3).
 
 Technology
 ----------
@@ -18,7 +19,7 @@ Technology
 
 Infrastructure
 ----------
-* Digital Ocean
+* DigitalOcean (virtual machine + object storage)
 * Docker
 * Lets Encrypt
 * Nginx
@@ -48,7 +49,7 @@ Displays your liked photos.
 Admin users may remove photos (admin interface powered by DataTables).
 ![admin](/screenshots/admin.png?raw=true "Admin")
 
-Run
+Run (master branch)
 ---
 You will need webpack. If you have webpack installed, then then go ahead and
 install the javascript dependencies (e.g. `npm install`).
@@ -82,4 +83,3 @@ TODO
 Prune javascript and python dependencies<br>
 Build frontend in Dockerfile<br>
 Add Social Auth <br>
-Move to object storage
