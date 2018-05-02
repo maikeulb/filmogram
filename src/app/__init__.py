@@ -14,7 +14,6 @@ from app.extensions import (
     images,
     patch_request_class,
     configure_uploads,
-    s3
 )
 from app.main import main as main_bp
 from app.posts import posts as posts_bp
@@ -42,7 +41,6 @@ def register_extensions(app):
     moment.init_app(app)
     configure_uploads(app, images)
     patch_request_class(app)
-    s3.init_app(app)
     return None
 
 
