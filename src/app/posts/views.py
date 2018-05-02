@@ -8,7 +8,7 @@ from flask import (
     url_for,
 )
 from flask_login import current_user, login_required
-from app.extensions import db
+from app.extensions import db, images
 from app.posts import posts
 from app.posts.forms import (
     CommentForm,
@@ -18,6 +18,7 @@ from app.models import (
     Post,
     Comment,
 )
+from app import spaces
 
 
 @posts.before_request
@@ -61,7 +62,7 @@ def favorites():
         if posts.has_next else None
     prev_url = url_for('posts.favorites', page=posts.prev_num) \
         if posts.has_prev else None
-    print(posts.items, file=sys.stdout)
+
     if form.validate_on_submit():
         comment = Comment(body=form.body.data,
                           post=post,
@@ -82,13 +83,16 @@ def post():
     form = UploadForm()
     if form.validate_on_submit():
         file = request.files['photo']
-        # filename = images.save(file)
+        # image = images.save(file)
         # url = images.url(filename)
-        # post = Post(caption=form.photo_description.data,
-        # photo_filename=filename,
-        # photo_url=url,
-        # author=current_user)
-        # db.session.add(post)
+        print(dir(file))
+        print(file.filename)
+        print(file.mimetype)
+        url = spaces.upload_file(file=file)
+        post = Post(caption=form.photo_description.data,
+                    photo_url=url,
+                    author=current_user)
+        db.session.add(post)
         db.session.commit()
         flash('Your post is now live!')
         return redirect(url_for('posts.index'))

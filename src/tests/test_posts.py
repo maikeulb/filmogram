@@ -24,7 +24,6 @@ class TestPosts:
     def test_can_post(self, client, post):
         client.login_user()
         post = Post(caption='caption',
-                    photo_filename='filename',
                     photo_url='url',
                     user_id=1)
         resp = client.post(url_for('posts.post', data=post))

@@ -1,3 +1,5 @@
+import os
+import uuid
 import boto3
 import botocore
 from config import Config
@@ -12,10 +14,19 @@ client = session.client(
 )
 
 
-def upload_file(file, filename, bucket_name=Config.FLASKS3_BUCKET_NAME):
+def upload_file(file, filename=None, bucket_name=Config.FLASKS3_BUCKET_NAME,
+                content_type='image/jpg'):
+    if filename == None:
+        _, ext = os.path.splitext(file.filename)
+        filename = str(uuid.uuid4()) + ext
+        content_type = file.content_type
+
     if (bucket_name in [space['Name'] for space in client.list_buckets()['Buckets']]):
-        client.upload_file(file, bucket_name, filename, ExtraArgs={
-                           'ContentType': 'image/jpg', 'ACL': "public-read"})
+        print(filename)
+        print(type(filename))
+        file = client.upload_fileobj(file, bucket_name, filename, ExtraArgs={
+            'ContentType': content_type, 'ACL': "public-read"})
+        return "{}{}".format(Config.FLASKS3_BUCKET_DOMAIN, filename)
 
 
 def create_bucket(bucket_name=Config.FLASKS3_BUCKET_NAME):

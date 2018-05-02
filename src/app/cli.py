@@ -30,11 +30,11 @@ def register(app):
 
     def upload_photos():
         print('uploading photos')
-        spaces.upload_file('./media/avedon.jpg', 'avedon.jpg')
-        spaces.upload_file('./media/daido.jpg', 'daido.jpg')
-        spaces.upload_file('./media/lee.jpg', 'lee.jpg')
-        spaces.upload_file('./media/nagisa.jpg', 'nagisa.jpg')
-        spaces.upload_file('./media/twiggy.jpg', 'twiggy.jpg')
+        spaces.upload_file(file='./media/avedon.jpg', filename='avedon.jpg')
+        spaces.upload_file(file='./media/daido.jpg', filename='daido.jpg')
+        spaces.upload_file(file='./media/lee.jpg', filename='lee.jpg')
+        spaces.upload_file(file='./media/nagisa.jpg', filename='nagisa.jpg')
+        spaces.upload_file(file='./media/twiggy.jpg', filename='twiggy.jpg')
 
     @app.cli.command('seed-db')
     @click.command()
@@ -85,12 +85,10 @@ def register(app):
         demo_post = Post(
             user_id=1,
             caption='Twiggy',
-            photo_filename='',
             photo_url=base_url + 'twiggy.jpg')
         admin_post = Post(
             user_id=2,
             caption='Nagisa',
-            photo_filename='',
             photo_url=base_url + 'nagisa.jpg')
 
         db.session.add(demo_post)

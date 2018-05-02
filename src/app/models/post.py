@@ -7,7 +7,6 @@ class Post(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     caption = db.Column(db.String(140), nullable=True)
-    photo_filename = db.Column(db.String)
     photo_url = db.Column(db.String)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
