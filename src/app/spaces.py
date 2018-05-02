@@ -12,9 +12,10 @@ client = session.client(
 )
 
 
-def upload_file(file, filename, bucket_name=Config.FLASKS3_BUCKET_NAME, acl="public-read"):
+def upload_file(file, filename, bucket_name=Config.FLASKS3_BUCKET_NAME):
     if (bucket_name in [space['Name'] for space in client.list_buckets()['Buckets']]):
-        client.upload_file(file, bucket_name, filename)
+        client.upload_file(file, bucket_name, filename, ExtraArgs={
+                           'ContentType': 'image/jpg', 'ACL': "public-read"})
 
 
 def create_bucket(bucket_name=Config.FLASKS3_BUCKET_NAME):
