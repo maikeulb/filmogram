@@ -25,7 +25,6 @@ def get_posts():
 @login_required
 @admin_required
 def delete_post(id):
-    print('hi')
     Post.query.filter_by(id=id).delete()
     db.session.commit()
 

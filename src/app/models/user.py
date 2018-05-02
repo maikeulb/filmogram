@@ -162,7 +162,6 @@ class User(UserMixin, db.Model):
             followers,
             (followers.c.followed_id == User.id)) \
             .filter(followers.c.follower_id == self.id)
-        print(my_following, sys.stdout)
         return my_following
 
     def get_my_followers(self):
@@ -170,7 +169,6 @@ class User(UserMixin, db.Model):
             followers,
             (followers.c.follower_id == User.id)) \
             .filter(followers.c.followed_id == self.id)
-        print(my_followers, sys.stdout)
         return my_followers
 
     @property

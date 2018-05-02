@@ -22,8 +22,6 @@ def upload_file(file, filename=None, bucket_name=Config.FLASKS3_BUCKET_NAME,
         content_type = file.content_type
 
     if (bucket_name in [space['Name'] for space in client.list_buckets()['Buckets']]):
-        print(filename)
-        print(type(filename))
         file = client.upload_fileobj(file, bucket_name, filename, ExtraArgs={
             'ContentType': content_type, 'ACL': "public-read"})
         return "{}{}".format(Config.FLASKS3_BUCKET_DOMAIN, filename)
