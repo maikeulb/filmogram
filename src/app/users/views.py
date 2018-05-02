@@ -8,7 +8,7 @@ from flask import (
     url_for,
 )
 from flask_login import current_user, login_required
-from app.extensions import db
+from app.extensions import db, images
 from app.users import users
 from app.users.forms import (
     CommentForm,
@@ -19,6 +19,7 @@ from app.models import (
     User,
     Comment,
 )
+from app import spaces
 
 
 @users.before_request
@@ -70,17 +71,14 @@ def profile(username):
 @users.route('/edit_profile', methods=['GET', 'POST'])
 def edit_profile():
     form = EditProfileForm(current_user.username)
-    print('hi')
     if form.validate_on_submit():
-        # if request.files['profile_img']:
-            # file = request.files['profile_img']
-            # filename = images.save(file)
-            # url = images.url(filename)
-            # current_user.profile_img_url = url
-        # current_user.username = form.username.data
-        # current_user.bio = form.bio.data
-        # db.session.commit()
-        print('aobut to save')
+        if request.files['profile_img']:
+            file = request.files['profile_img']
+            url = spaces.upload_file(file=file)
+            current_user.profile_img_url = url
+        current_user.username = form.username.data
+        current_user.bio = form.bio.data
+        db.session.commit()
         flash('Your changes have been saved.')
         return redirect(url_for('users.profile', username=current_user.username))
     elif request.method == 'GET':

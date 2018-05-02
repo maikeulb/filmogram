@@ -83,11 +83,6 @@ def post():
     form = UploadForm()
     if form.validate_on_submit():
         file = request.files['photo']
-        # image = images.save(file)
-        # url = images.url(filename)
-        print(dir(file))
-        print(file.filename)
-        print(file.mimetype)
         url = spaces.upload_file(file=file)
         post = Post(caption=form.photo_description.data,
                     photo_url=url,
