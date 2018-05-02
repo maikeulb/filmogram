@@ -15,10 +15,10 @@ class Config(object):
     ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD') or 'P@ssw0rd!'
 
     DEMO_EMAIL = 'demo@email.com'
-    DEMO_PASSWORD = os.environ.get('DEMO_PASSWORD') or 'P@ssw0rd!'
+    DEMO_PASSWORD = 'P@ssw0rd!'
 
     DEMO_ADMIN_EMAIL = 'demo_admin@mail.com'
-    DEMO_ADMIN_PASSWORD = os.environ.get('DEMO_ADMIN_PASSWORD') or 'P@ssw0rd!'
+    DEMO_ADMIN_PASSWORD = 'P@ssw0rd!'
 
     UPLOADS_DEFAULT_DEST = basedir + '/app/static/uploads/'
     UPLOADS_DEFAULT_URL = os.environ.get(
