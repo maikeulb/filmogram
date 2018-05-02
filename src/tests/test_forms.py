@@ -3,7 +3,7 @@ from app.account.forms import (
     LoginForm,
     RegistrationForm,
 )
-from app.user.forms import (
+from app.users.forms import (
     CommentForm,
     EditProfileForm
 )

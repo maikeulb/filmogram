@@ -44,7 +44,6 @@ class UserFactory(BaseFactory):
 class PostFactory(BaseFactory):
     id = Sequence(lambda n: n)
     caption = Sequence(lambda n: 'caption{0}'.format(n))
-    photo_filename = Sequence(lambda n: 'filename{0}'.format(n))
     photo_url = Sequence(lambda n: 'filename_url{0}'.format(n))
     user_id = Sequence(lambda n: n)
 

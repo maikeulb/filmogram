@@ -27,7 +27,7 @@ class TestUser:
                     email='demo@example.com',
                     bio='fummy bio',
                     profile_img_url='dimmy url')
-        resp = client.post(url_for('posts.upload', data=user))
+        resp = client.post(url_for('users.edit_profile', data=user))
         assert resp.status_code == 200
 
     # def test_can_leave_comment(self, client, post):
