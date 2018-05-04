@@ -18,7 +18,7 @@ from app.models import (
     Post,
     Comment,
 )
-from app import spaces
+from app import spaces, redis
 
 
 @posts.before_request
