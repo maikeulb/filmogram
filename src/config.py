@@ -33,7 +33,7 @@ class Config(object):
         FLASKS3_BUCKET_NAME)
     FLASKS3_REGION = 'nyc3'
 
-    REDIS_HOST = os.getenv('REDIS_HOST', '172.17.0.5')
+    REDIS_HOST = os.getenv('REDIS_HOST', '172.17.0.3')
     REDIS_PORT = os.getenv('REDIS_PORT', 6379)
 
     DEVELOPMENT = False

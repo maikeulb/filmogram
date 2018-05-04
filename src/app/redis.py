@@ -1,7 +1,7 @@
 from redis import StrictRedis
 from config import Config
 
-redis = StrictRedis(host=Config.REDIS_HOST, port=Config.REDIS_PORT, db=0)
+r = StrictRedis(host=Config.REDIS_HOST, port=Config.REDIS_PORT, db=0)
 
 REDIS_SOCKET_CONNECT_TIMEOUT = 60
 PASSWORD_HASH_METHOD = 'pbkdf2:sha512'

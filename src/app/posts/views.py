@@ -1,4 +1,5 @@
 import sys
+import time
 from flask import (
     current_app,
     flash,
@@ -89,6 +90,40 @@ def post():
                     author=current_user)
         db.session.add(post)
         db.session.commit()
+
+        post_id = post.id
+        user_id = current_user.id
+        post_id_key = redis.POST_KEY_FORMAT.format(post_id)
+        post_id_feed_key = redis.USER_FEED_KEY_FORMAT.format(user_id)
+        post_id_user_key = redis.USER_POSTS_KEY_FORMAT.format(user_id)
+        unix_time = int(time.time())
+
+        followers = []
+        for follower in current_user.get_my_following():
+            followers.append(follower.id)
+
+        with redis.r.pipeline() as pipe:
+            pipe.multi()
+
+            pipe.hmset(post_id_key,
+                       {redis.POST_USERID_KEY: user_id,
+                        redis.POST_UNIXTIME_KEY: unix_time,
+                        redis.POST_BODY_KEY: post})
+
+            pipe.lpush(post_id_feed_key, post_id)
+            pipe.lpush(post_id_user_key, post_id)
+
+            for follower in followers:
+                post_id_follower_key = redis.USER_FEED_KEY_FORMAT.format(
+                    follower)
+                pipe.lpush(post_id_follower_key, post_id)
+
+            pipe.lpush(redis.GENERAL_FEED_KEY, post_id)
+            pipe.ltrim(redis.GENERAL_FEED_KEY, 0,
+                       redis.GENERAL_FEED_MAX_POST_CNT - 1)
+
+            pipe.execute()
+
         flash('Your post is now live!')
         return redirect(url_for('posts.index'))
 
