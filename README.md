@@ -3,9 +3,11 @@
 Social network (similar to Instagram) for film photographers. Users share their
 favorite photos with other users. Admin users can manage the site content.
 
-There are two branches: `master` persists the uploaded media files onto the
-filesystem while `s3` which persists them onto DigitalOcean Spaces
-(API is compatible with S3).
+There are three branches: 
+1. `master` persists the uploaded media files onto the filesystem. 
+2. `s3` which persists them onto DigitalOcean Spaces (API is compatible with S3).
+3. `redis` (in-progress) is based on the `s3` branch but with a fanout on write feed.
+
 
 Technology
 ----------
